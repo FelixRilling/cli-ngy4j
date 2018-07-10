@@ -37,7 +37,6 @@ public class Command implements ICommand {
     public ClingyArgument[] getArgs() {
         return args;
     }
-
     public void setArgs(ClingyArgument[] args) {
         this.args = args;
     }
