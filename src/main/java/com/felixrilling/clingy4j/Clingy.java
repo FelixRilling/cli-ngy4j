@@ -1,5 +1,8 @@
 package com.felixrilling.clingy4j;
 
+import com.felixrilling.clingy4j.command.Command;
+import com.felixrilling.clingy4j.command.CommandMap;
+import com.felixrilling.clingy4j.command.ICommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

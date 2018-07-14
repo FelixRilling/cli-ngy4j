@@ -1,5 +1,7 @@
 package com.felixrilling.clingy4j;
 
+import com.felixrilling.clingy4j.command.Command;
+import com.felixrilling.clingy4j.command.CommandMap;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
@@ -27,7 +29,7 @@ public class ClingyTest {
     public void ClingyConstructsWithCommands() {
         CommandMap commandMap = new CommandMap();
         String commandName = "foo";
-        Command command = new Command(null, Lists.emptyList(), null, null, null);
+        Command command = new Command(null, Lists.emptyList(), null);
         commandMap.put(commandName, command);
         Clingy clingy = new Clingy(commandMap);
 
@@ -43,7 +45,7 @@ public class ClingyTest {
         String commandName = "foo";
         String alias1 = "bar";
         String alias2 = "fizz";
-        Command command = new Command(null, Arrays.asList(alias1, alias2), null, null, null);
+        Command command = new Command(null, Arrays.asList(alias1, alias2), null);
         commandMap.put(commandName, command);
         Clingy clingy = new Clingy(commandMap);
 
@@ -61,8 +63,8 @@ public class ClingyTest {
         String commandName1 = "foo";
         String commandName2 = "bar";
         String alias1 = "fizz";
-        Command command1 = new Command(null, Collections.singletonList(alias1), null, null, null);
-        Command command2 = new Command(null, Collections.singletonList(commandName1), null, null, null);
+        Command command1 = new Command(null, Collections.singletonList(alias1), null);
+        Command command2 = new Command(null, Collections.singletonList(commandName1), null);
         commandMap.put(commandName1, command1);
         commandMap.put(commandName2, command2);
         Clingy clingy = new Clingy(commandMap);
@@ -81,8 +83,8 @@ public class ClingyTest {
         String commandName1 = "foo";
         String commandName2 = "bar";
         String alias1 = "fizz";
-        Command command1 = new Command(null, Collections.singletonList(alias1), null, null, null);
-        Command command2 = new Command(null, Collections.singletonList(commandName1), null, null, null);
+        Command command1 = new Command(null, Collections.singletonList(alias1), null );
+        Command command2 = new Command(null, Collections.singletonList(commandName1), null);
         Clingy clingy = new Clingy(commandMap);
 
         clingy.setCommand(commandName1, command1);
