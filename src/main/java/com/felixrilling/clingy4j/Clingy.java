@@ -6,6 +6,8 @@ import com.felixrilling.clingy4j.command.ICommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Clingy {
@@ -57,12 +59,47 @@ public class Clingy {
     }
 
 
-    public ICommand resolveCommand(String[] path) {
-        return null;
+    /**
+     * Resolves a command and its sub-commands.
+     *
+     * @param path Path to look up.
+     * @return Command or null if none is found.
+     */
+    public ICommand resolveCommand(List<String> path) {
+        return resolveCommand(path, new ArrayList<>());
+
     }
 
     public ICommand parse(String input) {
         return null;
+    }
+
+    /**
+     * @see Clingy#resolveCommand(List)
+     */
+    private ICommand resolveCommand(List<String> path, List<String> pathUsed) {
+        if (path.isEmpty())
+            return null;
+
+        String current = path.get(0);
+
+        if (!hasCommand(current))
+            return null;
+
+
+        ICommand command = getCommand(current);
+
+        if (path.size() == 1)
+            return command;
+
+        if (command.getSub() != null) {
+            path.remove(0);
+            pathUsed.add(0, current);
+            return command.getSub().resolveCommand(path, pathUsed);
+        } else {
+            //TODO return pathUsed as well
+            return command;
+        }
     }
 
     /**

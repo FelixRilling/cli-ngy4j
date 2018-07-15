@@ -19,6 +19,7 @@ public class CommandMap extends HashMap<String, ICommand> {
 
     /**
      * Creates a {@link CommandMap} from another  {@link CommandMap}.
+     *
      * @param map The  {@link CommandMap} to copy.
      */
     public CommandMap(CommandMap map) {

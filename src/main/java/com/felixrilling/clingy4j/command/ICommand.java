@@ -4,13 +4,14 @@ import com.felixrilling.clingy4j.Clingy;
 import com.felixrilling.clingy4j.command.argument.CommandArgument;
 import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 public interface ICommand {
     Function<CommandArgumentMap, Void> fn = null;
     List<String> alias = null;
-    CommandArgument[] args = new CommandArgument[0];
+    List<CommandArgument> args = new ArrayList<>();
     Object data = null;
     Clingy sub = null;
 
@@ -20,11 +21,9 @@ public interface ICommand {
 
     List<String> getAlias();
 
-    void setAlias(List<String> alias);
+    List<CommandArgument> getArgs();
 
-    CommandArgument[] getArgs();
-
-    void setArgs(CommandArgument[] args);
+    void setArgs(List<CommandArgument> args);
 
     Object getData();
 
