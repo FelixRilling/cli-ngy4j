@@ -1,2 +1,3 @@
 - Upgrade Deps
 - Add more logging
+- figure out what to use instead of ArrayList

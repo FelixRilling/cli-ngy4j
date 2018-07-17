@@ -3,6 +3,9 @@ package com.felixrilling.clingy4j;
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.ICommand;
+import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
+import com.felixrilling.clingy4j.lookup.LookupResult;
+import com.felixrilling.clingy4j.lookup.LookupSuccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,9 +66,9 @@ public class Clingy {
      * Resolves a command and its sub-commands.
      *
      * @param path Path to look up.
-     * @return Command or null if none is found.
+     * @return LookupResult or null if none is found.
      */
-    public ICommand resolveCommand(List<String> path) {
+    public LookupResult resolveCommand(List<String> path) {
         return resolveCommand(path, new ArrayList<>());
 
     }
@@ -78,7 +81,7 @@ public class Clingy {
     /**
      * @see Clingy#resolveCommand(List)
      */
-    private ICommand resolveCommand(List<String> path, List<String> pathUsed) {
+    private LookupResult resolveCommand(List<String> path, List<String> pathUsed) {
         if (path.isEmpty())
             return null;
 
@@ -87,20 +90,15 @@ public class Clingy {
         if (!hasCommand(current))
             return null;
 
-
         ICommand command = getCommand(current);
+        List<String> pathNew = path.subList(1, path.size());
+        pathUsed.add(0, current);
 
-        if (path.size() == 1)
-            return command;
-
-        if (command.getSub() != null) {
-            path.remove(0);
-            pathUsed.add(0, current);
-            return command.getSub().resolveCommand(path, pathUsed);
-        } else {
-            //TODO return pathUsed as well
-            return command;
+        if (pathNew.size() > 1 && command.getSub() != null) {
+            return command.getSub().resolveCommand(pathNew, pathUsed);
         }
+
+        return new LookupSuccess(pathUsed, pathNew, command, new CommandArgumentMap());
     }
 
     /**

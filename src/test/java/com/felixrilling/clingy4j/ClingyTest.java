@@ -2,6 +2,8 @@ package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
+import com.felixrilling.clingy4j.lookup.LookupResult;
+import com.felixrilling.clingy4j.lookup.LookupSuccess;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
@@ -38,7 +40,28 @@ public class ClingyTest {
         assertThat(clingy.getCommand(commandName)).isSameAs(command);
     }
 
-    // TODO: sub-instance test
+    /**
+     * Asserts that {@link Clingy} constructs with a sub-commands.
+     */
+    @Test
+    public void clingyConstructsWithSubCommands() {
+        String commandName1 = "foo";
+        String commandName2 = "bar";
+
+        CommandMap commandMap2 = new CommandMap();
+        Command command2 = new Command(null, Lists.emptyList(), null);
+        commandMap2.put(commandName2, command2);
+        Clingy clingy2 = new Clingy(commandMap2);
+
+        CommandMap commandMap1 = new CommandMap();
+        Command command1 = new Command(null, Lists.emptyList(), null, null, clingy2);
+        commandMap1.put(commandName1, command1);
+        Clingy clingy1 = new Clingy(commandMap1);
+
+        assertThat(clingy1.getCommand(commandName1)).isSameAs(command1);
+        assertThat(clingy1.getCommand(commandName1).getSub().getCommand(commandName2)).isSameAs(command2);
+    }
+
 
     /**
      * Asserts that {@link Clingy} updates the internal aliased map.
@@ -130,7 +153,47 @@ public class ClingyTest {
         commandMap.put(commandName, command);
         Clingy clingy = new Clingy(commandMap);
 
-        assertThat(clingy.resolveCommand(Collections.singletonList(commandName))).isEqualTo(command);
+        LookupResult lookupResult = clingy.resolveCommand(Collections.singletonList(commandName));
+        assertThat(lookupResult).isInstanceOf(LookupSuccess.class);
+        assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command);
     }
 
+    /**
+     * Asserts that {@link Clingy#resolveCommand(List)} returns dangling elements.
+     */
+    @Test
+    public void resolveCommandReturnsDangling() {
+        CommandMap commandMap = new CommandMap();
+        List<String> commandNames = Arrays.asList("foo", "bar", "buzz");
+        Command command = new Command(null, Lists.emptyList(), null);
+        commandMap.put(commandNames.get(0), command);
+        Clingy clingy = new Clingy(commandMap);
+
+        LookupResult lookupResult = clingy.resolveCommand(commandNames);
+        assertThat(lookupResult).isInstanceOf(LookupSuccess.class);
+        assertThat(lookupResult.getPathDangling()).isEqualTo(commandNames.subList(1, commandNames.size()));
+    }
+
+    /**
+     * Asserts that {@link Clingy#resolveCommand(List)} resolves sub-commands.
+     */
+    @Test
+    public void resolveCommandResolvesSubCommands() {
+        String commandName1 = "foo";
+        String commandName2 = "bar";
+
+        CommandMap commandMap2 = new CommandMap();
+        Command command2 = new Command(null, Lists.emptyList(), null);
+        commandMap2.put(commandName2, command2);
+        Clingy clingy2 = new Clingy(commandMap2);
+
+        CommandMap commandMap1 = new CommandMap();
+        Command command1 = new Command(null, Lists.emptyList(), null, null, clingy2);
+        commandMap1.put(commandName1, command1);
+        Clingy clingy1 = new Clingy(commandMap1);
+
+        LookupResult lookupResult = clingy1.resolveCommand(Arrays.asList(commandName1, commandName2));
+        assertThat(lookupResult).isInstanceOf(LookupSuccess.class);
+        assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command1);
+    }
 }

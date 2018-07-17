@@ -1,8 +1,8 @@
-package com.felixrilling.clingy4j.command.lookup;
+package com.felixrilling.clingy4j.lookup;
 
 import java.util.List;
 
-abstract class LookupResult {
+public abstract class LookupResult {
     private boolean success;
     private List<String> path;
     private List<String> pathDangling;
