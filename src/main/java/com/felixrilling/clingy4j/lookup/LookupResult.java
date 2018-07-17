@@ -2,12 +2,12 @@ package com.felixrilling.clingy4j.lookup;
 
 import java.util.List;
 
-public abstract class LookupResult {
-    private boolean success;
-    private List<String> path;
-    private List<String> pathDangling;
+abstract class LookupResult implements ILookupResult {
+    private final boolean success;
+    private final List<String> path;
+    private final List<String> pathDangling;
 
-    public LookupResult(boolean success, List<String> path, List<String> pathDangling) {
+    LookupResult(boolean success, List<String> path, List<String> pathDangling) {
         this.success = success;
         this.path = path;
         this.pathDangling = pathDangling;

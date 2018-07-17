@@ -3,7 +3,7 @@ package com.felixrilling.clingy4j.lookup;
 import java.util.List;
 
 public class LookupErrorNotFound extends LookupError {
-    private String missing;
+    private final String missing;
     /* private List<String> similar;*/
 
     public LookupErrorNotFound(List<String> path, List<String> pathDangling, String missing /*,List<String> similar*/) {

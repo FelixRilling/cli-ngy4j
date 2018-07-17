@@ -4,8 +4,8 @@ import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.ICommand;
 import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
+import com.felixrilling.clingy4j.lookup.ILookupResult;
 import com.felixrilling.clingy4j.lookup.LookupErrorNotFound;
-import com.felixrilling.clingy4j.lookup.LookupResult;
 import com.felixrilling.clingy4j.lookup.LookupSuccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +69,7 @@ public class Clingy {
      * @param path Path to look up.
      * @return LookupResult or null if none is found.
      */
-    public LookupResult resolveCommand(List<String> path) {
+    public ILookupResult resolveCommand(List<String> path) {
         return resolveCommand(path, new ArrayList<>());
 
     }
@@ -82,7 +82,7 @@ public class Clingy {
     /**
      * @see Clingy#resolveCommand(List)
      */
-    private LookupResult resolveCommand(List<String> path, List<String> pathUsed) {
+    private ILookupResult resolveCommand(List<String> path, List<String> pathUsed) {
         if (path.isEmpty()) {
             logger.info("Empty path was given, returning early.");
             return null;

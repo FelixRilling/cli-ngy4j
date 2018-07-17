@@ -2,10 +2,10 @@ package com.felixrilling.clingy4j.lookup;
 
 import java.util.List;
 
-public abstract class LookupError extends LookupResult {
-    private LookupErrorTypes errorType;
+abstract class LookupError extends LookupResult {
+    private final LookupErrorTypes errorType;
 
-    public LookupError(List<String> path, List<String> pathDangling, LookupErrorTypes errorType) {
+    LookupError(List<String> path, List<String> pathDangling, LookupErrorTypes errorType) {
         super(false, path, pathDangling);
         this.errorType = errorType;
     }

@@ -6,8 +6,8 @@ import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
 import java.util.List;
 
 public class LookupSuccess extends LookupResult {
-    private ICommand command;
-    private CommandArgumentMap args;
+    private final ICommand command;
+    private final CommandArgumentMap args;
 
     public LookupSuccess(List<String> path, List<String> pathDangling, ICommand command, CommandArgumentMap args) {
         super(true, path, pathDangling);
