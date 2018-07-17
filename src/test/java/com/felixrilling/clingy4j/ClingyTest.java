@@ -2,6 +2,7 @@ package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
+import com.felixrilling.clingy4j.lookup.LookupErrorNotFound;
 import com.felixrilling.clingy4j.lookup.LookupResult;
 import com.felixrilling.clingy4j.lookup.LookupSuccess;
 import org.assertj.core.util.Lists;
@@ -133,13 +134,13 @@ public class ClingyTest {
     }
 
     /**
-     * Asserts that {@link Clingy#resolveCommand(List)} returns null for path that cannot be found.
+     * Asserts that {@link Clingy#resolveCommand(List)} returns a {@link LookupErrorNotFound} for non-existent commands.
      */
     @Test
     public void resolveCommandReturnsNullForNotFound() {
         Clingy clingy = new Clingy();
 
-        assertThat(clingy.resolveCommand(Collections.singletonList("foo"))).isNull();
+        assertThat(clingy.resolveCommand(Collections.singletonList("foo"))).isInstanceOf(LookupErrorNotFound.class);
     }
 
     /**

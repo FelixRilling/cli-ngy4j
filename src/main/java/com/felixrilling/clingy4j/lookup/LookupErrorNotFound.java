@@ -3,20 +3,20 @@ package com.felixrilling.clingy4j.lookup;
 import java.util.List;
 
 public class LookupErrorNotFound extends LookupError {
-    private List<String> missing;
-    private List<String> similar;
+    private String missing;
+    /* private List<String> similar;*/
 
-    public LookupErrorNotFound(List<String> path, List<String> pathDangling, List<String> missing, List<String> similar) {
+    public LookupErrorNotFound(List<String> path, List<String> pathDangling, String missing /*,List<String> similar*/) {
         super(path, pathDangling, LookupErrorTypes.COMMAND_NOT_FOUND);
         this.missing = missing;
-        this.similar = similar;
+        /*  this.similar = similar;*/
     }
 
-    public List<String> getMissing() {
+    public String getMissing() {
         return missing;
     }
 
-    public List<String> getSimilar() {
+/*    public List<String> getSimilar() {
         return similar;
-    }
+    }*/
 }

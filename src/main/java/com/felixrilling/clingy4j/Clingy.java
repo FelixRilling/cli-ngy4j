@@ -4,6 +4,7 @@ import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.ICommand;
 import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
+import com.felixrilling.clingy4j.lookup.LookupErrorNotFound;
 import com.felixrilling.clingy4j.lookup.LookupResult;
 import com.felixrilling.clingy4j.lookup.LookupSuccess;
 import org.slf4j.Logger;
@@ -82,22 +83,28 @@ public class Clingy {
      * @see Clingy#resolveCommand(List)
      */
     private LookupResult resolveCommand(List<String> path, List<String> pathUsed) {
-        if (path.isEmpty())
+        if (path.isEmpty()) {
+            logger.info("Empty path was given, returning early.");
             return null;
+        }
 
-        String current = path.get(0);
+        String currentPathFragment = path.get(0);
 
-        if (!hasCommand(current))
-            return null;
+        if (!hasCommand(currentPathFragment)) {
+            logger.warn("Command '{}' could not be found.", currentPathFragment);
+            return new LookupErrorNotFound(path, pathUsed, currentPathFragment);
+        }
 
-        ICommand command = getCommand(current);
+        ICommand command = getCommand(currentPathFragment);
         List<String> pathNew = path.subList(1, path.size());
-        pathUsed.add(0, current);
+        pathUsed.add(0, currentPathFragment);
 
         if (pathNew.size() > 1 && command.getSub() != null) {
+            logger.trace("Resolving sub-commands.");
             return command.getSub().resolveCommand(pathNew, pathUsed);
         }
 
+        logger.trace("Returning successful lookup result.");
         return new LookupSuccess(pathUsed, pathNew, command, new CommandArgumentMap());
     }
 
@@ -106,6 +113,8 @@ public class Clingy {
      */
     private void updateAliasedMap() {
         CommandMap result = new CommandMap(map);
+
+        logger.trace("Updating aliased map...");
 
         for (Map.Entry<String, ICommand> entry : map.entrySet()) {
             for (String alias : entry.getValue().getAlias()) {
@@ -116,6 +125,8 @@ public class Clingy {
                 }
             }
         }
+
+        logger.trace("Done updating aliased map.");
 
         mapAliased = result;
     }
