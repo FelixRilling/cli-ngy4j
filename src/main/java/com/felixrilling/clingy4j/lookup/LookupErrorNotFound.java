@@ -4,19 +4,19 @@ import java.util.List;
 
 public class LookupErrorNotFound extends LookupError {
     private final String missing;
-    /* private List<String> similar;*/
+    private List<String> similar;
 
-    public LookupErrorNotFound(List<String> path, List<String> pathDangling, String missing /*,List<String> similar*/) {
+    LookupErrorNotFound(List<String> path, List<String> pathDangling, String missing, List<String> similar) {
         super(path, pathDangling, LookupErrorTypes.COMMAND_NOT_FOUND);
         this.missing = missing;
-        /*  this.similar = similar;*/
+        this.similar = similar;
     }
 
     public String getMissing() {
         return missing;
     }
 
-/*    public List<String> getSimilar() {
+    public List<String> getSimilar() {
         return similar;
-    }*/
+    }
 }

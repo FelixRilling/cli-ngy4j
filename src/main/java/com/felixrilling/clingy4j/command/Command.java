@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.function.Function;
 
 public class Command implements ICommand {
-    private Function<CommandArgumentMap, Void> fn;
     private final List<String> alias;
+    private Function<CommandArgumentMap, Void> fn;
     private List<CommandArgument> args;
     private Object data;
     private Clingy sub;

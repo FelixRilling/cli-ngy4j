@@ -124,27 +124,27 @@ public class ClingyTest {
     }
 
     /**
-     * Asserts that {@link Clingy#resolveCommand(List)} returns null for an empty path.
+     * Asserts that {@link Clingy#resolve(List)} returns null for an empty path.
      */
     @Test
     public void resolveCommandReturnsNullForEmpty() {
         Clingy clingy = new Clingy();
 
-        assertThat(clingy.resolveCommand(new ArrayList<>())).isNull();
+        assertThat(clingy.resolve(new ArrayList<>())).isNull();
     }
 
     /**
-     * Asserts that {@link Clingy#resolveCommand(List)} returns a {@link LookupErrorNotFound} for non-existent commands.
+     * Asserts that {@link Clingy#resolve(List)} returns a {@link LookupErrorNotFound} for non-existent commands.
      */
     @Test
     public void resolveCommandReturnsNullForNotFound() {
         Clingy clingy = new Clingy();
 
-        assertThat(clingy.resolveCommand(Collections.singletonList("foo"))).isInstanceOf(LookupErrorNotFound.class);
+        assertThat(clingy.resolve(Collections.singletonList("foo"))).isInstanceOf(LookupErrorNotFound.class);
     }
 
     /**
-     * Asserts that {@link Clingy#resolveCommand(List)} returns the {@link Command}.
+     * Asserts that {@link Clingy#resolve(List)} returns the {@link Command}.
      */
     @Test
     public void resolveCommandReturnsCommand() {
@@ -154,13 +154,13 @@ public class ClingyTest {
         commandMap.put(commandName, command);
         Clingy clingy = new Clingy(commandMap);
 
-        ILookupResult lookupResult = clingy.resolveCommand(Collections.singletonList(commandName));
+        ILookupResult lookupResult = clingy.resolve(Collections.singletonList(commandName));
         assertThat(lookupResult).isInstanceOf(LookupSuccess.class);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command);
     }
 
     /**
-     * Asserts that {@link Clingy#resolveCommand(List)} returns dangling elements.
+     * Asserts that {@link Clingy#resolve(List)} returns dangling elements.
      */
     @Test
     public void resolveCommandReturnsDangling() {
@@ -170,13 +170,13 @@ public class ClingyTest {
         commandMap.put(commandNames.get(0), command);
         Clingy clingy = new Clingy(commandMap);
 
-        ILookupResult lookupResult = clingy.resolveCommand(commandNames);
+        ILookupResult lookupResult = clingy.resolve(commandNames);
         assertThat(lookupResult).isInstanceOf(LookupSuccess.class);
         assertThat(lookupResult.getPathDangling()).isEqualTo(commandNames.subList(1, commandNames.size()));
     }
 
     /**
-     * Asserts that {@link Clingy#resolveCommand(List)} resolves sub-commands.
+     * Asserts that {@link Clingy#resolve(List)} resolves sub-commands.
      */
     @Test
     public void resolveCommandResolvesSubCommands() {
@@ -193,7 +193,7 @@ public class ClingyTest {
         commandMap1.put(commandName1, command1);
         Clingy clingy1 = new Clingy(commandMap1);
 
-        ILookupResult lookupResult = clingy1.resolveCommand(Arrays.asList(commandName1, commandName2));
+        ILookupResult lookupResult = clingy1.resolve(Arrays.asList(commandName1, commandName2));
         assertThat(lookupResult).isInstanceOf(LookupSuccess.class);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command1);
     }

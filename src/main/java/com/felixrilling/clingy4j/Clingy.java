@@ -1,65 +1,67 @@
 package com.felixrilling.clingy4j;
 
-import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.ICommand;
-import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
 import com.felixrilling.clingy4j.lookup.ILookupResult;
-import com.felixrilling.clingy4j.lookup.LookupErrorNotFound;
-import com.felixrilling.clingy4j.lookup.LookupSuccess;
+import com.felixrilling.clingy4j.lookup.LookupResolver;
+import com.felixrilling.clingy4j.parser.InputParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class Clingy {
+
+
     private CommandMap map;
-    private CommandMap mapAliased;
+    private CommandMap aliasedMap;
 
     private Logger logger = LoggerFactory.getLogger(Clingy.class);
+    private LookupResolver lookupResolver;
+    private InputParser inputParser;
 
-    /**
-     * Creates a {@link Clingy} instance.
-     */
+
     public Clingy() {
         this(new CommandMap());
     }
 
-    /**
-     * Creates a {@link Clingy} instance.
-     *
-     * @param commands Map of {@link Command}s to init the instance with.
-     */
+
     public Clingy(CommandMap commands) {
-        this.map = commands;
+        this(commands, false);
+    }
+
+    public Clingy(CommandMap commands, boolean caseSensitive) {
+        this(commands, caseSensitive, Collections.singletonList("\""));
+    }
+
+    public Clingy(CommandMap commands, boolean caseSensitive, List<String> legalQuotes) {
+        map = commands;
+        lookupResolver = new LookupResolver(caseSensitive);
+        inputParser = new InputParser(legalQuotes);
         updateAliasedMap();
     }
 
-    /**
-     * Sets a new {@link Command} to the {@link Clingy} instance.
-     *
-     * @param key     Key of the new {@link Command}.
-     * @param command {@link Command} to set.
-     */
+    public CommandMap getMap() {
+        return map;
+    }
+
+    public CommandMap getAliasedMap() {
+        return aliasedMap;
+    }
+
     public void setCommand(String key, ICommand command) {
         map.put(key, command);
         updateAliasedMap();
     }
 
-    /**
-     * Gets a {@link Command} from the {@link Clingy} instance.
-     */
     public ICommand getCommand(String key) {
-        return mapAliased.get(key);
+        return aliasedMap.get(key);
     }
 
-    /**
-     * Checks if a {@link Command} exists in the {@link Clingy} instance.
-     */
     public boolean hasCommand(String key) {
-        return mapAliased.containsKey(key);
+        return aliasedMap.containsKey(key);
     }
 
 
@@ -69,48 +71,14 @@ public class Clingy {
      * @param path Path to look up.
      * @return LookupResult or null if none is found.
      */
-    public ILookupResult resolveCommand(List<String> path) {
-        return resolveCommand(path, new ArrayList<>());
-
+    public ILookupResult resolve(List<String> path) {
+        return lookupResolver.resolve(aliasedMap, path);
     }
 
-    public ICommand parse(String input) {
-        //TODO implement
-        return null;
+    public ILookupResult parse(String input) {
+        return inputParser.parse(aliasedMap, input);
     }
 
-    /**
-     * @see Clingy#resolveCommand(List)
-     */
-    private ILookupResult resolveCommand(List<String> path, List<String> pathUsed) {
-        if (path.isEmpty()) {
-            logger.info("Empty path was given, returning early.");
-            return null;
-        }
-
-        String currentPathFragment = path.get(0);
-
-        if (!hasCommand(currentPathFragment)) {
-            logger.warn("Command '{}' could not be found.", currentPathFragment);
-            return new LookupErrorNotFound(path, pathUsed, currentPathFragment);
-        }
-
-        ICommand command = getCommand(currentPathFragment);
-        List<String> pathNew = path.subList(1, path.size());
-        pathUsed.add(0, currentPathFragment);
-
-        if (pathNew.size() > 1 && command.getSub() != null) {
-            logger.trace("Resolving sub-commands.");
-            return command.getSub().resolveCommand(pathNew, pathUsed);
-        }
-
-        logger.trace("Returning successful lookup result.");
-        return new LookupSuccess(pathUsed, pathNew, command, new CommandArgumentMap());
-    }
-
-    /**
-     * Updates the internal aliased Map to contain the aliased keys.
-     */
     private void updateAliasedMap() {
         CommandMap result = new CommandMap(map);
 
@@ -128,6 +96,6 @@ public class Clingy {
 
         logger.trace("Done updating aliased map.");
 
-        mapAliased = result;
+        aliasedMap = result;
     }
 }

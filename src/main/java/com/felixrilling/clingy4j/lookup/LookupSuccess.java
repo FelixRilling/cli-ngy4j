@@ -9,7 +9,7 @@ public class LookupSuccess extends LookupResult {
     private final ICommand command;
     private final CommandArgumentMap args;
 
-    public LookupSuccess(List<String> path, List<String> pathDangling, ICommand command, CommandArgumentMap args) {
+    LookupSuccess(List<String> path, List<String> pathDangling, ICommand command, CommandArgumentMap args) {
         super(true, path, pathDangling);
         this.command = command;
         this.args = args;
