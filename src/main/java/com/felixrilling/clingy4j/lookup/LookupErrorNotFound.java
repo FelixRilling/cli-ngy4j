@@ -4,7 +4,7 @@ import java.util.List;
 
 public class LookupErrorNotFound extends LookupError {
     private final String missing;
-    private List<String> similar;
+    private final List<String> similar;
 
     LookupErrorNotFound(List<String> path, List<String> pathDangling, String missing, List<String> similar) {
         super(path, pathDangling, LookupErrorTypes.COMMAND_NOT_FOUND);

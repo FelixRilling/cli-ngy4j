@@ -12,9 +12,9 @@ import java.util.List;
 
 public class LookupResolver {
 
-    private boolean caseSensitive;
+    private final boolean caseSensitive;
 
-    private Logger logger = LoggerFactory.getLogger(LookupResolver.class);
+    private final Logger logger = LoggerFactory.getLogger(LookupResolver.class);
 
     public LookupResolver(boolean caseSensitive) {
         //TODO make this matter.

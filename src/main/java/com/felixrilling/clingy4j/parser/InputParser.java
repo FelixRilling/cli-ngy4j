@@ -6,7 +6,7 @@ import com.felixrilling.clingy4j.lookup.ILookupResult;
 import java.util.List;
 
 public class InputParser {
-    private List<String> legalQuotes;
+    private final List<String> legalQuotes;
 
     public InputParser(List<String> legalQuotes) {
         this.legalQuotes = legalQuotes;

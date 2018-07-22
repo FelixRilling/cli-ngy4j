@@ -14,7 +14,6 @@ import java.util.Map;
 
 public class Clingy {
 
-
     private CommandMap map;
     private CommandMap aliasedMap;
 
@@ -64,13 +63,6 @@ public class Clingy {
         return aliasedMap.containsKey(key);
     }
 
-
-    /**
-     * Resolves a command and its sub-commands.
-     *
-     * @param path Path to look up.
-     * @return LookupResult or null if none is found.
-     */
     public ILookupResult resolve(List<String> path) {
         return lookupResolver.resolve(aliasedMap, path);
     }
