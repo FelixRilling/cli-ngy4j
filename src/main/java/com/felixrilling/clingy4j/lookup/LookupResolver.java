@@ -21,11 +21,19 @@ public class LookupResolver {
         this.caseSensitive = caseSensitive;
     }
 
-    public ILookupResult resolve(CommandMap mapAliased, List<String> path) {
-        return resolve(mapAliased, path, new ArrayList<>());
+    public boolean isCaseSensitive() {
+        return caseSensitive;
     }
 
-    private ILookupResult resolve(CommandMap mapAliased, List<String> path, List<String> pathUsed) {
+    public ILookupResult resolve(CommandMap mapAliased, List<String> path) {
+        return resolve(mapAliased, path, false);
+    }
+
+    public ILookupResult resolve(CommandMap mapAliased, List<String> path, boolean parseArguments) {
+        return resolve(mapAliased, path, new ArrayList<>(), parseArguments);
+    }
+
+    private ILookupResult resolve(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {
         if (path.isEmpty()) {
             logger.info("Empty path was given, returning early.");
             return null;
@@ -44,14 +52,10 @@ public class LookupResolver {
 
         if (pathNew.size() > 1 && command.getSub() != null) {
             logger.trace("Resolving sub-commands.");
-            return resolve(command.getSub().getAliasedMap(), pathNew, pathUsed);
+            return resolve(command.getSub().getAliasedMap(), pathNew, pathUsed, parseArguments);
         }
 
         logger.trace("Returning successful lookup result.");
         return new LookupSuccess(pathUsed, pathNew, command, new CommandArgumentMap());
-    }
-
-    public boolean isCaseSensitive() {
-        return caseSensitive;
     }
 }

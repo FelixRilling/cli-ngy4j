@@ -68,7 +68,7 @@ public class Clingy {
     }
 
     public ILookupResult parse(String input) {
-        return inputParser.parse(aliasedMap, input);
+        return lookupResolver.resolve(aliasedMap, inputParser.parse(input), true);
     }
 
     private void updateAliasedMap() {

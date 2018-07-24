@@ -1,8 +1,5 @@
 package com.felixrilling.clingy4j.parser;
 
-import com.felixrilling.clingy4j.command.CommandMap;
-import com.felixrilling.clingy4j.lookup.ILookupResult;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -17,18 +14,16 @@ public class InputParser {
         this.pattern = generateMatcher();
     }
 
-    public ILookupResult parse(CommandMap mapAliased, String input) {
-        List<String> split = Arrays.asList(pattern.split(input));
-
-        return null;
-    }
-
     public List<String> getLegalQuotes() {
         return legalQuotes;
     }
 
     public Pattern getPattern() {
         return pattern;
+    }
+
+    public List<String> parse(String input) {
+        return Arrays.asList(pattern.split(input));
     }
 
     private Pattern generateMatcher() {
