@@ -7,7 +7,6 @@ import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -23,17 +22,12 @@ public class LookupResolverTest {
         lookupResolver = new LookupResolver(true);
     }
 
-    @Test
-    public void resolve() {
-
-    }
-
     /**
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns null for an empty path.
      */
     @Test
     public void resolveCommandReturnsNullForEmpty() {
-        assertThat(lookupResolver.resolve(new CommandMap(), new ArrayList<>())).isNull();
+        assertThat(lookupResolver.resolve(new CommandMap(), Collections.emptyList())).isNull();
     }
 
     /**

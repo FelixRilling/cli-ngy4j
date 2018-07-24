@@ -7,7 +7,7 @@ import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class LookupResolver {
@@ -30,7 +30,7 @@ public class LookupResolver {
     }
 
     public ILookupResult resolve(CommandMap mapAliased, List<String> path, boolean parseArguments) {
-        return resolve(mapAliased, path, new ArrayList<>(), parseArguments);
+        return resolve(mapAliased, path, new LinkedList<>(), parseArguments);
     }
 
     private ILookupResult resolve(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {
