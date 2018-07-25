@@ -1,13 +1,19 @@
 package com.felixrilling.clingy4j.parser;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 
 public class InputParser {
     private final List<String> legalQuotes;
+
     private final Pattern pattern;
+    private Logger logger = LoggerFactory.getLogger(InputParser.class);
 
     public InputParser(List<String> legalQuotes) {
         this.legalQuotes = legalQuotes;
@@ -31,15 +37,24 @@ public class InputParser {
     }
 
     private Pattern generateMatcher() {
-        List<String> patterns = legalQuotes
+        final String matchBase = "(\\S+)";
+
+        List<String> matchItems = legalQuotes
             .stream()
-            .map(r -> String.format("%1$s.+?%1$s", r))
+            .map(r -> String.format("%1$s(.+?)%1$s", Pattern.quote(r)))
             .collect(Collectors.toList());
 
-        patterns.add("\\S+");
+        matchItems.add(matchBase);
 
-        String regex = String.format("/(%s)/g", String.join("|", patterns));
+        Pattern result;
 
-        return Pattern.compile(regex);
+        try {
+            result = Pattern.compile(String.join("|", matchItems));
+        } catch (PatternSyntaxException e) {
+            logger.error("The parsing pattern is invalid, this should never happen.", e);
+            throw e;
+        }
+
+        return result;
     }
 }
