@@ -13,7 +13,7 @@ public class InputParser {
     private final List<String> legalQuotes;
 
     private final Pattern pattern;
-    private Logger logger = LoggerFactory.getLogger(InputParser.class);
+    private final Logger logger = LoggerFactory.getLogger(InputParser.class);
 
     public InputParser(List<String> legalQuotes) {
         this.legalQuotes = legalQuotes;

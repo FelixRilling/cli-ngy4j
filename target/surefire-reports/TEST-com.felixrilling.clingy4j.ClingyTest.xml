@@ -63,8 +63,8 @@
   </properties>
   <testcase classname="com.felixrilling.clingy4j.ClingyTest" name="clingyUpdatesAliasedMapSkipsDuplicateKeys" time="0.001"/>
   <testcase classname="com.felixrilling.clingy4j.ClingyTest" name="clingyConstructsWithSubCommands" time="0.001"/>
-  <testcase classname="com.felixrilling.clingy4j.ClingyTest" name="clingyConstructsWithCommands" time="0.001"/>
+  <testcase classname="com.felixrilling.clingy4j.ClingyTest" name="clingyConstructsWithCommands" time="0"/>
   <testcase classname="com.felixrilling.clingy4j.ClingyTest" name="clingyUpdatesAliasedMap" time="0"/>
-  <testcase classname="com.felixrilling.clingy4j.ClingyTest" name="clingyConstructsWithoutCommands" time="0"/>
+  <testcase classname="com.felixrilling.clingy4j.ClingyTest" name="clingyConstructsWithoutCommands" time="0.001"/>
   <testcase classname="com.felixrilling.clingy4j.ClingyTest" name="clingyUpdatesAliasedMapUpdatesAfterChanges" time="0.001"/>
 </testsuite>

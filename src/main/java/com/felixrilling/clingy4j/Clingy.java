@@ -14,12 +14,11 @@ import java.util.Map;
 
 public class Clingy {
 
+    private final Logger logger = LoggerFactory.getLogger(Clingy.class);
+    private final LookupResolver lookupResolver;
+    private final InputParser inputParser;
     private CommandMap map;
     private CommandMap aliasedMap;
-
-    private Logger logger = LoggerFactory.getLogger(Clingy.class);
-    private LookupResolver lookupResolver;
-    private InputParser inputParser;
 
 
     public Clingy() {

@@ -64,6 +64,6 @@
   <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsNullForNotFound" time="0.001"/>
   <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandResolvesSubCommands" time="0"/>
   <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsCommand" time="0"/>
-  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsDangling" time="0"/>
-  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsNullForEmpty" time="0.001"/>
+  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsDangling" time="0.001"/>
+  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsNullForEmpty" time="0"/>
 </testsuite>

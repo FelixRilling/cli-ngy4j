@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="4" failures="0" name="com.felixrilling.clingy4j.parser.InputParserTest" time="0.245" errors="0" skipped="1">
+<testsuite tests="4" failures="0" name="com.felixrilling.clingy4j.parser.InputParserTest" time="0.191" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="java.vm.version" value="10.0.1+10-Ubuntu-3ubuntu1"/>
@@ -61,10 +61,8 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="parseHonorsQuotes" time="0.055">
-    <skipped/>
-  </testcase>
-  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="inputParserEscapesSpecials" time="0.177"/>
-  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="inputParserCreatesPattern" time="0.001"/>
-  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="parseSplitsSpaces" time="0.012"/>
+  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="parseHonorsQuotes" time="0.189"/>
+  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="inputParserEscapesSpecials" time="0.001"/>
+  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="inputParserCreatesPattern" time="0"/>
+  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="parseSplitsSpaces" time="0.001"/>
 </testsuite>
