@@ -1,7 +1,6 @@
 package com.felixrilling.clingy4j.parser;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -49,7 +48,6 @@ public class InputParserTest {
     /**
      * Asserts that {@link InputParser} honors quotes when splitting.
      */
-    @Ignore
     @Test
     public void parseHonorsQuotes() {
         assertThat(inputParser.parse("'foo bar'")).containsExactly("foo bar");

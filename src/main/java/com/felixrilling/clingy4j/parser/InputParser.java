@@ -32,9 +32,10 @@ public class InputParser {
         return pattern
             .matcher(input)
             .results()
-            .map(MatchResult::group)
+            .map(this::getBestGroupMatch)
             .collect(Collectors.toList());
     }
+
 
     private Pattern generateMatcher() {
         final String matchBase = "(\\S+)";
@@ -56,5 +57,20 @@ public class InputParser {
         }
 
         return result;
+    }
+
+
+    private String getBestGroupMatch(MatchResult matchResult) {
+        // Skip first (the full-match) group and search for the next non-null group
+        int i = 1;
+
+        while (i <= matchResult.groupCount()) {
+            if (matchResult.group(i) != null)
+                return matchResult.group(i);
+
+            i++;
+        }
+
+        return null;
     }
 }
