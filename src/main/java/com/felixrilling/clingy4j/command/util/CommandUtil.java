@@ -1,4 +1,6 @@
-package com.felixrilling.clingy4j.command;
+package com.felixrilling.clingy4j.command.util;
+
+import com.felixrilling.clingy4j.command.CommandMap;
 
 import java.util.Collections;
 import java.util.List;

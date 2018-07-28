@@ -3,7 +3,7 @@ package com.felixrilling.clingy4j;
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.ICommand;
 import com.felixrilling.clingy4j.lookup.LookupResolver;
-import com.felixrilling.clingy4j.lookup.LookupResult;
+import com.felixrilling.clingy4j.lookup.result.LookupResult;
 import com.felixrilling.clingy4j.parser.InputParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

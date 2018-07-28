@@ -1,4 +1,4 @@
-package com.felixrilling.clingy4j.command.argument;
+package com.felixrilling.clingy4j.argument;
 
 import com.felixrilling.clingy4j.command.Command;
 

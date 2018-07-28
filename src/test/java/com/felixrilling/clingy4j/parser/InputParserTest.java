@@ -1,6 +1,5 @@
 package com.felixrilling.clingy4j.parser;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -10,19 +9,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class InputParserTest {
 
-    private InputParser inputParser;
-
-    @Before
-    public void before() {
-        inputParser = new InputParser(Arrays.asList("\"", "'"));
-    }
-
     /**
      * Asserts that {@link InputParser} creates a matcher pattern.
      */
     @Test
     public void inputParserCreatesPattern() {
-        assertThat(inputParser.getPattern()).isInstanceOf(Pattern.class);
+        assertThat(new InputParser().getPattern()).isInstanceOf(Pattern.class);
     }
 
     /**
@@ -30,9 +22,7 @@ public class InputParserTest {
      */
     @Test
     public void inputParserEscapesSpecials() {
-        InputParser inputParserSpecial = new InputParser(Arrays.asList("?", "$", "("));
-
-        assertThat(inputParserSpecial.getPattern()).isInstanceOf(Pattern.class);
+        assertThat(new InputParser(Arrays.asList("?", "$", "(")).getPattern()).isInstanceOf(Pattern.class);
     }
 
     /**
@@ -40,6 +30,8 @@ public class InputParserTest {
      */
     @Test
     public void parseSplitsSpaces() {
+        InputParser inputParser = new InputParser(Arrays.asList("\"", "'"));
+
         assertThat(inputParser.parse("foo")).containsExactly("foo");
         assertThat(inputParser.parse("foo bar")).containsExactly("foo", "bar");
         assertThat(inputParser.parse("foo bar  fizz")).containsExactly("foo", "bar", "fizz");
@@ -50,6 +42,8 @@ public class InputParserTest {
      */
     @Test
     public void parseHonorsQuotes() {
+        InputParser inputParser = new InputParser(Arrays.asList("\"", "'"));
+
         assertThat(inputParser.parse("'foo bar'")).containsExactly("foo bar");
         assertThat(inputParser.parse("foo 'bar'")).containsExactly("foo", "bar");
         assertThat(inputParser.parse("foo 'bar  fizz'")).containsExactly("foo", "bar  fizz");

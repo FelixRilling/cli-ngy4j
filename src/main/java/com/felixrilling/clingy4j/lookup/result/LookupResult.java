@@ -1,4 +1,4 @@
-package com.felixrilling.clingy4j.lookup;
+package com.felixrilling.clingy4j.lookup.result;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ public abstract class LookupResult {
     private final List<String> path;
     private final List<String> pathDangling;
     private final ResultType type;
-
 
     public enum ResultType {SUCCESS, ERROR_COMMAND_NOT_FOUND, ERROR_MISSING_ARGUMENT}
 

@@ -1,13 +1,14 @@
-package com.felixrilling.clingy4j.lookup;
+package com.felixrilling.clingy4j.lookup.result;
 
-import com.felixrilling.clingy4j.command.argument.Argument;
+import com.felixrilling.clingy4j.argument.Argument;
+import com.felixrilling.clingy4j.lookup.result.LookupResult;
 
 import java.util.List;
 
 public class LookupErrorMissingArgs extends LookupResult {
     private final List<Argument> missing;
 
-    LookupErrorMissingArgs(List<String> path, List<String> pathDangling, List<Argument> missing) {
+    public LookupErrorMissingArgs(List<String> path, List<String> pathDangling, List<Argument> missing) {
         super(false, ResultType.ERROR_MISSING_ARGUMENT, path, pathDangling);
         this.missing = missing;
     }

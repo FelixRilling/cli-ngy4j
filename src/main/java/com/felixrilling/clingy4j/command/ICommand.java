@@ -1,8 +1,8 @@
 package com.felixrilling.clingy4j.command;
 
 import com.felixrilling.clingy4j.Clingy;
-import com.felixrilling.clingy4j.command.argument.Argument;
-import com.felixrilling.clingy4j.command.argument.ResolvedArgumentMap;
+import com.felixrilling.clingy4j.argument.Argument;
+import com.felixrilling.clingy4j.argument.ResolvedArgumentMap;
 
 import java.util.ArrayList;
 import java.util.List;
