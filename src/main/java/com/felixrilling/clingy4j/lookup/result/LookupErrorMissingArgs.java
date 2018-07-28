@@ -1,7 +1,6 @@
 package com.felixrilling.clingy4j.lookup.result;
 
 import com.felixrilling.clingy4j.argument.Argument;
-import com.felixrilling.clingy4j.lookup.result.LookupResult;
 
 import java.util.List;
 

@@ -1,11 +1,11 @@
 package com.felixrilling.clingy4j.lookup;
 
-import com.felixrilling.clingy4j.command.CommandMap;
-import com.felixrilling.clingy4j.command.util.CommandUtil;
-import com.felixrilling.clingy4j.command.ICommand;
 import com.felixrilling.clingy4j.argument.Argument;
 import com.felixrilling.clingy4j.argument.ArgumentMatcher;
 import com.felixrilling.clingy4j.argument.ResolvedArgumentMap;
+import com.felixrilling.clingy4j.command.CommandMap;
+import com.felixrilling.clingy4j.command.ICommand;
+import com.felixrilling.clingy4j.command.util.CommandUtil;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
 import com.felixrilling.clingy4j.lookup.result.LookupResult;

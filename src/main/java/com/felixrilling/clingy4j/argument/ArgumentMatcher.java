@@ -5,8 +5,8 @@ import java.util.List;
 
 public class ArgumentMatcher {
 
-    private List<Argument> missing;
-    private ResolvedArgumentMap result;
+    private final List<Argument> missing;
+    private final ResolvedArgumentMap result;
 
     public ArgumentMatcher(List<Argument> expected, List<String> provided) {
         missing = new LinkedList<>();

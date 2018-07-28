@@ -8,7 +8,6 @@ import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
 import com.felixrilling.clingy4j.lookup.result.LookupResult;
 import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
-import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -43,7 +42,7 @@ public class LookupResolverTest {
     public void resolveCommandReturnsCommand() {
         CommandMap commandMap = new CommandMap();
         String commandName = "foo";
-        Command command = new Command(null, Lists.emptyList(), null);
+        Command command = new Command(null, Collections.emptyList(), null);
         commandMap.put(commandName, command);
 
         LookupResult lookupResult = new LookupResolver().resolve(commandMap, Collections.singletonList(commandName));
@@ -58,7 +57,7 @@ public class LookupResolverTest {
     public void resolveCommandReturnsDangling() {
         CommandMap commandMap = new CommandMap();
         List<String> commandNames = Arrays.asList("foo", "bar", "buzz");
-        Command command = new Command(null, Lists.emptyList(), null);
+        Command command = new Command(null, Collections.emptyList(), null);
         commandMap.put(commandNames.get(0), command);
 
         LookupResult lookupResult = new LookupResolver().resolve(commandMap, commandNames);
@@ -75,12 +74,12 @@ public class LookupResolverTest {
         String commandName2 = "bar";
 
         CommandMap commandMap2 = new CommandMap();
-        Command command2 = new Command(null, Lists.emptyList(), null);
+        Command command2 = new Command(null, Collections.emptyList(), null);
         commandMap2.put(commandName2, command2);
         Clingy clingy = new Clingy(commandMap2);
 
         CommandMap commandMap1 = new CommandMap();
-        Command command1 = new Command(null, Lists.emptyList(), null, null, clingy);
+        Command command1 = new Command(null, Collections.emptyList(), null, null, clingy);
         commandMap1.put(commandName1, command1);
 
         LookupResult lookupResult = new LookupResolver().resolve(commandMap1, Arrays.asList(commandName1, commandName2));
@@ -94,7 +93,7 @@ public class LookupResolverTest {
     @Test
     public void resolveCommandHonorsCaseSensitive() {
         CommandMap commandMap = new CommandMap();
-        Command command = new Command(null, Lists.emptyList(), null);
+        Command command = new Command(null, Collections.emptyList(), null);
         commandMap.put("foo", command);
 
         LookupResult lookupResultCaseSensitive = new LookupResolver(true).resolve(commandMap, Collections.singletonList("fOo"));

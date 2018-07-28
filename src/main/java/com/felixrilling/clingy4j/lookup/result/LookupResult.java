@@ -8,8 +8,6 @@ public abstract class LookupResult {
     private final List<String> pathDangling;
     private final ResultType type;
 
-    public enum ResultType {SUCCESS, ERROR_COMMAND_NOT_FOUND, ERROR_MISSING_ARGUMENT}
-
     public LookupResult(boolean successful, ResultType type, List<String> path, List<String> pathDangling) {
         this.successful = successful;
         this.type = type;
@@ -32,4 +30,6 @@ public abstract class LookupResult {
     public List<String> getPathDangling() {
         return pathDangling;
     }
+
+    public enum ResultType {SUCCESS, ERROR_COMMAND_NOT_FOUND, ERROR_MISSING_ARGUMENT}
 }

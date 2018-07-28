@@ -2,7 +2,6 @@ package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
-import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -29,7 +28,7 @@ public class ClingyTest {
     public void clingyConstructsWithCommands() {
         CommandMap commandMap = new CommandMap();
         String commandName = "foo";
-        Command command = new Command(null, Lists.emptyList(), null);
+        Command command = new Command(null, Collections.emptyList(), null);
         commandMap.put(commandName, command);
         Clingy clingy = new Clingy(commandMap);
 
@@ -45,12 +44,12 @@ public class ClingyTest {
         String commandName2 = "bar";
 
         CommandMap commandMap2 = new CommandMap();
-        Command command2 = new Command(null, Lists.emptyList(), null);
+        Command command2 = new Command(null, Collections.emptyList(), null);
         commandMap2.put(commandName2, command2);
         Clingy clingy2 = new Clingy(commandMap2);
 
         CommandMap commandMap1 = new CommandMap();
-        Command command1 = new Command(null, Lists.emptyList(), null, null, clingy2);
+        Command command1 = new Command(null, Collections.emptyList(), null, null, clingy2);
         commandMap1.put(commandName1, command1);
         Clingy clingy1 = new Clingy(commandMap1);
 
