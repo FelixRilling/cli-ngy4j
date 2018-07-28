@@ -3,7 +3,9 @@ package com.felixrilling.clingy4j.lookup;
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.CommandUtil;
 import com.felixrilling.clingy4j.command.ICommand;
-import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
+import com.felixrilling.clingy4j.command.argument.CommandArgument;
+import com.felixrilling.clingy4j.command.argument.CommandArgumentMatcher;
+import com.felixrilling.clingy4j.command.argument.ResolvedArgumentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,13 +54,33 @@ public class LookupResolver {
         ICommand command = caseSensitive ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
         List<String> pathNew = path.subList(1, path.size());
         pathUsed.add(0, currentPathFragment);
+        logger.trace("Successfully looked up command: {}", command);
 
         if (pathNew.size() > 1 && command.getSub() != null) {
-            logger.trace("Resolving sub-commands: {} {}", pathNew, pathUsed);
+            logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
             return resolve(command.getSub().getAliasedMap(), pathNew, pathUsed, parseArguments);
         }
 
-        logger.trace("Returning successful lookup result for command: {}", command);
-        return new LookupSuccess(pathUsed, pathNew, command, new CommandArgumentMap());
+        ResolvedArgumentMap argumentsResolved = new ResolvedArgumentMap();
+        if (command.getArgs() != null && !command.getArgs().isEmpty()) {
+            logger.trace("Looking up arguments: {}", pathNew);
+            CommandArgumentMatcher argumentMatcher = new CommandArgumentMatcher(command.getArgs(), pathNew);
+
+            List<CommandArgument> argumentsMissing = argumentMatcher.getMissing();
+            if (!argumentsMissing.isEmpty()) {
+                logger.warn("Some arguments could not be found: {}", argumentsMissing);
+                return new LookupErrorMissingArgs(path, pathUsed, argumentsMissing);
+            }
+
+            argumentsResolved = argumentMatcher.getResult();
+            logger.trace("Successfully looked up arguments: {}", argumentsResolved);
+        }
+
+
+        LookupSuccess lookupSuccess = new LookupSuccess(pathUsed, pathNew, command, argumentsResolved);
+        logger.trace("Returning successful lookup result: {}", lookupSuccess);
+
+        return lookupSuccess;
     }
 }
+

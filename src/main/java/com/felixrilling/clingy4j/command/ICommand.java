@@ -2,22 +2,22 @@ package com.felixrilling.clingy4j.command;
 
 import com.felixrilling.clingy4j.Clingy;
 import com.felixrilling.clingy4j.command.argument.CommandArgument;
-import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
+import com.felixrilling.clingy4j.command.argument.ResolvedArgumentMap;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 public interface ICommand {
-    Function<CommandArgumentMap, Void> fn = null;
+    Function<ResolvedArgumentMap, Void> fn = null;
     List<String> alias = null;
     List<CommandArgument> args = new ArrayList<>();
     Object data = null;
     Clingy sub = null;
 
-    Function<CommandArgumentMap, Void> getFn();
+    Function<ResolvedArgumentMap, Void> getFn();
 
-    void setFn(Function<CommandArgumentMap, Void> fn);
+    void setFn(Function<ResolvedArgumentMap, Void> fn);
 
     List<String> getAlias();
 

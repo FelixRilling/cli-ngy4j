@@ -2,14 +2,14 @@ package com.felixrilling.clingy4j.command;
 
 import com.felixrilling.clingy4j.Clingy;
 import com.felixrilling.clingy4j.command.argument.CommandArgument;
-import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
+import com.felixrilling.clingy4j.command.argument.ResolvedArgumentMap;
 
 import java.util.List;
 import java.util.function.Function;
 
 public class Command implements ICommand {
     private final List<String> alias;
-    private Function<CommandArgumentMap, Void> fn;
+    private Function<ResolvedArgumentMap, Void> fn;
     private List<CommandArgument> args;
     private Object data;
     private Clingy sub;
@@ -17,14 +17,14 @@ public class Command implements ICommand {
     /**
      * @see Command#Command(Function, List, List, Object, Clingy)
      */
-    public Command(Function<CommandArgumentMap, Void> fn, List<String> alias, List<CommandArgument> args) {
+    public Command(Function<ResolvedArgumentMap, Void> fn, List<String> alias, List<CommandArgument> args) {
         this(fn, alias, args, null);
     }
 
     /**
      * @see Command#Command(Function, List, List, Object, Clingy)
      */
-    public Command(Function<CommandArgumentMap, Void> fn, List<String> alias, List<CommandArgument> args, Object data) {
+    public Command(Function<ResolvedArgumentMap, Void> fn, List<String> alias, List<CommandArgument> args, Object data) {
         this(fn, alias, args, data, null);
     }
 
@@ -37,7 +37,7 @@ public class Command implements ICommand {
      * @param data  Optional object providing extra info about this command.
      * @param sub   If not null, a sub-instance of {@link Clingy} for nested commands.
      */
-    public Command(Function<CommandArgumentMap, Void> fn, List<String> alias, List<CommandArgument> args, Object data, Clingy sub) {
+    public Command(Function<ResolvedArgumentMap, Void> fn, List<String> alias, List<CommandArgument> args, Object data, Clingy sub) {
         this.fn = fn;
         this.alias = alias;
         this.args = args;
@@ -45,11 +45,11 @@ public class Command implements ICommand {
         this.sub = sub;
     }
 
-    public Function<CommandArgumentMap, Void> getFn() {
+    public Function<ResolvedArgumentMap, Void> getFn() {
         return fn;
     }
 
-    public void setFn(Function<CommandArgumentMap, Void> fn) {
+    public void setFn(Function<ResolvedArgumentMap, Void> fn) {
         this.fn = fn;
     }
 

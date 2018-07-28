@@ -7,7 +7,7 @@ import java.util.List;
 public class LookupErrorMissingArgs extends LookupError {
     private final List<CommandArgument> missing;
 
-    LookupErrorMissingArgs(List<String> path, List<String> pathDangling, List<CommandArgument> missing, List<String> similar) {
+    LookupErrorMissingArgs(List<String> path, List<String> pathDangling, List<CommandArgument> missing) {
         super(path, pathDangling, LookupErrorTypes.MISSING_ARGUMENT);
         this.missing = missing;
     }

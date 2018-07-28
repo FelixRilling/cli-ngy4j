@@ -1,15 +1,15 @@
 package com.felixrilling.clingy4j.lookup;
 
 import com.felixrilling.clingy4j.command.ICommand;
-import com.felixrilling.clingy4j.command.argument.CommandArgumentMap;
+import com.felixrilling.clingy4j.command.argument.ResolvedArgumentMap;
 
 import java.util.List;
 
 public class LookupSuccess extends LookupResult {
     private final ICommand command;
-    private final CommandArgumentMap args;
+    private final ResolvedArgumentMap args;
 
-    LookupSuccess(List<String> path, List<String> pathDangling, ICommand command, CommandArgumentMap args) {
+    LookupSuccess(List<String> path, List<String> pathDangling, ICommand command, ResolvedArgumentMap args) {
         super(true, path, pathDangling);
         this.command = command;
         this.args = args;
@@ -19,7 +19,7 @@ public class LookupSuccess extends LookupResult {
         return command;
     }
 
-    public CommandArgumentMap getArgs() {
+    public ResolvedArgumentMap getArgs() {
         return args;
     }
 }
