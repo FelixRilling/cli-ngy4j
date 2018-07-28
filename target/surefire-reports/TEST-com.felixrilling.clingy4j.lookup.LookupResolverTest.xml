@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="6" failures="0" name="com.felixrilling.clingy4j.lookup.LookupResolverTest" time="0.004" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="com.felixrilling.clingy4j.lookup.LookupResolverTest" time="0.006" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2018.2"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
@@ -61,9 +61,9 @@
     <property name="sun.cpu.isalist" value=""/>
   </properties>
   <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsNullForNotFound" time="0.001"/>
-  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandResolvesSubCommands" time="0"/>
-  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsCommand" time="0.001"/>
-  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsDangling" time="0"/>
-  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandHonorsCaseSensitive" time="0.001"/>
-  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsNullForEmpty" time="0.001"/>
+  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandResolvesSubCommands" time="0.002"/>
+  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsCommand" time="0"/>
+  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsDangling" time="0.001"/>
+  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandHonorsCaseSensitive" time="0.002"/>
+  <testcase classname="com.felixrilling.clingy4j.lookup.LookupResolverTest" name="resolveCommandReturnsNullForEmpty" time="0"/>
 </testsuite>

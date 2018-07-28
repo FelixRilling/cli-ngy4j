@@ -1,7 +1,7 @@
 package com.felixrilling.clingy4j.command;
 
 import com.felixrilling.clingy4j.Clingy;
-import com.felixrilling.clingy4j.command.argument.CommandArgument;
+import com.felixrilling.clingy4j.command.argument.Argument;
 import com.felixrilling.clingy4j.command.argument.ResolvedArgumentMap;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.function.Function;
 public interface ICommand {
     Function<ResolvedArgumentMap, Void> fn = null;
     List<String> alias = null;
-    List<CommandArgument> args = new ArrayList<>();
+    List<Argument> args = new ArrayList<>();
     Object data = null;
     Clingy sub = null;
 
@@ -21,9 +21,9 @@ public interface ICommand {
 
     List<String> getAlias();
 
-    List<CommandArgument> getArgs();
+    List<Argument> getArgs();
 
-    void setArgs(List<CommandArgument> args);
+    void setArgs(List<Argument> args);
 
     Object getData();
 

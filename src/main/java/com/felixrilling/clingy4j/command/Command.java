@@ -1,7 +1,7 @@
 package com.felixrilling.clingy4j.command;
 
 import com.felixrilling.clingy4j.Clingy;
-import com.felixrilling.clingy4j.command.argument.CommandArgument;
+import com.felixrilling.clingy4j.command.argument.Argument;
 import com.felixrilling.clingy4j.command.argument.ResolvedArgumentMap;
 
 import java.util.List;
@@ -10,21 +10,21 @@ import java.util.function.Function;
 public class Command implements ICommand {
     private final List<String> alias;
     private Function<ResolvedArgumentMap, Void> fn;
-    private List<CommandArgument> args;
+    private List<Argument> args;
     private Object data;
     private Clingy sub;
 
     /**
      * @see Command#Command(Function, List, List, Object, Clingy)
      */
-    public Command(Function<ResolvedArgumentMap, Void> fn, List<String> alias, List<CommandArgument> args) {
+    public Command(Function<ResolvedArgumentMap, Void> fn, List<String> alias, List<Argument> args) {
         this(fn, alias, args, null);
     }
 
     /**
      * @see Command#Command(Function, List, List, Object, Clingy)
      */
-    public Command(Function<ResolvedArgumentMap, Void> fn, List<String> alias, List<CommandArgument> args, Object data) {
+    public Command(Function<ResolvedArgumentMap, Void> fn, List<String> alias, List<Argument> args, Object data) {
         this(fn, alias, args, data, null);
     }
 
@@ -37,7 +37,7 @@ public class Command implements ICommand {
      * @param data  Optional object providing extra info about this command.
      * @param sub   If not null, a sub-instance of {@link Clingy} for nested commands.
      */
-    public Command(Function<ResolvedArgumentMap, Void> fn, List<String> alias, List<CommandArgument> args, Object data, Clingy sub) {
+    public Command(Function<ResolvedArgumentMap, Void> fn, List<String> alias, List<Argument> args, Object data, Clingy sub) {
         this.fn = fn;
         this.alias = alias;
         this.args = args;
@@ -57,11 +57,11 @@ public class Command implements ICommand {
         return alias;
     }
 
-    public List<CommandArgument> getArgs() {
+    public List<Argument> getArgs() {
         return args;
     }
 
-    public void setArgs(List<CommandArgument> args) {
+    public void setArgs(List<Argument> args) {
         this.args = args;
     }
 

@@ -1,15 +1,12 @@
+com/felixrilling/clingy4j/command/argument/Argument.class
 com/felixrilling/clingy4j/lookup/LookupErrorMissingArgs.class
 com/felixrilling/clingy4j/Clingy.class
 com/felixrilling/clingy4j/lookup/LookupResult.class
 com/felixrilling/clingy4j/parser/InputParser.class
-com/felixrilling/clingy4j/lookup/LookupError.class
 com/felixrilling/clingy4j/command/CommandUtil.class
-com/felixrilling/clingy4j/command/argument/CommandArgument.class
-com/felixrilling/clingy4j/lookup/ILookupResult.class
 com/felixrilling/clingy4j/command/ICommand.class
 com/felixrilling/clingy4j/command/Command.class
 com/felixrilling/clingy4j/lookup/LookupErrorNotFound.class
 com/felixrilling/clingy4j/lookup/LookupResolver.class
 com/felixrilling/clingy4j/command/CommandMap.class
-com/felixrilling/clingy4j/lookup/LookupErrorTypes.class
 com/felixrilling/clingy4j/lookup/LookupSuccess.class

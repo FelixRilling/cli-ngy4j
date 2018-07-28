@@ -2,8 +2,8 @@ package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.ICommand;
-import com.felixrilling.clingy4j.lookup.ILookupResult;
 import com.felixrilling.clingy4j.lookup.LookupResolver;
+import com.felixrilling.clingy4j.lookup.LookupResult;
 import com.felixrilling.clingy4j.parser.InputParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,11 +62,11 @@ public class Clingy {
         return aliasedMap.containsKey(key);
     }
 
-    public ILookupResult resolve(List<String> path) {
+    public LookupResult resolve(List<String> path) {
         return lookupResolver.resolve(aliasedMap, path);
     }
 
-    public ILookupResult parse(String input) {
+    public LookupResult parse(String input) {
         return lookupResolver.resolve(aliasedMap, inputParser.parse(input), true);
     }
 

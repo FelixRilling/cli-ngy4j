@@ -2,12 +2,12 @@ package com.felixrilling.clingy4j.command.argument;
 
 import java.util.List;
 
-public class CommandArgumentMatcher {
+public class ArgumentMatcher {
 
-    private List<CommandArgument> missing;
+    private List<Argument> missing;
     private ResolvedArgumentMap result;
 
-    public CommandArgumentMatcher(List<CommandArgument> expected, List<String> given) {
+    public ArgumentMatcher(List<Argument> expected, List<String> given) {
         // TODO implement this
     }
 
@@ -15,7 +15,7 @@ public class CommandArgumentMatcher {
         return result;
     }
 
-    public List<CommandArgument> getMissing() {
+    public List<Argument> getMissing() {
         return missing;
     }
 }

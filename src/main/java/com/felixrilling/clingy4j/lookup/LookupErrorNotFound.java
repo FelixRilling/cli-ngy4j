@@ -2,12 +2,12 @@ package com.felixrilling.clingy4j.lookup;
 
 import java.util.List;
 
-public class LookupErrorNotFound extends LookupError {
+public class LookupErrorNotFound extends LookupResult {
     private final String missing;
     private final List<String> similar;
 
     LookupErrorNotFound(List<String> path, List<String> pathDangling, String missing, List<String> similar) {
-        super(path, pathDangling, LookupErrorTypes.COMMAND_NOT_FOUND);
+        super(false, ResultType.ERROR_COMMAND_NOT_FOUND, path, pathDangling);
         this.missing = missing;
         this.similar = similar;
     }

@@ -3,8 +3,8 @@ package com.felixrilling.clingy4j.lookup;
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.CommandUtil;
 import com.felixrilling.clingy4j.command.ICommand;
-import com.felixrilling.clingy4j.command.argument.CommandArgument;
-import com.felixrilling.clingy4j.command.argument.CommandArgumentMatcher;
+import com.felixrilling.clingy4j.command.argument.Argument;
+import com.felixrilling.clingy4j.command.argument.ArgumentMatcher;
 import com.felixrilling.clingy4j.command.argument.ResolvedArgumentMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,15 +30,15 @@ public class LookupResolver {
         return caseSensitive;
     }
 
-    public ILookupResult resolve(CommandMap mapAliased, List<String> path) {
+    public LookupResult resolve(CommandMap mapAliased, List<String> path) {
         return resolve(mapAliased, path, false);
     }
 
-    public ILookupResult resolve(CommandMap mapAliased, List<String> path, boolean parseArguments) {
+    public LookupResult resolve(CommandMap mapAliased, List<String> path, boolean parseArguments) {
         return resolve(mapAliased, path, new LinkedList<>(), parseArguments);
     }
 
-    private ILookupResult resolve(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {
+    private LookupResult resolve(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {
         if (path.isEmpty()) {
             logger.info("Empty path was given, returning early.");
             return null;
@@ -64,9 +64,9 @@ public class LookupResolver {
         ResolvedArgumentMap argumentsResolved = new ResolvedArgumentMap();
         if (command.getArgs() != null && !command.getArgs().isEmpty()) {
             logger.trace("Looking up arguments: {}", pathNew);
-            CommandArgumentMatcher argumentMatcher = new CommandArgumentMatcher(command.getArgs(), pathNew);
+            ArgumentMatcher argumentMatcher = new ArgumentMatcher(command.getArgs(), pathNew);
 
-            List<CommandArgument> argumentsMissing = argumentMatcher.getMissing();
+            List<Argument> argumentsMissing = argumentMatcher.getMissing();
             if (!argumentsMissing.isEmpty()) {
                 logger.warn("Some arguments could not be found: {}", argumentsMissing);
                 return new LookupErrorMissingArgs(path, pathUsed, argumentsMissing);

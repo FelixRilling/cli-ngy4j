@@ -48,8 +48,8 @@ public class LookupResolverTest {
         Command command = new Command(null, Lists.emptyList(), null);
         commandMap.put(commandName, command);
 
-        ILookupResult lookupResult = lookupResolver.resolve(commandMap, Collections.singletonList(commandName));
-        assertThat(lookupResult).isInstanceOf(LookupSuccess.class);
+        LookupResult lookupResult = lookupResolver.resolve(commandMap, Collections.singletonList(commandName));
+        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command);
     }
 
@@ -63,8 +63,8 @@ public class LookupResolverTest {
         Command command = new Command(null, Lists.emptyList(), null);
         commandMap.put(commandNames.get(0), command);
 
-        ILookupResult lookupResult = lookupResolver.resolve(commandMap, commandNames);
-        assertThat(lookupResult).isInstanceOf(LookupSuccess.class);
+        LookupResult lookupResult = lookupResolver.resolve(commandMap, commandNames);
+        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(lookupResult.getPathDangling()).isEqualTo(commandNames.subList(1, commandNames.size()));
     }
 
@@ -85,8 +85,8 @@ public class LookupResolverTest {
         Command command1 = new Command(null, Lists.emptyList(), null, null, clingy);
         commandMap1.put(commandName1, command1);
 
-        ILookupResult lookupResult = lookupResolver.resolve(commandMap1, Arrays.asList(commandName1, commandName2));
-        assertThat(lookupResult).isInstanceOf(LookupSuccess.class);
+        LookupResult lookupResult = lookupResolver.resolve(commandMap1, Arrays.asList(commandName1, commandName2));
+        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command1);
     }
 
@@ -99,11 +99,11 @@ public class LookupResolverTest {
         Command command = new Command(null, Lists.emptyList(), null);
         commandMap.put("foo", command);
 
-        ILookupResult lookupResultCaseSensitive = new LookupResolver(true).resolve(commandMap, Collections.singletonList("fOo"));
-        assertThat(lookupResultCaseSensitive).isInstanceOf(LookupError.class);
+        LookupResult lookupResultCaseSensitive = new LookupResolver(true).resolve(commandMap, Collections.singletonList("fOo"));
+        assertThat(lookupResultCaseSensitive.getType()).isEqualTo(LookupResult.ResultType.ERROR_COMMAND_NOT_FOUND);
 
-        ILookupResult lookupResultCaseInsensitive = new LookupResolver(false).resolve(commandMap, Collections.singletonList("fOo"));
-        assertThat(lookupResultCaseInsensitive).isInstanceOf(LookupSuccess.class);
+        LookupResult lookupResultCaseInsensitive = new LookupResolver(false).resolve(commandMap, Collections.singletonList("fOo"));
+        assertThat(lookupResultCaseInsensitive.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResultCaseInsensitive).getCommand()).isEqualTo(command);
     }
 }
