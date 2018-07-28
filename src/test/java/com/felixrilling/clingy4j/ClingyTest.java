@@ -9,26 +9,18 @@ import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Tests for {@link Clingy}.
+ */
 public class ClingyTest {
-
-    /**
-     * Asserts that {@link Clingy} constructs without parameters.
-     */
-    @Test
-    public void clingyConstructsWithoutCommands() {
-        Clingy clingy = new Clingy();
-
-        assertThat(clingy).isNotNull();
-    }
-
     /**
      * Asserts that {@link Clingy} constructs with a {@link CommandMap}.
      */
     @Test
     public void clingyConstructsWithCommands() {
-        CommandMap commandMap = new CommandMap();
         String commandName = "foo";
         Command command = new Command(null, Collections.emptyList(), null);
+        CommandMap commandMap = new CommandMap();
         commandMap.put(commandName, command);
         Clingy clingy = new Clingy(commandMap);
 
@@ -40,16 +32,15 @@ public class ClingyTest {
      */
     @Test
     public void clingyConstructsWithSubCommands() {
-        String commandName1 = "foo";
         String commandName2 = "bar";
-
-        CommandMap commandMap2 = new CommandMap();
         Command command2 = new Command(null, Collections.emptyList(), null);
+        CommandMap commandMap2 = new CommandMap();
         commandMap2.put(commandName2, command2);
         Clingy clingy2 = new Clingy(commandMap2);
 
-        CommandMap commandMap1 = new CommandMap();
+        String commandName1 = "foo";
         Command command1 = new Command(null, Collections.emptyList(), null, null, clingy2);
+        CommandMap commandMap1 = new CommandMap();
         commandMap1.put(commandName1, command1);
         Clingy clingy1 = new Clingy(commandMap1);
 
@@ -63,11 +54,11 @@ public class ClingyTest {
      */
     @Test
     public void clingyUpdatesAliasedMap() {
-        CommandMap commandMap = new CommandMap();
         String commandName = "foo";
         String alias1 = "bar";
         String alias2 = "fizz";
         Command command = new Command(null, Arrays.asList(alias1, alias2), null);
+        CommandMap commandMap = new CommandMap();
         commandMap.put(commandName, command);
         Clingy clingy = new Clingy(commandMap);
 
@@ -81,12 +72,12 @@ public class ClingyTest {
      */
     @Test
     public void clingyUpdatesAliasedMapSkipsDuplicateKeys() {
-        CommandMap commandMap = new CommandMap();
         String commandName1 = "foo";
         String commandName2 = "bar";
         String alias1 = "fizz";
         Command command1 = new Command(null, Collections.singletonList(alias1), null);
         Command command2 = new Command(null, Collections.singletonList(commandName1), null);
+        CommandMap commandMap = new CommandMap();
         commandMap.put(commandName1, command1);
         commandMap.put(commandName2, command2);
         Clingy clingy = new Clingy(commandMap);
@@ -101,12 +92,12 @@ public class ClingyTest {
      */
     @Test
     public void clingyUpdatesAliasedMapUpdatesAfterChanges() {
-        CommandMap commandMap = new CommandMap();
         String commandName1 = "foo";
         String commandName2 = "bar";
         String alias1 = "fizz";
         Command command1 = new Command(null, Collections.singletonList(alias1), null);
         Command command2 = new Command(null, Collections.singletonList(commandName1), null);
+        CommandMap commandMap = new CommandMap();
         Clingy clingy = new Clingy(commandMap);
 
         clingy.setCommand(commandName1, command1);

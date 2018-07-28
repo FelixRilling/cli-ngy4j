@@ -7,8 +7,10 @@ import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Tests for {@link InputParser}.
+ */
 public class InputParserTest {
-
     /**
      * Asserts that {@link InputParser} creates a matcher pattern.
      */
