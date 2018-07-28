@@ -19,7 +19,7 @@ public class LookupResolverTest {
 
     @Before
     public void before() {
-        lookupResolver = new LookupResolver(true);
+        lookupResolver = new LookupResolver();
     }
 
     /**
@@ -88,5 +88,22 @@ public class LookupResolverTest {
         ILookupResult lookupResult = lookupResolver.resolve(commandMap1, Arrays.asList(commandName1, commandName2));
         assertThat(lookupResult).isInstanceOf(LookupSuccess.class);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command1);
+    }
+
+    /**
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} honors caseSensitive.
+     */
+    @Test
+    public void resolveCommandHonorsCaseSensitive() {
+        CommandMap commandMap = new CommandMap();
+        Command command = new Command(null, Lists.emptyList(), null);
+        commandMap.put("foo", command);
+
+        ILookupResult lookupResultCaseSensitive = new LookupResolver(true).resolve(commandMap, Collections.singletonList("fOo"));
+        assertThat(lookupResultCaseSensitive).isInstanceOf(LookupError.class);
+
+        ILookupResult lookupResultCaseInsensitive = new LookupResolver(false).resolve(commandMap, Collections.singletonList("fOo"));
+        assertThat(lookupResultCaseInsensitive).isInstanceOf(LookupSuccess.class);
+        assertThat(((LookupSuccess) lookupResultCaseInsensitive).getCommand()).isEqualTo(command);
     }
 }

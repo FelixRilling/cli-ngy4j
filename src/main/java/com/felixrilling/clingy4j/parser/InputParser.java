@@ -3,6 +3,7 @@ package com.felixrilling.clingy4j.parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -14,6 +15,10 @@ public class InputParser {
 
     private final Pattern pattern;
     private final Logger logger = LoggerFactory.getLogger(InputParser.class);
+
+    public InputParser() {
+        this(Collections.singletonList("\""));
+    }
 
     public InputParser(List<String> legalQuotes) {
         this.legalQuotes = legalQuotes;

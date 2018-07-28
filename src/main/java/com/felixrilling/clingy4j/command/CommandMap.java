@@ -1,6 +1,7 @@
 package com.felixrilling.clingy4j.command;
 
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 public class CommandMap extends HashMap<String, ICommand> {
     /**
@@ -24,5 +25,30 @@ public class CommandMap extends HashMap<String, ICommand> {
      */
     public CommandMap(CommandMap map) {
         super(map);
+    }
+
+    /**
+     * Checks if the map contains a key, ignoring case.
+     *
+     * @param key Key to check for.
+     * @return If the map contains a key, ignoring case.
+     */
+    public boolean containsKeyIgnoreCase(String key) {
+        return keySet().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains(key.toLowerCase());
+    }
+
+    /**
+     * Returns the value for the key, ignoring case.
+     *
+     * @param key Key to check for.
+     * @return The value for the key, ignoring case.
+     */
+    public ICommand getIgnoreCase(String key) {
+        for (Entry<String, ICommand> entry : entrySet()) {
+            if (key.equalsIgnoreCase(entry.getKey()))
+                return entry.getValue();
+        }
+
+        return null;
     }
 }

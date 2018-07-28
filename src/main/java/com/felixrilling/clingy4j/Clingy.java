@@ -27,7 +27,7 @@ public class Clingy {
 
 
     public Clingy(CommandMap commands) {
-        this(commands, false);
+        this(commands, true);
     }
 
     public Clingy(CommandMap commands, boolean caseSensitive) {

@@ -16,8 +16,11 @@ public class LookupResolver {
 
     private final Logger logger = LoggerFactory.getLogger(LookupResolver.class);
 
+    public LookupResolver() {
+        this(true);
+    }
+
     public LookupResolver(boolean caseSensitive) {
-        //TODO make this matter.
         this.caseSensitive = caseSensitive;
     }
 
@@ -41,21 +44,21 @@ public class LookupResolver {
 
         String currentPathFragment = path.get(0);
 
-        if (!mapAliased.containsKey(currentPathFragment)) {
+        if (caseSensitive ? !mapAliased.containsKey(currentPathFragment) : !mapAliased.containsKeyIgnoreCase(currentPathFragment)) {
             logger.warn("Command '{}' could not be found.", currentPathFragment);
             return new LookupErrorNotFound(path, pathUsed, currentPathFragment, CommandUtil.getSimilar(mapAliased, currentPathFragment));
         }
 
-        ICommand command = mapAliased.get(currentPathFragment);
+        ICommand command = caseSensitive ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
         List<String> pathNew = path.subList(1, path.size());
         pathUsed.add(0, currentPathFragment);
 
         if (pathNew.size() > 1 && command.getSub() != null) {
-            logger.trace("Resolving sub-commands.");
+            logger.trace("Resolving sub-commands: {} {}", pathNew, pathUsed);
             return resolve(command.getSub().getAliasedMap(), pathNew, pathUsed, parseArguments);
         }
 
-        logger.trace("Returning successful lookup result.");
+        logger.trace("Returning successful lookup result for command: {}", command);
         return new LookupSuccess(pathUsed, pathNew, command, new CommandArgumentMap());
     }
 }
