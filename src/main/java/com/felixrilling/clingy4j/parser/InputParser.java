@@ -25,23 +25,6 @@ public class InputParser {
         this.pattern = generateMatcher();
     }
 
-    public List<String> getLegalQuotes() {
-        return legalQuotes;
-    }
-
-    public Pattern getPattern() {
-        return pattern;
-    }
-
-    public List<String> parse(String input) {
-        return pattern
-            .matcher(input)
-            .results()
-            .map(this::getBestGroupMatch)
-            .collect(Collectors.toList());
-    }
-
-
     private Pattern generateMatcher() {
         final String matchBase = "(\\S+)";
 
@@ -64,6 +47,21 @@ public class InputParser {
         return result;
     }
 
+    public List<String> getLegalQuotes() {
+        return legalQuotes;
+    }
+
+    public Pattern getPattern() {
+        return pattern;
+    }
+
+    public List<String> parse(String input) {
+        return pattern
+            .matcher(input)
+            .results()
+            .map(this::getBestGroupMatch)
+            .collect(Collectors.toList());
+    }
 
     private String getBestGroupMatch(MatchResult matchResult) {
         // Skip first (the full-match) group and search for the next non-null group

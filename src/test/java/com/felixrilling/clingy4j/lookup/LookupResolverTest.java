@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Tests for {@link LookupResolver}.
  */
 public class LookupResolverTest {
+
     /**
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns null for an empty path.
      */

@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Tests for {@link Clingy}.
  */
 public class ClingyTest {
+
     /**
      * Asserts that {@link Clingy} constructs with a {@link CommandMap}.
      */

@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Tests for {@link ArgumentMatcher}.
  */
 public class ArgumentMatcherTest {
+
     /**
      * Asserts that {@link ArgumentMatcher} works with an empty list.
      */

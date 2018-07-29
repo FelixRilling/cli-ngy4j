@@ -60,8 +60,8 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.felixrilling.clingy4j.argument.ArgumentMatcherTest" name="argumentMatcherWorksWithEmptyExpected" time="0.004"/>
+  <testcase classname="com.felixrilling.clingy4j.argument.ArgumentMatcherTest" name="argumentMatcherWorksWithEmptyExpected" time="0.005"/>
   <testcase classname="com.felixrilling.clingy4j.argument.ArgumentMatcherTest" name="argumentMatcherFallsBack" time="0.001"/>
   <testcase classname="com.felixrilling.clingy4j.argument.ArgumentMatcherTest" name="argumentMatcherCollectsMissing" time="0"/>
-  <testcase classname="com.felixrilling.clingy4j.argument.ArgumentMatcherTest" name="argumentMatcherCollectsResults" time="0.001"/>
+  <testcase classname="com.felixrilling.clingy4j.argument.ArgumentMatcherTest" name="argumentMatcherCollectsResults" time="0"/>
 </testsuite>
