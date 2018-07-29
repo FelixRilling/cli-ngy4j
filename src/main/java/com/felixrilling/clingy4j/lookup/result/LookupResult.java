@@ -45,5 +45,5 @@ public abstract class LookupResult {
         return pathDangling;
     }
 
-    public enum ResultType {SUCCESS, ERROR_COMMAND_NOT_FOUND, ERROR_MISSING_ARGUMENT}
+    public enum ResultType {SUCCESS, ERROR_NOT_FOUND, ERROR_MISSING_ARGUMENT}
 }

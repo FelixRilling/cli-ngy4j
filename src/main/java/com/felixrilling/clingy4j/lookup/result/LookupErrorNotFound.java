@@ -19,7 +19,7 @@ public class LookupErrorNotFound extends LookupResult {
      * @param similar      Similar keys available.
      */
     public LookupErrorNotFound(List<String> path, List<String> pathDangling, String missing, List<String> similar) {
-        super(false, ResultType.ERROR_COMMAND_NOT_FOUND, path, pathDangling);
+        super(false, ResultType.ERROR_NOT_FOUND, path, pathDangling);
         this.missing = missing;
         this.similar = similar;
     }

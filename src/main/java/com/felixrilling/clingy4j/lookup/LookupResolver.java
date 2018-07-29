@@ -97,7 +97,7 @@ public class LookupResolver {
             List<Argument> argumentsMissing = argumentMatcher.getMissing();
             if (!argumentsMissing.isEmpty()) {
                 logger.warn("Some arguments could not be found: {}", argumentsMissing);
-                return new LookupErrorMissingArgs(path, pathUsed, argumentsMissing);
+                return new LookupErrorMissingArgs(pathUsed, pathNew, argumentsMissing);
             }
 
             argumentsResolved = argumentMatcher.getResult();

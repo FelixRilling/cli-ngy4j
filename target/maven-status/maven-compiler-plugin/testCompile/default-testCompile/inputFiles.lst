@@ -3,3 +3,4 @@
 /home/felix/workspace/cli-ngy4j/src/test/java/com/felixrilling/clingy4j/parser/InputParserTest.java
 /home/felix/workspace/cli-ngy4j/src/test/java/com/felixrilling/clingy4j/argument/ArgumentMatcherTest.java
 /home/felix/workspace/cli-ngy4j/src/test/java/com/felixrilling/clingy4j/command/util/CommandUtilTest.java
+/home/felix/workspace/cli-ngy4j/src/test/java/com/felixrilling/clingy4j/ClingyIT.java

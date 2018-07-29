@@ -34,7 +34,8 @@ public class Command implements ICommand {
 
     /**
      * Creates a {@link Command}
-     *  @param fn    Function of the command, to be called with the arguments defined.
+     *
+     * @param fn    Function of the command, to be called with the arguments defined.
      * @param alias List of aliases to find this command by.
      * @param args  List of arguments to use for this command.
      * @param data  Optional object providing additional information about this command.

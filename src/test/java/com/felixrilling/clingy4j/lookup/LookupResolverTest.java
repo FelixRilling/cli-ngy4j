@@ -35,7 +35,7 @@ public class LookupResolverTest {
     @Test
     public void resolveCommandReturnsLookupErrorForMissing() {
         assertThat(new LookupResolver().resolve(new CommandMap(), Collections.singletonList("foo")).getType())
-            .isEqualTo(LookupResult.ResultType.ERROR_COMMAND_NOT_FOUND);
+            .isEqualTo(LookupResult.ResultType.ERROR_NOT_FOUND);
     }
 
     /**
@@ -95,7 +95,7 @@ public class LookupResolverTest {
         commandMap.put(commandName, command);
 
         LookupResult lookupResultCaseSensitive = new LookupResolver(true).resolve(commandMap, Collections.singletonList("fOo"));
-        assertThat(lookupResultCaseSensitive.getType()).isEqualTo(LookupResult.ResultType.ERROR_COMMAND_NOT_FOUND);
+        assertThat(lookupResultCaseSensitive.getType()).isEqualTo(LookupResult.ResultType.ERROR_NOT_FOUND);
 
         LookupResult lookupResultCaseInsensitive = new LookupResolver(false).resolve(commandMap, Collections.singletonList("fOo"));
         assertThat(lookupResultCaseInsensitive.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
