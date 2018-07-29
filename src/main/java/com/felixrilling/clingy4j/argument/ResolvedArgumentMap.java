@@ -2,6 +2,9 @@ package com.felixrilling.clingy4j.argument;
 
 import java.util.HashMap;
 
+/**
+ * Map of resolved {@link Argument}s. Returned by {@link ArgumentMatcher#getResult}.
+ */
 public class ResolvedArgumentMap extends HashMap<String, String> {
 
     /**

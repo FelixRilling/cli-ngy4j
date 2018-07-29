@@ -3,6 +3,9 @@ package com.felixrilling.clingy4j.command;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+/**
+ * Map containing {@link ICommand}s.
+ */
 public class CommandMap extends HashMap<String, ICommand> {
     /**
      * Creates an empty  {@link CommandMap}.

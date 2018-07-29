@@ -2,6 +2,9 @@ package com.felixrilling.clingy4j.argument;
 
 import com.felixrilling.clingy4j.command.Command;
 
+/**
+ * Argument to be used when creating {@link Command}s.
+ */
 public class Argument {
     private String name;
     private boolean required;

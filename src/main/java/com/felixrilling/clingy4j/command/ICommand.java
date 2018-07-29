@@ -4,14 +4,16 @@ import com.felixrilling.clingy4j.Clingy;
 import com.felixrilling.clingy4j.argument.Argument;
 import com.felixrilling.clingy4j.argument.ResolvedArgumentMap;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Command interface. Base implementation is {@link Command}.
+ */
 public interface ICommand {
     Function<ResolvedArgumentMap, Void> fn = null;
     List<String> alias = null;
-    List<Argument> args = new ArrayList<>();
+    List<Argument> args = null;
     Object data = null;
     Clingy sub = null;
 

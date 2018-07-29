@@ -29,7 +29,6 @@
     <property name="classworlds.conf" value="/usr/share/idea/plugins/maven/lib/maven3/bin/m2.conf"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
-    <property name="jboss.modules.system.pkgs" value="com.intellij.rt"/>
     <property name="jdk.debug" value="release"/>
     <property name="java.class.version" value="54.0"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -41,7 +40,7 @@
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.specification.version" value="10"/>
     <property name="user.name" value="felix"/>
-    <property name="java.class.path" value="/usr/share/idea/plugins/maven/lib/maven3/boot/plexus-classworlds-2.5.2.jar:/usr/share/idea/lib/idea_rt.jar"/>
+    <property name="java.class.path" value="/usr/share/idea/plugins/maven/lib/maven3/boot/plexus-classworlds-2.5.2.jar"/>
     <property name="java.vm.specification.version" value="10"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2018.2 install"/>

@@ -7,6 +7,9 @@ import com.felixrilling.clingy4j.argument.ResolvedArgumentMap;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Base {@link ICommand} implementation.
+ */
 public class Command implements ICommand {
     private final List<String> alias;
     private Function<ResolvedArgumentMap, Void> fn;
@@ -33,8 +36,8 @@ public class Command implements ICommand {
      *
      * @param fn    Function of the command, to be called with the arguments defined.
      * @param alias List of aliases to find this command by.
-     * @param args  Array of arguments to use for this command.
-     * @param data  Optional object providing extra info about this command.
+     * @param args  List of arguments to use for this command.
+     * @param data  Optional object providing additional information about this command.
      * @param sub   If not null, a sub-instance of {@link Clingy} for nested commands.
      */
     public Command(Function<ResolvedArgumentMap, Void> fn, List<String> alias, List<Argument> args, Object data, Clingy sub) {
