@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="4" failures="0" name="com.felixrilling.clingy4j.parser.InputParserTest" time="0.2" errors="0" skipped="0">
+<testsuite tests="0" failures="0" name="com.felixrilling.clingy4j.parser.InputParserTest" time="0" errors="0" skipped="0">
   <properties>
     <property name="idea.version" value="2018.2"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
@@ -29,6 +29,7 @@
     <property name="classworlds.conf" value="/usr/share/idea/plugins/maven/lib/maven3/bin/m2.conf"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
+    <property name="jboss.modules.system.pkgs" value="com.intellij.rt"/>
     <property name="jdk.debug" value="release"/>
     <property name="java.class.version" value="54.0"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -40,7 +41,7 @@
     <property name="file.encoding" value="UTF-8"/>
     <property name="java.specification.version" value="10"/>
     <property name="user.name" value="felix"/>
-    <property name="java.class.path" value="/usr/share/idea/plugins/maven/lib/maven3/boot/plexus-classworlds-2.5.2.jar"/>
+    <property name="java.class.path" value="/usr/share/idea/plugins/maven/lib/maven3/boot/plexus-classworlds-2.5.2.jar:/usr/share/idea/lib/idea_rt.jar"/>
     <property name="java.vm.specification.version" value="10"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="sun.java.command" value="org.codehaus.classworlds.Launcher -Didea.version=2018.2 install"/>
@@ -60,8 +61,4 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="parseHonorsQuotes" time="0.198"/>
-  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="inputParserEscapesSpecials" time="0"/>
-  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="inputParserCreatesPattern" time="0.001"/>
-  <testcase classname="com.felixrilling.clingy4j.parser.InputParserTest" name="parseSplitsSpaces" time="0.001"/>
 </testsuite>

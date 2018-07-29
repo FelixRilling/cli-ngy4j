@@ -1,6 +1,6 @@
 package com.felixrilling.clingy4j.argument;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 

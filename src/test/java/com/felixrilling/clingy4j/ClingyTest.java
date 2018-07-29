@@ -2,7 +2,7 @@ package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -8,7 +8,7 @@ import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
 import com.felixrilling.clingy4j.lookup.result.LookupResult;
 import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
