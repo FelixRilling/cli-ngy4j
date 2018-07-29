@@ -86,8 +86,11 @@ public class LookupResolver {
             return resolve(command.getSub().getAliasedMap(), pathNew, pathUsed, parseArguments);
         }
 
-        ResolvedArgumentMap argumentsResolved = null;
-        if (command.getArgs() != null && !command.getArgs().isEmpty()) {
+        ResolvedArgumentMap argumentsResolved;
+        if (command.getArgs() == null || command.getArgs().isEmpty()) {
+            logger.debug("No arguments defined, using empty list.");
+            argumentsResolved = new ResolvedArgumentMap();
+        } else {
             logger.debug("Looking up arguments: {}", pathNew);
             ArgumentMatcher argumentMatcher = new ArgumentMatcher(command.getArgs(), pathNew);
 
