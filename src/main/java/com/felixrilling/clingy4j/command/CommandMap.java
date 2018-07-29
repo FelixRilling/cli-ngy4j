@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
  * Map containing {@link ICommand}s.
  */
 public class CommandMap extends HashMap<String, ICommand> {
+
     /**
      * Creates an empty  {@link CommandMap}.
      */

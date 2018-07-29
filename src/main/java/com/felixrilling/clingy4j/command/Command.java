@@ -11,6 +11,7 @@ import java.util.function.Function;
  * Base {@link ICommand} implementation.
  */
 public class Command implements ICommand {
+
     private final List<String> alias;
     private Function<ResolvedArgumentMap, Void> fn;
     private List<Argument> args;

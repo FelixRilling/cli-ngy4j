@@ -39,6 +39,22 @@ public class LookupResolverTest {
     }
 
     /**
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns a {@link LookupErrorMissingArgs} when arguments are missing.
+     */
+    @Test
+    public void resolveCommandReturnsLookupErrorForMissingCommand() {
+        String commandName = "foo";
+        Argument argument = new Argument("bar", true);
+        Command command = new Command(null, Collections.emptyList(), Collections.singletonList(argument));
+        CommandMap commandMap = new CommandMap();
+        commandMap.put(commandName, command);
+
+        LookupResult lookupResult = new LookupResolver().resolve(commandMap, Collections.singletonList(commandName));
+        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.ERROR_MISSING_ARGUMENT);
+        assertThat(((LookupErrorMissingArgs) lookupResult).getMissing()).containsExactly(argument);
+    }
+
+    /**
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns the {@link Command}.
      */
     @Test
@@ -69,6 +85,24 @@ public class LookupResolverTest {
     }
 
     /**
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} honors caseSensitive.
+     */
+    @Test
+    public void resolveCommandHonorsCaseSensitive() {
+        String commandName = "foo";
+        Command command = new Command(null, Collections.emptyList(), null);
+        CommandMap commandMap = new CommandMap();
+        commandMap.put(commandName, command);
+
+        LookupResult lookupResultCaseSensitive = new LookupResolver(true).resolve(commandMap, Collections.singletonList("fOo"));
+        assertThat(lookupResultCaseSensitive.getType()).isEqualTo(LookupResult.ResultType.ERROR_COMMAND_NOT_FOUND);
+
+        LookupResult lookupResultCaseInsensitive = new LookupResolver(false).resolve(commandMap, Collections.singletonList("fOo"));
+        assertThat(lookupResultCaseInsensitive.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
+        assertThat(((LookupSuccess) lookupResultCaseInsensitive).getCommand()).isEqualTo(command);
+    }
+
+    /**
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} resolves sub-commands.
      */
     @Test
@@ -87,39 +121,5 @@ public class LookupResolverTest {
         LookupResult lookupResult = new LookupResolver().resolve(commandMap1, Arrays.asList(commandName1, commandName2));
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command1);
-    }
-
-    /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns a {@link LookupErrorMissingArgs} when arguments are missing.
-     */
-    @Test
-    public void resolveCommandReturnsLookupErrorForMissingCommand() {
-        String commandName = "foo";
-        Argument argument = new Argument("bar", true);
-        Command command = new Command(null, Collections.emptyList(), Collections.singletonList(argument));
-        CommandMap commandMap = new CommandMap();
-        commandMap.put(commandName, command);
-
-        LookupResult lookupResult = new LookupResolver().resolve(commandMap, Collections.singletonList(commandName));
-        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.ERROR_MISSING_ARGUMENT);
-        assertThat(((LookupErrorMissingArgs) lookupResult).getMissing()).containsExactly(argument);
-    }
-
-    /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} honors caseSensitive.
-     */
-    @Test
-    public void resolveCommandHonorsCaseSensitive() {
-        String commandName = "foo";
-        Command command = new Command(null, Collections.emptyList(), null);
-        CommandMap commandMap = new CommandMap();
-        commandMap.put(commandName, command);
-
-        LookupResult lookupResultCaseSensitive = new LookupResolver(true).resolve(commandMap, Collections.singletonList("fOo"));
-        assertThat(lookupResultCaseSensitive.getType()).isEqualTo(LookupResult.ResultType.ERROR_COMMAND_NOT_FOUND);
-
-        LookupResult lookupResultCaseInsensitive = new LookupResolver(false).resolve(commandMap, Collections.singletonList("fOo"));
-        assertThat(lookupResultCaseInsensitive.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
-        assertThat(((LookupSuccess) lookupResultCaseInsensitive).getCommand()).isEqualTo(command);
     }
 }

@@ -6,6 +6,7 @@ import com.felixrilling.clingy4j.command.Command;
  * Argument to be used when creating {@link Command}s.
  */
 public class Argument {
+
     private String name;
     private boolean required;
     private String defaultValue;
