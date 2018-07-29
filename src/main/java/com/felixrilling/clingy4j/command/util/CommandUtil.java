@@ -20,7 +20,7 @@ public class CommandUtil {
      * Gets similar keys of a key based on their string distance.
      *
      * @param mapAliased Map to use for lookup.
-     * @param name Key to use.
+     * @param name       Key to use.
      * @return List of similar keys.
      */
     public static List<String> getSimilar(CommandMap mapAliased, String name) {

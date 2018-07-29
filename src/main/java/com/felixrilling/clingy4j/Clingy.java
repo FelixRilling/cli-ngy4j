@@ -61,6 +61,26 @@ public class Clingy {
         updateAliasedMap();
     }
 
+    private void updateAliasedMap() {
+        CommandMap result = new CommandMap(map);
+
+        logger.debug("Updating aliased map.");
+
+        for (Map.Entry<String, ICommand> entry : map.entrySet()) {
+            for (String alias : entry.getValue().getAlias()) {
+                if (result.containsKey(alias)) {
+                    logger.warn("Alias '{}' conflicts with a previously defined key, will be ignored.", alias);
+                } else {
+                    logger.trace("Created alias '{}' for '{}'", alias, entry.getKey());
+                    result.put(alias, entry.getValue());
+                }
+            }
+        }
+
+        logger.debug("Done updating aliased map.");
+        aliasedMap = result;
+    }
+
     public CommandMap getMap() {
         return map;
     }
@@ -102,26 +122,6 @@ public class Clingy {
     public LookupResult parse(String input) {
         logger.debug("Parsing input: '{}'", input);
         return lookupResolver.resolve(aliasedMap, inputParser.parse(input), true);
-    }
-
-    private void updateAliasedMap() {
-        CommandMap result = new CommandMap(map);
-
-        logger.debug("Updating aliased map.");
-
-        for (Map.Entry<String, ICommand> entry : map.entrySet()) {
-            for (String alias : entry.getValue().getAlias()) {
-                if (result.containsKey(alias)) {
-                    logger.warn("Alias '{}' conflicts with a previously defined key, will be ignored.", alias);
-                } else {
-                    logger.trace("Created alias '{}' for '{}'", alias, entry.getKey());
-                    result.put(alias, entry.getValue());
-                }
-            }
-        }
-
-        logger.debug("Done updating aliased map.");
-        aliasedMap = result;
     }
 
 }

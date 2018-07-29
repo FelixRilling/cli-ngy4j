@@ -11,12 +11,6 @@ import java.util.function.Function;
  * Command interface. Base implementation is {@link Command}.
  */
 public interface ICommand {
-    Function<ResolvedArgumentMap, Void> fn = null;
-    List<String> alias = null;
-    List<Argument> args = null;
-    Object data = null;
-    Clingy sub = null;
-
     Function<ResolvedArgumentMap, Void> getFn();
 
     void setFn(Function<ResolvedArgumentMap, Void> fn);

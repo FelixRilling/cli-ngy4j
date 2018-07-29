@@ -10,16 +10,27 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import java.util.stream.Collectors;
 
+/**
+ * Manages parsing input strings into a path list.
+ */
 public class InputParser {
-    private final List<String> legalQuotes;
 
+    private final List<String> legalQuotes;
     private final Pattern pattern;
     private final Logger logger = LoggerFactory.getLogger(InputParser.class);
 
+    /**
+     * @see InputParser#InputParser(List)
+     */
     public InputParser() {
         this(Collections.singletonList("\""));
     }
 
+    /**
+     * Creates an {@link InputParser}.
+     *
+     * @param legalQuotes List of quotes to use when parsing strings.
+     */
     public InputParser(List<String> legalQuotes) {
         this.legalQuotes = legalQuotes;
         this.pattern = generateMatcher();
@@ -28,6 +39,7 @@ public class InputParser {
     private Pattern generateMatcher() {
         final String matchBase = "(\\S+)";
 
+        logger.debug("Creating matcher.");
         List<String> matchItems = legalQuotes
             .stream()
             .map(r -> String.format("%1$s(.+?)%1$s", Pattern.quote(r)))
@@ -44,6 +56,8 @@ public class InputParser {
             throw e;
         }
 
+        logger.debug("Successfully created matcher.");
+
         return result;
     }
 
@@ -55,7 +69,14 @@ public class InputParser {
         return pattern;
     }
 
+    /**
+     * Parses an input string.
+     *
+     * @param input Input string to parse.
+     * @return Path list.
+     */
     public List<String> parse(String input) {
+        logger.debug("Parsing input '{}'", input);
         return pattern
             .matcher(input)
             .results()
@@ -67,13 +88,20 @@ public class InputParser {
         // Skip first (the full-match) group and search for the next non-null group
         int i = 1;
 
+        logger.debug("Finding best match.");
+
         while (i <= matchResult.groupCount()) {
-            if (matchResult.group(i) != null)
-                return matchResult.group(i);
+            String group = matchResult.group(i);
+
+            if (group != null) {
+                logger.debug("Found match '{}'", group);
+                return group;
+            }
 
             i++;
         }
 
+        logger.warn("Could not find any match.");
         return null;
     }
 }

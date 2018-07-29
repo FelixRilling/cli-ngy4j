@@ -17,18 +17,25 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
+ * Lookup tools for resolving paths through {@link CommandMap}s.
  */
 public class LookupResolver {
 
     private final boolean caseSensitive;
-
     private final Logger logger = LoggerFactory.getLogger(LookupResolver.class);
 
+    /**
+     * @see LookupResolver#LookupResolver(boolean)
+     */
     public LookupResolver() {
         this(true);
     }
 
+    /**
+     * Creates a new {@link LookupResolver}.
+     *
+     * @param caseSensitive If the lookup should honor case.
+     */
     public LookupResolver(boolean caseSensitive) {
         this.caseSensitive = caseSensitive;
     }
@@ -37,10 +44,21 @@ public class LookupResolver {
         return caseSensitive;
     }
 
+    /**
+     * @see LookupResolver#resolve(CommandMap, List, List, boolean)
+     */
     public LookupResult resolve(CommandMap mapAliased, List<String> path) {
         return resolve(mapAliased, path, false);
     }
 
+    /**
+     * Resolves a path through a {@link CommandMap}.
+     *
+     * @param mapAliased     Map to use.
+     * @param path           Path to resolve.
+     * @param parseArguments If dangling path items should be treated as arguments.
+     * @return Lookup result, either {@link LookupSuccess}, {@link LookupErrorNotFound} or {@link LookupErrorMissingArgs}.
+     */
     public LookupResult resolve(CommandMap mapAliased, List<String> path, boolean parseArguments) {
         return resolve(mapAliased, path, new LinkedList<>(), parseArguments);
     }
@@ -61,7 +79,7 @@ public class LookupResolver {
         ICommand command = caseSensitive ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
         List<String> pathNew = path.subList(1, path.size());
         pathUsed.add(0, currentPathFragment);
-        logger.trace("Successfully looked up command: {}", command);
+        logger.debug("Successfully looked up command: {}", currentPathFragment);
 
         if (pathNew.size() > 1 && command.getSub() != null) {
             logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
@@ -70,7 +88,7 @@ public class LookupResolver {
 
         ResolvedArgumentMap argumentsResolved = null;
         if (command.getArgs() != null && !command.getArgs().isEmpty()) {
-            logger.trace("Looking up arguments: {}", pathNew);
+            logger.debug("Looking up arguments: {}", pathNew);
             ArgumentMatcher argumentMatcher = new ArgumentMatcher(command.getArgs(), pathNew);
 
             List<Argument> argumentsMissing = argumentMatcher.getMissing();
@@ -80,12 +98,12 @@ public class LookupResolver {
             }
 
             argumentsResolved = argumentMatcher.getResult();
-            logger.trace("Successfully looked up arguments: {}", argumentsResolved);
+            logger.debug("Successfully looked up arguments: {}", argumentsResolved);
         }
 
 
         LookupSuccess lookupSuccess = new LookupSuccess(pathUsed, pathNew, command, argumentsResolved);
-        logger.trace("Returning successful lookup result: {}", lookupSuccess);
+        logger.debug("Returning successful lookup result: {}", lookupSuccess);
 
         return lookupSuccess;
     }
