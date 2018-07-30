@@ -1,14 +1,3 @@
-# cli-ngy4j
-
-> A module for cli-input text parsing with support for nested commands and did-you-mean feature.
-
-## Introduction
-
-Java counterpart of [cli-ngy](https://github.com/FelixRilling/cli-ngy).
-
-## Usage
-
-```java
 package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.argument.Argument;
@@ -25,8 +14,14 @@ import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Integration tests for example {@link Clingy} usage.
+ */
 public class ClingyIT {
 
+    /**
+     * Asserts that {@link Clingy} can construct and resolve commands.
+     */
     @Test
     public void runClingy() {
         CommandMap commandMap = new CommandMap();
@@ -80,4 +75,3 @@ public class ClingyIT {
         assertThat(((LookupErrorMissingArgs) lookupResult4).getMissing()).containsExactly(argument1);
     }
 }
-```
