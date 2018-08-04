@@ -4,7 +4,7 @@ import com.felixrilling.clingy4j.argument.Argument;
 import com.felixrilling.clingy4j.argument.ArgumentMatcher;
 import com.felixrilling.clingy4j.argument.ResolvedArgumentMap;
 import com.felixrilling.clingy4j.command.CommandMap;
-import com.felixrilling.clingy4j.command.ICommand;
+import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.util.CommandUtil;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
@@ -76,7 +76,7 @@ public class LookupResolver {
             return new LookupErrorNotFound(path, pathUsed, currentPathFragment, CommandUtil.getSimilar(mapAliased, currentPathFragment));
         }
 
-        ICommand command = caseSensitive ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
+        Command command = caseSensitive ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
         List<String> pathNew = path.subList(1, path.size());
         pathUsed.add(0, currentPathFragment);
         logger.debug("Successfully looked up command: {}", currentPathFragment);

@@ -1,7 +1,7 @@
 package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.command.CommandMap;
-import com.felixrilling.clingy4j.command.ICommand;
+import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.lookup.LookupResolver;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
@@ -70,12 +70,12 @@ public class Clingy {
         return mapAliased;
     }
 
-    public void setCommand(String key, ICommand command) {
+    public void setCommand(String key, Command command) {
         map.put(key, command);
         updateAliases();
     }
 
-    public ICommand getCommand(String key) {
+    public Command getCommand(String key) {
         return mapAliased.get(key);
     }
 
@@ -122,7 +122,7 @@ public class Clingy {
         mapAliased.clear();
         mapAliased.putAll(map);
 
-        for (Map.Entry<String, ICommand> entry : map.entrySet()) {
+        for (Map.Entry<String, Command> entry : map.entrySet()) {
             for (String alias : entry.getValue().getAlias()) {
                 if (mapAliased.containsKey(alias)) {
                     logger.warn("Alias '{}' conflicts with a previously defined key, will be ignored.", alias);

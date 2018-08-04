@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 /**
- * Map containing {@link ICommand}s.
+ * Map containing {@link Command}s.
  */
-public class CommandMap extends HashMap<String, ICommand> {
+public class CommandMap extends HashMap<String, Command> {
 
     /**
      * Creates an empty  {@link CommandMap}.
@@ -47,8 +47,8 @@ public class CommandMap extends HashMap<String, ICommand> {
      * @param key Key to check for.
      * @return The value for the key, ignoring case.
      */
-    public ICommand getIgnoreCase(String key) {
-        for (Entry<String, ICommand> entry : entrySet()) {
+    public Command getIgnoreCase(String key) {
+        for (Entry<String, Command> entry : entrySet()) {
             if (key.equalsIgnoreCase(entry.getKey()))
                 return entry.getValue();
         }

@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Base {@link ICommand} implementation.
+ * Base {@link Command}.
  */
-public class Command implements ICommand {
+public class Command {
 
     private final List<String> alias;
     private Consumer<ResolvedArgumentMap> fn;
