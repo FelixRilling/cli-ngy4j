@@ -17,13 +17,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Integration tests for example {@link Clingy} usage.
  */
-public class ClingyIT {
+class ClingyIT {
 
     /**
-     * Asserts that {@link Clingy} can construct and resolve commands.
+     * Asserts that {@link Clingy} can construct and getPath commands.
      */
     @Test
-    public void runClingy() {
+    void runClingy() {
         CommandMap commandMap = new CommandMap();
 
         Argument argument1 = new Argument("val", true);

@@ -9,13 +9,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for {@link ArgumentMatcher}.
  */
-public class ArgumentMatcherTest {
+class ArgumentMatcherTest {
 
     /**
      * Asserts that {@link ArgumentMatcher} works with an empty list.
      */
     @Test
-    public void argumentMatcherWorksWithEmptyExpected() {
+    void argumentMatcherWorksWithEmptyExpected() {
         ArgumentMatcher argumentMatcher = new ArgumentMatcher(Collections.emptyList(), Collections.emptyList());
 
         assertThat(argumentMatcher.getResult()).isEmpty();
@@ -26,7 +26,7 @@ public class ArgumentMatcherTest {
      * Asserts that {@link ArgumentMatcher} collects found arguments.
      */
     @Test
-    public void argumentMatcherCollectsResults() {
+    void argumentMatcherCollectsResults() {
         String expected = "foo";
         String provided = "bar";
         ArgumentMatcher argumentMatcher = new ArgumentMatcher(
@@ -42,7 +42,7 @@ public class ArgumentMatcherTest {
      * Asserts that {@link ArgumentMatcher} falls back for optional arguments.
      */
     @Test
-    public void argumentMatcherFallsBack() {
+    void argumentMatcherFallsBack() {
         String expected = "foo";
         String value = "bar";
         ArgumentMatcher argumentMatcher = new ArgumentMatcher(
@@ -58,7 +58,7 @@ public class ArgumentMatcherTest {
      * Asserts that {@link ArgumentMatcher} collects missing arguments.
      */
     @Test
-    public void argumentMatcherCollectsMissing() {
+    void argumentMatcherCollectsMissing() {
         String expected = "foo";
         Argument argument = new Argument(expected, true);
         ArgumentMatcher argumentMatcher = new ArgumentMatcher(

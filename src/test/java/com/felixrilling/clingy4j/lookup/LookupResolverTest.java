@@ -19,13 +19,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for {@link LookupResolver}.
  */
-public class LookupResolverTest {
+class LookupResolverTest {
 
     /**
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns null for an empty path.
      */
     @Test
-    public void resolveCommandReturnsNullForEmpty() {
+    void resolveCommandReturnsNullForEmpty() {
         assertThat(new LookupResolver().resolve(new CommandMap(), Collections.emptyList())).isNull();
     }
 
@@ -33,7 +33,7 @@ public class LookupResolverTest {
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns a {@link LookupErrorNotFound} for non-existent commands.
      */
     @Test
-    public void resolveCommandReturnsLookupErrorForMissing() {
+    void resolveCommandReturnsLookupErrorForMissing() {
         assertThat(new LookupResolver().resolve(new CommandMap(), Collections.singletonList("foo")).getType())
             .isEqualTo(LookupResult.ResultType.ERROR_NOT_FOUND);
     }
@@ -42,7 +42,7 @@ public class LookupResolverTest {
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns a {@link LookupErrorMissingArgs} when arguments are missing.
      */
     @Test
-    public void resolveCommandReturnsLookupErrorForMissingCommand() {
+    void resolveCommandReturnsLookupErrorForMissingCommand() {
         String commandName = "foo";
         Argument argument = new Argument("bar", true);
         Command command = new Command(null, Collections.emptyList(), Collections.singletonList(argument));
@@ -58,7 +58,7 @@ public class LookupResolverTest {
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns the {@link Command}.
      */
     @Test
-    public void resolveCommandReturnsCommand() {
+    void resolveCommandReturnsCommand() {
         String commandName = "foo";
         Command command = new Command(null, Collections.emptyList(), null);
         CommandMap commandMap = new CommandMap();
@@ -73,7 +73,7 @@ public class LookupResolverTest {
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns dangling path elements.
      */
     @Test
-    public void resolveCommandReturnsDangling() {
+    void resolveCommandReturnsDangling() {
         List<String> commandNames = Arrays.asList("foo", "bar", "buzz");
         Command command = new Command(null, Collections.emptyList(), null);
         CommandMap commandMap = new CommandMap();
@@ -88,7 +88,7 @@ public class LookupResolverTest {
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} honors caseSensitive.
      */
     @Test
-    public void resolveCommandHonorsCaseSensitive() {
+    void resolveCommandHonorsCaseSensitive() {
         String commandName = "foo";
         Command command = new Command(null, Collections.emptyList(), null);
         CommandMap commandMap = new CommandMap();
@@ -106,7 +106,7 @@ public class LookupResolverTest {
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} resolves sub-commands.
      */
     @Test
-    public void resolveCommandResolvesSubCommands() {
+    void resolveCommandResolvesSubCommands() {
         String commandName2 = "bar";
         Command command2 = new Command(null, Collections.emptyList(), null);
         CommandMap commandMap2 = new CommandMap();

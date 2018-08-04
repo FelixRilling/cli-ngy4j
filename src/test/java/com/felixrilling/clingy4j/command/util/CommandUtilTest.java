@@ -11,13 +11,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for {@link CommandUtil}.
  */
-public class CommandUtilTest {
+class CommandUtilTest {
 
     /**
      * Asserts that {@link CommandUtil#getSimilar(CommandMap, String)} returns a list of similar names.
      */
     @Test
-    public void getSimilarReturnsSimilar() {
+    void getSimilarReturnsSimilar() {
         String commandName1 = "foo";
         String commandName2 = "bar";
         CommandMap commandMap = new CommandMap();

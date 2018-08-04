@@ -10,13 +10,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for {@link InputParser}.
  */
-public class InputParserTest {
+class InputParserTest {
 
     /**
      * Asserts that {@link InputParser} creates a matcher pattern.
      */
     @Test
-    public void inputParserCreatesPattern() {
+    void inputParserCreatesPattern() {
         assertThat(new InputParser().getPattern()).isInstanceOf(Pattern.class);
     }
 
@@ -24,7 +24,7 @@ public class InputParserTest {
      * Asserts that {@link InputParser} escapes special characters.
      */
     @Test
-    public void inputParserEscapesSpecials() {
+    void inputParserEscapesSpecials() {
         assertThat(new InputParser(Arrays.asList("?", "$", "(")).getPattern()).isInstanceOf(Pattern.class);
     }
 
@@ -32,7 +32,7 @@ public class InputParserTest {
      * Asserts that {@link InputParser} splits spaces from the input.
      */
     @Test
-    public void parseSplitsSpaces() {
+    void parseSplitsSpaces() {
         InputParser inputParser = new InputParser(Arrays.asList("\"", "'"));
 
         assertThat(inputParser.parse("foo")).containsExactly("foo");
@@ -44,7 +44,7 @@ public class InputParserTest {
      * Asserts that {@link InputParser} honors quotes when splitting.
      */
     @Test
-    public void parseHonorsQuotes() {
+    void parseHonorsQuotes() {
         InputParser inputParser = new InputParser(Arrays.asList("\"", "'"));
 
         assertThat(inputParser.parse("'foo bar'")).containsExactly("foo bar");

@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class ArgumentMatcher {
 
-    private final Logger logger = LoggerFactory.getLogger(ArgumentMatcher.class);
     private final List<Argument> missing;
     private final ResolvedArgumentMap result;
 
@@ -26,6 +25,7 @@ public class ArgumentMatcher {
         missing = new LinkedList<>();
         result = new ResolvedArgumentMap(expected.size());
 
+        Logger logger = LoggerFactory.getLogger(ArgumentMatcher.class);
         logger.debug("Matching arguments {} with {}", expected, provided);
 
         for (int i = 0; i < expected.size(); i++) {

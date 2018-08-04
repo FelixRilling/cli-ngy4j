@@ -12,13 +12,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * Tests for {@link Clingy}.
  */
-public class ClingyTest {
+class ClingyTest {
 
     /**
      * Asserts that {@link Clingy} constructs with a {@link CommandMap}.
      */
     @Test
-    public void clingyConstructsWithCommands() {
+    void clingyConstructsWithCommands() {
         String commandName = "foo";
         Command command = new Command(null, Collections.emptyList(), null);
         CommandMap commandMap = new CommandMap();
@@ -32,7 +32,7 @@ public class ClingyTest {
      * Asserts that {@link Clingy} constructs with a sub-commands.
      */
     @Test
-    public void clingyConstructsWithSubCommands() {
+    void clingyConstructsWithSubCommands() {
         String commandName2 = "bar";
         Command command2 = new Command(null, Collections.emptyList(), null);
         CommandMap commandMap2 = new CommandMap();
@@ -54,7 +54,7 @@ public class ClingyTest {
      * Asserts that {@link Clingy} updates the internal aliased map.
      */
     @Test
-    public void clingyUpdatesAliasedMap() {
+    void clingyUpdateAliases() {
         String commandName = "foo";
         String alias1 = "bar";
         String alias2 = "fizz";
@@ -72,7 +72,7 @@ public class ClingyTest {
      * Asserts that {@link Clingy} updates the internal aliased map while skipping duplicate keys.
      */
     @Test
-    public void clingyUpdatesAliasedMapSkipsDuplicateKeys() {
+    void clingyUpdateAliasesSkipsDuplicateKeys() {
         String commandName1 = "foo";
         String commandName2 = "bar";
         String alias1 = "fizz";
@@ -92,7 +92,7 @@ public class ClingyTest {
      * Asserts that {@link Clingy} updates the internal aliased map when modified after construction.
      */
     @Test
-    public void clingyUpdatesAliasedMapUpdatesAfterChanges() {
+    void clingyUpdateAliasesUpdatesAfterChanges() {
         String commandName1 = "foo";
         String commandName2 = "bar";
         String alias1 = "fizz";

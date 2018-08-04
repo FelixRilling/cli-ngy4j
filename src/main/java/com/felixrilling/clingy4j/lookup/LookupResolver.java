@@ -55,7 +55,7 @@ public class LookupResolver {
      * Resolves a path through a {@link CommandMap}.
      *
      * @param mapAliased     Map to use.
-     * @param path           Path to resolve.
+     * @param path           Path to getPath.
      * @param parseArguments If dangling path items should be treated as arguments.
      * @return Lookup result, either {@link LookupSuccess}, {@link LookupErrorNotFound} or {@link LookupErrorMissingArgs}.
      */
@@ -83,7 +83,7 @@ public class LookupResolver {
 
         if (pathNew.size() > 1 && command.getSub() != null) {
             logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
-            return resolve(command.getSub().getAliasedMap(), pathNew, pathUsed, parseArguments);
+            return resolve(command.getSub().getMapAliased(), pathNew, pathUsed, parseArguments);
         }
 
         ResolvedArgumentMap argumentsResolved;
