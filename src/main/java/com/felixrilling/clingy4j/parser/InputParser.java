@@ -36,6 +36,29 @@ public class InputParser {
         this.pattern = generateMatcher();
     }
 
+    public List<String> getLegalQuotes() {
+        return legalQuotes;
+    }
+
+    public Pattern getPattern() {
+        return pattern;
+    }
+
+    /**
+     * Parses an input string.
+     *
+     * @param input Input string to parse.
+     * @return Path list.
+     */
+    public List<String> parse(String input) {
+        logger.debug("Parsing input '{}'", input);
+        return pattern
+            .matcher(input)
+            .results()
+            .map(this::getBestGroupMatch)
+            .collect(Collectors.toList());
+    }
+
     private Pattern generateMatcher() {
         final String matchBase = "(\\S+)";
 
@@ -59,29 +82,6 @@ public class InputParser {
         logger.debug("Successfully created matcher.");
 
         return result;
-    }
-
-    public List<String> getLegalQuotes() {
-        return legalQuotes;
-    }
-
-    public Pattern getPattern() {
-        return pattern;
-    }
-
-    /**
-     * Parses an input string.
-     *
-     * @param input Input string to parse.
-     * @return Path list.
-     */
-    public List<String> parse(String input) {
-        logger.debug("Parsing input '{}'", input);
-        return pattern
-            .matcher(input)
-            .results()
-            .map(this::getBestGroupMatch)
-            .collect(Collectors.toList());
     }
 
     private String getBestGroupMatch(MatchResult matchResult) {

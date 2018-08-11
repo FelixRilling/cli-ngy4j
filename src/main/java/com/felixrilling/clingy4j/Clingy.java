@@ -79,7 +79,7 @@ public class Clingy {
         return mapAliased.get(key);
     }
 
-    public boolean hasPath(String key) {
+    public boolean hasCommand(String key) {
         return mapAliased.containsKey(key);
     }
 
