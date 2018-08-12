@@ -80,7 +80,6 @@ public class InputParser {
         }
 
         logger.debug("Successfully created matcher.");
-
         return result;
     }
 

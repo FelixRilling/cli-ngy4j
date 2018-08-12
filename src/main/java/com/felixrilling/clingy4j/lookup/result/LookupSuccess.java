@@ -15,14 +15,13 @@ public class LookupSuccess extends LookupResult {
 
     /**
      * Creates a {@link LookupSuccess}.
-     *
-     * @param path         Path used.
-     * @param pathDangling Dangling path.
+     *  @param pathDangling Dangling pathUsed.
+     * @param pathUsed         Path used.
      * @param command      Command that was looked up.
      * @param args         Arguments that were looked up.
      */
-    public LookupSuccess(List<String> path, List<String> pathDangling, Command command, ResolvedArgumentMap args) {
-        super(true, ResultType.SUCCESS, path, pathDangling);
+    public LookupSuccess(List<String> pathDangling, List<String> pathUsed, Command command, ResolvedArgumentMap args) {
+        super(true, ResultType.SUCCESS, pathDangling, pathUsed);
         this.command = command;
         this.args = args;
     }

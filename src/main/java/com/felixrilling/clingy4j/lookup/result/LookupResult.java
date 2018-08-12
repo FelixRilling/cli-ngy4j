@@ -10,23 +10,22 @@ import java.util.List;
 public abstract class LookupResult {
 
     private final boolean successful;
-    private final List<String> path;
     private final List<String> pathDangling;
+    private final List<String> pathUsed;
     private final ResultType type;
 
     /**
      * Creates a new {@link LookupResult}.
-     *
-     * @param successful   If the lookup was successful.
+     *  @param successful   If the lookup was successful.
      * @param type         Type of the result, see {@link ResultType}.
-     * @param path         Path used.
-     * @param pathDangling Dangling path.
+     * @param pathDangling Dangling pathUsed.
+     * @param pathUsed         Path used.
      */
-    public LookupResult(boolean successful, ResultType type, List<String> path, List<String> pathDangling) {
+    public LookupResult(boolean successful, ResultType type, List<String> pathDangling, List<String> pathUsed) {
         this.successful = successful;
         this.type = type;
-        this.path = path;
         this.pathDangling = pathDangling;
+        this.pathUsed = pathUsed;
     }
 
     public boolean isSuccessful() {
@@ -37,8 +36,8 @@ public abstract class LookupResult {
         return type;
     }
 
-    public List<String> getPath() {
-        return path;
+    public List<String> getPathUsed() {
+        return pathUsed;
     }
 
     public List<String> getPathDangling() {

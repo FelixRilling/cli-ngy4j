@@ -33,25 +33,32 @@ class LookupResolverTest {
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns a {@link LookupErrorNotFound} for non-existent commands.
      */
     @Test
-    void resolveCommandReturnsLookupErrorForMissing() {
-        assertThat(new LookupResolver().resolve(new CommandMap(), Collections.singletonList("foo")).getType())
-            .isEqualTo(LookupResult.ResultType.ERROR_NOT_FOUND);
+    void resolveCommandReturnsLookupErrorForNotFound() {
+        String commandName = "foo";
+
+        LookupResult lookupResult = new LookupResolver().resolve(new CommandMap(), Collections.singletonList(commandName));
+        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.ERROR_NOT_FOUND);
+        assertThat(((LookupErrorNotFound) lookupResult).getMissing()).isEqualTo(commandName);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName);
+        assertThat(lookupResult.getPathDangling()).isEmpty();
     }
 
     /**
      * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns a {@link LookupErrorMissingArgs} when arguments are missing.
      */
     @Test
-    void resolveCommandReturnsLookupErrorForMissingCommand() {
+    void resolveCommandReturnsLookupErrorForMissingArgument() {
         String commandName = "foo";
         Argument argument = new Argument("bar", true);
         Command command = new Command(null, Collections.emptyList(), Collections.singletonList(argument));
         CommandMap commandMap = new CommandMap();
         commandMap.put(commandName, command);
 
-        LookupResult lookupResult = new LookupResolver().resolve(commandMap, Collections.singletonList(commandName));
+        LookupResult lookupResult = new LookupResolver().resolve(commandMap, Collections.singletonList(commandName), true);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.ERROR_MISSING_ARGUMENT);
         assertThat(((LookupErrorMissingArgs) lookupResult).getMissing()).containsExactly(argument);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName);
+        assertThat(lookupResult.getPathDangling()).isEmpty();
     }
 
     /**
@@ -67,6 +74,8 @@ class LookupResolverTest {
         LookupResult lookupResult = new LookupResolver().resolve(commandMap, Collections.singletonList(commandName));
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName);
+        assertThat(lookupResult.getPathDangling()).isEmpty();
     }
 
     /**
@@ -74,13 +83,15 @@ class LookupResolverTest {
      */
     @Test
     void resolveCommandReturnsDangling() {
-        List<String> commandNames = Arrays.asList("foo", "bar", "buzz");
+        String pathElement1 = "foo";
+        List<String> commandNames = Arrays.asList(pathElement1, "bar", "buzz");
         Command command = new Command(null, Collections.emptyList(), null);
         CommandMap commandMap = new CommandMap();
         commandMap.put(commandNames.get(0), command);
 
         LookupResult lookupResult = new LookupResolver().resolve(commandMap, commandNames);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
+        assertThat(lookupResult.getPathUsed()).containsExactly(pathElement1);
         assertThat(lookupResult.getPathDangling()).isEqualTo(commandNames.subList(1, commandNames.size()));
     }
 

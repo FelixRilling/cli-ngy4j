@@ -12,14 +12,13 @@ public class LookupErrorNotFound extends LookupResult {
 
     /**
      * Creates a {@link LookupErrorNotFound}.
-     *
-     * @param path         Path used.
-     * @param pathDangling Dangling path.
+     *  @param pathDangling Dangling pathUsed.
+     * @param pathUsed         Path used.
      * @param missing      Key of missing command.
      * @param similar      Similar keys available.
      */
-    public LookupErrorNotFound(List<String> path, List<String> pathDangling, String missing, List<String> similar) {
-        super(false, ResultType.ERROR_NOT_FOUND, path, pathDangling);
+    public LookupErrorNotFound(List<String> pathDangling, List<String> pathUsed, String missing, List<String> similar) {
+        super(false, ResultType.ERROR_NOT_FOUND, pathDangling, pathUsed);
         this.missing = missing;
         this.similar = similar;
     }

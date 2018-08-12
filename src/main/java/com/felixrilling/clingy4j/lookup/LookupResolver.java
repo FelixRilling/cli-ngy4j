@@ -1,10 +1,9 @@
 package com.felixrilling.clingy4j.lookup;
 
-import com.felixrilling.clingy4j.argument.Argument;
 import com.felixrilling.clingy4j.argument.ArgumentMatcher;
 import com.felixrilling.clingy4j.argument.ResolvedArgumentMap;
-import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.Command;
+import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.util.CommandUtil;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
@@ -45,7 +44,7 @@ public class LookupResolver {
     }
 
     /**
-     * @see LookupResolver#resolve(CommandMap, List, List, boolean)
+     * @see LookupResolver#resolveInternal(CommandMap, List, List, boolean)
      */
     public LookupResult resolve(CommandMap mapAliased, List<String> path) {
         return resolve(mapAliased, path, false);
@@ -55,49 +54,48 @@ public class LookupResolver {
      * Resolves a path through a {@link CommandMap}.
      *
      * @param mapAliased     Map to use.
-     * @param path           Path to getPath.
+     * @param path           Path to getPathUsed.
      * @param parseArguments If dangling path items should be treated as arguments.
      * @return Lookup result, either {@link LookupSuccess}, {@link LookupErrorNotFound} or {@link LookupErrorMissingArgs}.
      */
     public LookupResult resolve(CommandMap mapAliased, List<String> path, boolean parseArguments) {
-        return resolve(mapAliased, path, new LinkedList<>(), parseArguments);
+        return resolveInternal(mapAliased, path, new LinkedList<>(), parseArguments);
     }
 
-    private LookupResult resolve(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {
+    private LookupResult resolveInternal(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {
         if (path.isEmpty()) {
             logger.info("Empty path was given, returning early.");
             return null;
         }
 
         String currentPathFragment = path.get(0);
+        List<String> pathNew = path.subList(1, path.size());
+        pathUsed.add(currentPathFragment);
 
         if (caseSensitive ? !mapAliased.containsKey(currentPathFragment) : !mapAliased.containsKeyIgnoreCase(currentPathFragment)) {
             logger.warn("Command '{}' could not be found.", currentPathFragment);
-            return new LookupErrorNotFound(path, pathUsed, currentPathFragment, CommandUtil.getSimilar(mapAliased, currentPathFragment));
+            return new LookupErrorNotFound(pathNew, pathUsed, currentPathFragment, CommandUtil.getSimilar(mapAliased, currentPathFragment));
         }
 
         Command command = caseSensitive ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
-        List<String> pathNew = path.subList(1, path.size());
-        pathUsed.add(0, currentPathFragment);
         logger.debug("Successfully looked up command: {}", currentPathFragment);
 
         if (pathNew.size() > 1 && command.getSub() != null) {
             logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
-            return resolve(command.getSub().getMapAliased(), pathNew, pathUsed, parseArguments);
+            return resolveInternal(command.getSub().getMapAliased(), pathNew, pathUsed, parseArguments);
         }
 
         ResolvedArgumentMap argumentsResolved;
-        if (command.getArgs() == null || command.getArgs().isEmpty()) {
+        if (!parseArguments || command.getArgs() == null || command.getArgs().isEmpty()) {
             logger.debug("No arguments defined, using empty list.");
             argumentsResolved = new ResolvedArgumentMap();
         } else {
             logger.debug("Looking up arguments: {}", pathNew);
             ArgumentMatcher argumentMatcher = new ArgumentMatcher(command.getArgs(), pathNew);
 
-            List<Argument> argumentsMissing = argumentMatcher.getMissing();
-            if (!argumentsMissing.isEmpty()) {
-                logger.warn("Some arguments could not be found: {}", argumentsMissing);
-                return new LookupErrorMissingArgs(pathUsed, pathNew, argumentsMissing);
+            if (!argumentMatcher.getMissing().isEmpty()) {
+                logger.warn("Some arguments could not be found: {}", argumentMatcher.getMissing());
+                return new LookupErrorMissingArgs(pathNew, pathUsed, argumentMatcher.getMissing());
             }
 
             argumentsResolved = argumentMatcher.getResult();
@@ -105,7 +103,7 @@ public class LookupResolver {
         }
 
 
-        LookupSuccess lookupSuccess = new LookupSuccess(pathUsed, pathNew, command, argumentsResolved);
+        LookupSuccess lookupSuccess = new LookupSuccess(pathNew, pathUsed, command, argumentsResolved);
         logger.debug("Returning successful lookup result: {}", lookupSuccess);
 
         return lookupSuccess;
