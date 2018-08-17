@@ -15,8 +15,9 @@ public class LookupSuccess extends LookupResult {
 
     /**
      * Creates a {@link LookupSuccess}.
-     *  @param pathDangling Dangling pathUsed.
-     * @param pathUsed         Path used.
+     *
+     * @param pathDangling Dangling pathUsed.
+     * @param pathUsed     Path used.
      * @param command      Command that was looked up.
      * @param args         Arguments that were looked up.
      */

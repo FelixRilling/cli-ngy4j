@@ -12,8 +12,9 @@ public class LookupErrorNotFound extends LookupResult {
 
     /**
      * Creates a {@link LookupErrorNotFound}.
-     *  @param pathDangling Dangling pathUsed.
-     * @param pathUsed         Path used.
+     *
+     * @param pathDangling Dangling pathUsed.
+     * @param pathUsed     Path used.
      * @param missing      Key of missing command.
      * @param similar      Similar keys available.
      */

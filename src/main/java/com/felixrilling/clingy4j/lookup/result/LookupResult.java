@@ -16,10 +16,11 @@ public abstract class LookupResult {
 
     /**
      * Creates a new {@link LookupResult}.
-     *  @param successful   If the lookup was successful.
+     *
+     * @param successful   If the lookup was successful.
      * @param type         Type of the result, see {@link ResultType}.
      * @param pathDangling Dangling pathUsed.
-     * @param pathUsed         Path used.
+     * @param pathUsed     Path used.
      */
     public LookupResult(boolean successful, ResultType type, List<String> pathDangling, List<String> pathUsed) {
         this.successful = successful;

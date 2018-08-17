@@ -1,7 +1,7 @@
 package com.felixrilling.clingy4j;
 
-import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.Command;
+import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.lookup.LookupResolver;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;

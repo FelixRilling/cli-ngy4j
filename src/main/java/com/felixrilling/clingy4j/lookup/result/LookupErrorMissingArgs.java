@@ -13,8 +13,9 @@ public class LookupErrorMissingArgs extends LookupResult {
 
     /**
      * Creates a {@link LookupErrorMissingArgs}.
-     *  @param pathDangling Dangling pathUsed.
-     * @param pathUsed         Path used.
+     *
+     * @param pathDangling Dangling pathUsed.
+     * @param pathUsed     Path used.
      * @param missing      List of missing arguments.
      */
     public LookupErrorMissingArgs(List<String> pathDangling, List<String> pathUsed, List<Argument> missing) {
