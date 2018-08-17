@@ -9,12 +9,14 @@ import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
 import com.felixrilling.clingy4j.lookup.result.LookupResult;
 import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests for {@link LookupResolver}.
@@ -22,11 +24,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 class LookupResolverTest {
 
     /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns null for an empty path.
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} throws an {@link IllegalArgumentException}
+     * for an empty path.
      */
     @Test
     void resolveCommandReturnsNullForEmpty() {
-        assertThat(new LookupResolver().resolve(new CommandMap(), Collections.emptyList())).isNull();
+        Executable closureContainingCodeToTest = () -> new LookupResolver().resolve(new CommandMap(), Collections.emptyList());
+
+        assertThrows(IllegalArgumentException.class, closureContainingCodeToTest);
     }
 
     /**

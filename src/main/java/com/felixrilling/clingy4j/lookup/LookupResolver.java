@@ -44,7 +44,7 @@ public class LookupResolver {
     }
 
     /**
-     * @see LookupResolver#resolveInternal(CommandMap, List, List, boolean)
+     * @see LookupResolver#resolve(CommandMap, List, boolean)
      */
     public LookupResult resolve(CommandMap mapAliased, List<String> path) {
         return resolve(mapAliased, path, false);
@@ -63,10 +63,8 @@ public class LookupResolver {
     }
 
     private LookupResult resolveInternal(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {
-        if (path.isEmpty()) {
-            logger.info("Empty path was given, returning early.");
-            return null;
-        }
+        if (path.isEmpty())
+            throw new IllegalArgumentException("Path cannot be empty.");
 
         String currentPathFragment = path.get(0);
         List<String> pathNew = path.subList(1, path.size());
