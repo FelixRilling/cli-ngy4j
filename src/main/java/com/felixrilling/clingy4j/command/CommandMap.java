@@ -1,6 +1,7 @@
 package com.felixrilling.clingy4j.command;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -23,11 +24,11 @@ public class CommandMap extends HashMap<String, Command> {
     }
 
     /**
-     * Creates a {@link CommandMap} from another  {@link CommandMap}.
+     * Creates a {@link CommandMap} from another {@link Map}.
      *
-     * @param map The {@link CommandMap} to copy.
+     * @param map The {@link Map} to copy.
      */
-    public CommandMap(CommandMap map) {
+    public CommandMap(Map<String, Command> map) {
         super(map);
     }
 

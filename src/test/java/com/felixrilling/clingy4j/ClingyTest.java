@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +23,7 @@ class ClingyTest {
     void clingyConstructsWithCommands() {
         String commandName = "foo";
         Command command = new Command(null, Collections.emptyList(), null);
-        CommandMap commandMap = new CommandMap();
+        Map<String, Command> commandMap = new HashMap<>();
         commandMap.put(commandName, command);
         Clingy clingy = new Clingy(commandMap);
 
@@ -35,13 +37,13 @@ class ClingyTest {
     void clingyConstructsWithSubCommands() {
         String commandName2 = "bar";
         Command command2 = new Command(null, Collections.emptyList(), null);
-        CommandMap commandMap2 = new CommandMap();
+        Map<String, Command> commandMap2 = new HashMap<>();
         commandMap2.put(commandName2, command2);
         Clingy clingy2 = new Clingy(commandMap2);
 
         String commandName1 = "foo";
         Command command1 = new Command(null, Collections.emptyList(), null, null, clingy2);
-        CommandMap commandMap1 = new CommandMap();
+        Map<String, Command> commandMap1 = new HashMap<>();
         commandMap1.put(commandName1, command1);
         Clingy clingy1 = new Clingy(commandMap1);
 
@@ -59,7 +61,7 @@ class ClingyTest {
         String alias1 = "bar";
         String alias2 = "fizz";
         Command command = new Command(null, Arrays.asList(alias1, alias2), null);
-        CommandMap commandMap = new CommandMap();
+        Map<String, Command> commandMap = new HashMap<>();
         commandMap.put(commandName, command);
         Clingy clingy = new Clingy(commandMap);
 
@@ -78,7 +80,7 @@ class ClingyTest {
         String alias1 = "fizz";
         Command command1 = new Command(null, Collections.singletonList(alias1), null);
         Command command2 = new Command(null, Collections.singletonList(commandName1), null);
-        CommandMap commandMap = new CommandMap();
+        Map<String, Command> commandMap = new HashMap<>();
         commandMap.put(commandName1, command1);
         commandMap.put(commandName2, command2);
         Clingy clingy = new Clingy(commandMap);
@@ -98,7 +100,7 @@ class ClingyTest {
         String alias1 = "fizz";
         Command command1 = new Command(null, Collections.singletonList(alias1), null);
         Command command2 = new Command(null, Collections.singletonList(commandName1), null);
-        CommandMap commandMap = new CommandMap();
+        Map<String, Command> commandMap = new HashMap<>();
         Clingy clingy = new Clingy(commandMap);
 
         clingy.setCommand(commandName1, command1);

@@ -29,7 +29,7 @@ public class ClingyIT {
 
     @Test
     public void runClingy() {
-        CommandMap commandMap = new CommandMap();
+        Map<String, Command> commandMap = new HashMap<>();
 
         Argument argument1 = new Argument("val", true);
         Command command1 = new Command(

@@ -2,7 +2,6 @@ package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.argument.Argument;
 import com.felixrilling.clingy4j.command.Command;
-import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
 import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
 import com.felixrilling.clingy4j.lookup.result.LookupResult;
@@ -12,6 +11,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,7 +28,7 @@ class ClingyIT {
 
     @BeforeEach
     public void setup() {
-        CommandMap commandMap = new CommandMap();
+        Map<String, Command> commandMap = new HashMap<>();
 
         argument1 = new Argument("val", true);
         command1 = new Command(

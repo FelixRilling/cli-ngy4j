@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,23 +28,23 @@ public class Clingy {
     private final CommandMap mapAliased;
 
     /**
-     * @see Clingy#Clingy(CommandMap, boolean, List)
+     * @see Clingy#Clingy(Map, boolean, List)
      */
     public Clingy() {
-        this(new CommandMap());
+        this(new HashMap<>());
     }
 
     /**
-     * @see Clingy#Clingy(CommandMap, boolean, List)
+     * @see Clingy#Clingy(Map, boolean, List)
      */
-    public Clingy(CommandMap commands) {
+    public Clingy(Map<String, Command> commands) {
         this(commands, true);
     }
 
     /**
-     * @see Clingy#Clingy(CommandMap, boolean, List)
+     * @see Clingy#Clingy(Map, boolean, List)
      */
-    public Clingy(CommandMap commands, boolean caseSensitive) {
+    public Clingy(Map<String, Command> commands, boolean caseSensitive) {
         this(commands, caseSensitive, Collections.singletonList("\""));
     }
 
@@ -54,10 +55,10 @@ public class Clingy {
      * @param caseSensitive If commands names should be treated as case sensitive during lookup.
      * @param legalQuotes   List of quotes to use when parsing strings.
      */
-    public Clingy(CommandMap commands, boolean caseSensitive, List<String> legalQuotes) {
+    public Clingy(Map<String, Command> commands, boolean caseSensitive, List<String> legalQuotes) {
         lookupResolver = new LookupResolver(caseSensitive);
         inputParser = new InputParser(legalQuotes);
-        map = commands;
+        map = new CommandMap(commands);
         mapAliased = new CommandMap();
         updateAliases();
     }
