@@ -60,7 +60,7 @@ public class InputParser {
     }
 
     private Pattern generateMatcher() {
-        final String matchBase = "(\\S+)";
+        String matchBase = "(\\S+)";
 
         logger.debug("Creating matcher.");
         List<String> matchItems = legalQuotes

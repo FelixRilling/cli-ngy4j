@@ -21,7 +21,7 @@ class InputParserTest {
     }
 
     /**
-     * Asserts that {@link InputParser} escapes special characters.
+     * Asserts that {@link InputParser} escapes special regex characters.
      */
     @Test
     void inputParserEscapesSpecials() {
@@ -33,7 +33,7 @@ class InputParserTest {
      */
     @Test
     void parseSplitsSpaces() {
-        InputParser inputParser = new InputParser(Arrays.asList("\"", "'"));
+        InputParser inputParser = new InputParser();
 
         assertThat(inputParser.parse("foo")).containsExactly("foo");
         assertThat(inputParser.parse("foo bar")).containsExactly("foo", "bar");
