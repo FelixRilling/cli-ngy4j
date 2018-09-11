@@ -136,6 +136,35 @@ class LookupResolverTest {
 
         LookupResult lookupResult = new LookupResolver().resolve(commandMap1, Arrays.asList(commandName1, commandName2));
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
-        assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command1);
+        assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command2);
+    }
+
+    /**
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} resolves sub-command arguments.
+     */
+    @Test
+    void resolveCommandResolvesSubCommandArguments() {
+        String commandName2 = "bar";
+        String argumentName = "baa";
+        Argument argument = new Argument(argumentName, true);
+        Command command2 = new Command(null, Collections.emptyList(), Collections.singletonList(argument));
+        CommandMap commandMap2 = new CommandMap();
+        commandMap2.put(commandName2, command2);
+        Clingy clingy = new Clingy(commandMap2);
+
+        String commandName1 = "foo";
+        Command command1 = new Command(null, Collections.emptyList(), null, null, clingy);
+        CommandMap commandMap1 = new CommandMap();
+        commandMap1.put(commandName1, command1);
+
+        String argumentVal = "fizz";
+        LookupResult lookupResult = new LookupResolver().resolve(
+            commandMap1,
+            Arrays.asList(commandName1, commandName2, argumentVal),
+            true
+        );
+        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
+        assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command2);
+        assertThat(((LookupSuccess) lookupResult).getArgs()).containsEntry(argumentName, argumentVal);
     }
 }

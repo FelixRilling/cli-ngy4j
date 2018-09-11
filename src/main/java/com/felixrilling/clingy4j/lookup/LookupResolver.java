@@ -59,13 +59,13 @@ public class LookupResolver {
      * @return Lookup result, either {@link LookupSuccess}, {@link LookupErrorNotFound} or {@link LookupErrorMissingArgs}.
      */
     public LookupResult resolve(CommandMap mapAliased, List<String> path, boolean parseArguments) {
+        if (path.isEmpty())
+            throw new IllegalArgumentException("Path cannot be empty.");
+
         return resolveInternal(mapAliased, path, new LinkedList<>(), parseArguments);
     }
 
     private LookupResult resolveInternal(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {
-        if (path.isEmpty())
-            throw new IllegalArgumentException("Path cannot be empty.");
-
         String currentPathFragment = path.get(0);
         List<String> pathNew = path.subList(1, path.size());
         pathUsed.add(currentPathFragment);
@@ -78,7 +78,7 @@ public class LookupResolver {
         Command command = caseSensitive ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
         logger.debug("Successfully looked up command: {}", currentPathFragment);
 
-        if (pathNew.size() > 1 && command.getSub() != null) {
+        if (pathNew.size() > 0 && command.getSub() != null) {
             logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
             return resolveInternal(command.getSub().getMapAliased(), pathNew, pathUsed, parseArguments);
         }
