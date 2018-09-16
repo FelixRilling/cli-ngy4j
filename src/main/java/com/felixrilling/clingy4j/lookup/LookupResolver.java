@@ -20,8 +20,9 @@ import java.util.List;
  */
 public class LookupResolver {
 
+    private static final Logger logger = LoggerFactory.getLogger(LookupResolver.class);
+
     private final boolean caseSensitive;
-    private final Logger logger = LoggerFactory.getLogger(LookupResolver.class);
 
     /**
      * @see LookupResolver#LookupResolver(boolean)

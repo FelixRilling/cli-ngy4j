@@ -15,9 +15,10 @@ import java.util.stream.Collectors;
  */
 public class InputParser {
 
+    private static final Logger logger = LoggerFactory.getLogger(InputParser.class);
+
     private final List<String> legalQuotes;
     private final Pattern pattern;
-    private final Logger logger = LoggerFactory.getLogger(InputParser.class);
 
     /**
      * @see InputParser#InputParser(List)

@@ -7,8 +7,8 @@ import java.util.List;
  */
 public class LookupErrorNotFound extends LookupResult {
 
-    private final String missing;
-    private final List<String> similar;
+    private  String missing;
+    private  List<String> similar;
 
     /**
      * Creates a {@link LookupErrorNotFound}.

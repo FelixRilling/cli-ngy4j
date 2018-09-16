@@ -21,7 +21,8 @@ import java.util.Map;
  */
 public class Clingy {
 
-    private final Logger logger = LoggerFactory.getLogger(Clingy.class);
+    private static final Logger logger = LoggerFactory.getLogger(Clingy.class);
+
     private final LookupResolver lookupResolver;
     private final InputParser inputParser;
     private final CommandMap map;

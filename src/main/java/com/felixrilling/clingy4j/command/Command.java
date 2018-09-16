@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  */
 public class Command {
 
-    private final List<String> alias;
+    private List<String> alias;
     private Consumer<ResolvedArgumentMap> fn;
     private List<Argument> args;
     private Object data;

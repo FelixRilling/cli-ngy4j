@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class LookupSuccess extends LookupResult {
 
-    private final Command command;
-    private final ResolvedArgumentMap args;
+    private Command command;
+    private ResolvedArgumentMap args;
 
     /**
      * Creates a {@link LookupSuccess}.
