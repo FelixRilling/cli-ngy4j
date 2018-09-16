@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class LookupErrorMissingArgs extends LookupResult {
 
-    private List<Argument> missing;
+    private final List<Argument> missing;
 
     /**
      * Creates a {@link LookupErrorMissingArgs}.

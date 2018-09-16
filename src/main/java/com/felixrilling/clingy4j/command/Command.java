@@ -49,16 +49,20 @@ public class Command {
         this.sub = sub;
     }
 
+    public List<String> getAlias() {
+        return alias;
+    }
+
+    public void setAlias(List<String> alias) {
+        this.alias = alias;
+    }
+
     public Consumer<ResolvedArgumentMap> getFn() {
         return fn;
     }
 
     public void setFn(Consumer<ResolvedArgumentMap> fn) {
         this.fn = fn;
-    }
-
-    public List<String> getAlias() {
-        return alias;
     }
 
     public List<Argument> getArgs() {

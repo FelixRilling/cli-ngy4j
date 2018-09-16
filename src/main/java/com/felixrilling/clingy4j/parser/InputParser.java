@@ -37,14 +37,6 @@ public class InputParser {
         this.pattern = generateMatcher();
     }
 
-    public List<String> getLegalQuotes() {
-        return legalQuotes;
-    }
-
-    public Pattern getPattern() {
-        return pattern;
-    }
-
     /**
      * Parses an input string.
      *
@@ -58,6 +50,14 @@ public class InputParser {
             .results()
             .map(this::getBestGroupMatch)
             .collect(Collectors.toList());
+    }
+
+    public List<String> getLegalQuotes() {
+        return legalQuotes;
+    }
+
+    public Pattern getPattern() {
+        return pattern;
     }
 
     private Pattern generateMatcher() {

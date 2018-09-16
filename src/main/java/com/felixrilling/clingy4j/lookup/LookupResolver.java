@@ -40,10 +40,6 @@ public class LookupResolver {
         this.caseSensitive = caseSensitive;
     }
 
-    public boolean isCaseSensitive() {
-        return caseSensitive;
-    }
-
     /**
      * @see LookupResolver#resolve(CommandMap, List, boolean)
      */
@@ -64,6 +60,10 @@ public class LookupResolver {
             throw new IllegalArgumentException("Path cannot be empty.");
 
         return resolveInternal(mapAliased, path, new LinkedList<>(), parseArguments);
+    }
+
+    public boolean isCaseSensitive() {
+        return caseSensitive;
     }
 
     private LookupResult resolveInternal(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {

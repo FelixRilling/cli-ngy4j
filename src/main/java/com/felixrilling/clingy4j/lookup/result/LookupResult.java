@@ -9,10 +9,10 @@ import java.util.List;
  */
 public abstract class LookupResult {
 
-    private boolean successful;
-    private List<String> pathDangling;
-    private List<String> pathUsed;
-    private ResultType type;
+    private final boolean successful;
+    private final List<String> pathDangling;
+    private final List<String> pathUsed;
+    private final ResultType type;
 
     public enum ResultType {SUCCESS, ERROR_NOT_FOUND, ERROR_MISSING_ARGUMENT}
 

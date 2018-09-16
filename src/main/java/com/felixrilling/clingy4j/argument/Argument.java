@@ -56,5 +56,4 @@ public class Argument {
     public void setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;
     }
-
 }

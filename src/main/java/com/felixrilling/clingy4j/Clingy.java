@@ -64,27 +64,6 @@ public class Clingy {
         updateAliases();
     }
 
-    public CommandMap getMap() {
-        return map;
-    }
-
-    public CommandMap getMapAliased() {
-        return mapAliased;
-    }
-
-    public void setCommand(String key, Command command) {
-        map.put(key, command);
-        updateAliases();
-    }
-
-    public Command getCommand(String key) {
-        return mapAliased.get(key);
-    }
-
-    public boolean hasCommand(String key) {
-        return mapAliased.containsKey(key);
-    }
-
     /**
      * Checks if a path resolves to a command.
      *
@@ -117,6 +96,27 @@ public class Clingy {
     public LookupResult parse(String input) {
         logger.debug("Parsing input: '{}'", input);
         return lookupResolver.resolve(mapAliased, inputParser.parse(input), true);
+    }
+
+    public void setCommand(String key, Command command) {
+        map.put(key, command);
+        updateAliases();
+    }
+
+    public Command getCommand(String key) {
+        return mapAliased.get(key);
+    }
+
+    public boolean hasCommand(String key) {
+        return mapAliased.containsKey(key);
+    }
+
+    public CommandMap getMap() {
+        return map;
+    }
+
+    public CommandMap getMapAliased() {
+        return mapAliased;
     }
 
     private void updateAliases() {
