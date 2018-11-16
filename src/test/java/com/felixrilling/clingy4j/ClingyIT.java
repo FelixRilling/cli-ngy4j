@@ -27,7 +27,7 @@ class ClingyIT {
     private Command command2;
 
     @BeforeEach
-    public void setup() {
+    void setup() {
         Map<String, Command> commandMap = new HashMap<>();
 
         argument1 = new Argument("val", true);
@@ -52,7 +52,7 @@ class ClingyIT {
      * Asserts that lookup of commands with args works.
      */
     @Test
-    public void commandNormal() {
+    void commandNormal() {
         String input = "foo 123";
         LookupResult lookupResult = clingy.parse(input);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
@@ -66,7 +66,7 @@ class ClingyIT {
      * Asserts that lookup of commands without args works.
      */
     @Test
-    public void commandArgs() {
+    void commandArgs() {
         String input = "baa 456";
         LookupResult lookupResult = clingy.parse(input);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
@@ -80,8 +80,8 @@ class ClingyIT {
      * Asserts that lookup of missing commands works.
      */
     @Test
-    public void commandMissing() {
-        String input = "foob";
+    void commandMissing() {
+        @SuppressWarnings("SpellCheckingInspection") String input = "foob";
         LookupResult lookupResult = clingy.parse(input);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.ERROR_NOT_FOUND);
         assertThat(lookupResult.getPathDangling()).isEmpty();
@@ -94,7 +94,7 @@ class ClingyIT {
      * Asserts that lookup of commands with missing args works.
      */
     @Test
-    public void commandArgsMissing() {
+    void commandArgsMissing() {
         String input = "foo";
         LookupResult lookupResult = clingy.parse(input);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.ERROR_MISSING_ARGUMENT);

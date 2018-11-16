@@ -3,6 +3,7 @@ package com.felixrilling.clingy4j;
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.lookup.*;
+import com.felixrilling.clingy4j.lookup.LookupResolver.ArgumentResolving;
 import com.felixrilling.clingy4j.parser.InputParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class Clingy {
     private final CommandMap mapAliased;
 
     /**
-     * @see Clingy#Clingy(Map, List, boolean)
+     * @see Clingy#Clingy(Map, List, LookupResolver.CaseSensitivity)
      */
     @SuppressWarnings({"unused"})
     public Clingy() {
@@ -33,23 +34,23 @@ public class Clingy {
     }
 
     /**
-     * @see Clingy#Clingy(Map, List, boolean)
+     * @see Clingy#Clingy(Map, List, LookupResolver.CaseSensitivity)
      */
     @SuppressWarnings({"unused"})
     public Clingy(Map<String, Command> commands) {
-        this(commands, Collections.singletonList("\""), true);
+        this(commands, Collections.singletonList("\""), LookupResolver.CaseSensitivity.SENSITIVE);
     }
 
     /**
      * Creates a new {@link Clingy} instance.
      *
-     * @param commands      Map of commands to create the instance with.
-     * @param legalQuotes   List of quotes to use when parsing strings.
-     * @param caseSensitive If commands names should be treated as case sensitive during lookup.
+     * @param commands        Map of commands to create the instance with.
+     * @param legalQuotes     List of quotes to use when parsing strings.
+     * @param caseSensitivity If commands names should be treated as case sensitive during lookup.
      */
     @SuppressWarnings({"unused"})
-    public Clingy(Map<String, Command> commands, List<String> legalQuotes, boolean caseSensitive) {
-        lookupResolver = new LookupResolver(caseSensitive);
+    public Clingy(Map<String, Command> commands, List<String> legalQuotes, LookupResolver.CaseSensitivity caseSensitivity) {
+        lookupResolver = new LookupResolver(caseSensitivity);
         inputParser = new InputParser(legalQuotes);
         map = new CommandMap(commands);
         mapAliased = new CommandMap();
@@ -78,7 +79,7 @@ public class Clingy {
     @SuppressWarnings({"unused", "WeakerAccess"})
     public LookupResult getPath(List<String> path) {
         logger.debug("Resolving path: {}", path);
-        return lookupResolver.resolve(mapAliased, path, false);
+        return lookupResolver.resolve(mapAliased, path, ArgumentResolving.IGNORE);
     }
 
     /**
@@ -90,7 +91,7 @@ public class Clingy {
     @SuppressWarnings({"unused"})
     public LookupResult parse(String input) {
         logger.debug("Parsing input: '{}'", input);
-        return lookupResolver.resolve(mapAliased, inputParser.parse(input), true);
+        return lookupResolver.resolve(mapAliased, inputParser.parse(input), ArgumentResolving.RESOLVE);
     }
 
     @SuppressWarnings({"unused", "WeakerAccess"})

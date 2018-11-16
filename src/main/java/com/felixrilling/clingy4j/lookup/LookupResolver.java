@@ -19,52 +19,52 @@ public class LookupResolver {
 
     private static final Logger logger = LoggerFactory.getLogger(LookupResolver.class);
 
-    private final boolean caseSensitive;
+    private final CaseSensitivity caseSensitivity;
 
     /**
      * Creates a new {@link LookupResolver}.
      *
-     * @param caseSensitive If the lookup should honor case.
+     * @param caseSensitivity If the lookup should honor case.
      */
-    public LookupResolver(boolean caseSensitive) {
-        this.caseSensitive = caseSensitive;
+    public LookupResolver(CaseSensitivity caseSensitivity) {
+        this.caseSensitivity = caseSensitivity;
     }
 
     /**
      * Resolves a path through a {@link CommandMap}.
      *
-     * @param mapAliased     Map to use.
-     * @param path           Path to getPathUsed.
-     * @param parseArguments If dangling path items should be treated as arguments.
+     * @param mapAliased        Map to use.
+     * @param path              Path to getPathUsed.
+     * @param argumentResolving If dangling path items should be treated as arguments.
      * @return Lookup result, either {@link LookupSuccess}, {@link LookupErrorNotFound} or {@link LookupErrorMissingArgs}.
      */
-    public LookupResult resolve(CommandMap mapAliased, List<String> path, boolean parseArguments) {
+    public LookupResult resolve(CommandMap mapAliased, List<String> path, ArgumentResolving argumentResolving) {
         if (path.isEmpty())
             throw new IllegalArgumentException("Path cannot be empty.");
 
-        return resolveInternal(mapAliased, path, new LinkedList<>(), parseArguments);
+        return resolveInternal(mapAliased, path, new LinkedList<>(), argumentResolving);
     }
 
-    private LookupResult resolveInternal(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {
+    private LookupResult resolveInternal(CommandMap mapAliased, List<String> path, List<String> pathUsed, ArgumentResolving argumentResolving) {
         String currentPathFragment = path.get(0);
         List<String> pathNew = path.subList(1, path.size());
         pathUsed.add(currentPathFragment);
 
-        if (caseSensitive ? !mapAliased.containsKey(currentPathFragment) : !mapAliased.containsKeyIgnoreCase(currentPathFragment)) {
+        if (caseSensitivity == CaseSensitivity.SENSITIVE ? !mapAliased.containsKey(currentPathFragment) : !mapAliased.containsKeyIgnoreCase(currentPathFragment)) {
             logger.warn("Command '{}' could not be found.", currentPathFragment);
             return new LookupErrorNotFound(pathNew, pathUsed, currentPathFragment, CommandUtil.getSimilar(mapAliased, currentPathFragment));
         }
 
-        Command command = caseSensitive ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
+        Command command = caseSensitivity == CaseSensitivity.SENSITIVE ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
         logger.debug("Successfully looked up command: {}", currentPathFragment);
 
         if (!pathNew.isEmpty() && command.getSub() != null) {
             logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
-            return resolveInternal(command.getSub().getMapAliased(), pathNew, pathUsed, parseArguments);
+            return resolveInternal(command.getSub().getMapAliased(), pathNew, pathUsed, argumentResolving);
         }
 
         Map<String, String> argumentsResolved;
-        if (!parseArguments || command.getArgs() == null || command.getArgs().isEmpty()) {
+        if (argumentResolving == ArgumentResolving.IGNORE || command.getArgs() == null || command.getArgs().isEmpty()) {
             logger.debug("No arguments defined, using empty list.");
             argumentsResolved = new HashMap<>();
         } else {
@@ -85,6 +85,14 @@ public class LookupResolver {
         logger.debug("Returning successful lookup result: {}", lookupSuccess);
 
         return lookupSuccess;
+    }
+
+    public enum CaseSensitivity {
+        SENSITIVE, INSENSITIVE
+    }
+
+    public enum ArgumentResolving {
+        RESOLVE, IGNORE
     }
 }
 
