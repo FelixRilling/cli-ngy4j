@@ -1,6 +1,4 @@
-package com.felixrilling.clingy4j.lookup.result;
-
-import com.felixrilling.clingy4j.lookup.LookupResolver;
+package com.felixrilling.clingy4j.lookup;
 
 import java.util.List;
 
@@ -14,8 +12,6 @@ public abstract class LookupResult {
     private final List<String> pathUsed;
     private final ResultType type;
 
-    public enum ResultType {SUCCESS, ERROR_NOT_FOUND, ERROR_MISSING_ARGUMENT}
-
     /**
      * Creates a new {@link LookupResult}.
      *
@@ -24,7 +20,7 @@ public abstract class LookupResult {
      * @param pathDangling Dangling pathUsed.
      * @param pathUsed     Path used.
      */
-    public LookupResult(boolean successful, ResultType type, List<String> pathDangling, List<String> pathUsed) {
+    LookupResult(boolean successful, ResultType type, List<String> pathDangling, List<String> pathUsed) {
         this.successful = successful;
         this.type = type;
         this.pathDangling = pathDangling;
@@ -46,6 +42,8 @@ public abstract class LookupResult {
     public List<String> getPathDangling() {
         return pathDangling;
     }
+
+    public enum ResultType {SUCCESS, ERROR_NOT_FOUND, ERROR_MISSING_ARGUMENT}
 
 
 }

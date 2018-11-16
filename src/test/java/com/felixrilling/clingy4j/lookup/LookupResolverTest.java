@@ -4,10 +4,6 @@ import com.felixrilling.clingy4j.Clingy;
 import com.felixrilling.clingy4j.argument.Argument;
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
-import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
-import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
-import com.felixrilling.clingy4j.lookup.result.LookupResult;
-import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
 
@@ -24,24 +20,24 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class LookupResolverTest {
 
     /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} throws an {@link IllegalArgumentException}
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, boolean)}} throws an {@link IllegalArgumentException}
      * for an empty path.
      */
     @Test
     void resolveCommandReturnsNullForEmpty() {
-        Executable closureContainingCodeToTest = () -> new LookupResolver().resolve(new CommandMap(), Collections.emptyList());
+        Executable closureContainingCodeToTest = () -> new LookupResolver(true).resolve(new CommandMap(), Collections.emptyList(), false);
 
         assertThrows(IllegalArgumentException.class, closureContainingCodeToTest);
     }
 
     /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns a {@link LookupErrorNotFound} for non-existent commands.
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, boolean)} returns a {@link LookupErrorNotFound} for non-existent commands.
      */
     @Test
     void resolveCommandReturnsLookupErrorForNotFound() {
         String commandName = "foo";
 
-        LookupResult lookupResult = new LookupResolver().resolve(new CommandMap(), Collections.singletonList(commandName));
+        LookupResult lookupResult = new LookupResolver(true).resolve(new CommandMap(), Collections.singletonList(commandName), false);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.ERROR_NOT_FOUND);
         assertThat(((LookupErrorNotFound) lookupResult).getMissing()).isEqualTo(commandName);
         assertThat(lookupResult.getPathUsed()).containsExactly(commandName);
@@ -49,7 +45,7 @@ class LookupResolverTest {
     }
 
     /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns a {@link LookupErrorMissingArgs} when arguments are missing.
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, boolean)}  returns a {@link LookupErrorMissingArgs} when arguments are missing.
      */
     @Test
     void resolveCommandReturnsLookupErrorForMissingArgument() {
@@ -59,7 +55,7 @@ class LookupResolverTest {
         CommandMap commandMap = new CommandMap();
         commandMap.put(commandName, command);
 
-        LookupResult lookupResult = new LookupResolver().resolve(commandMap, Collections.singletonList(commandName), true);
+        LookupResult lookupResult = new LookupResolver(true).resolve(commandMap, Collections.singletonList(commandName), true);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.ERROR_MISSING_ARGUMENT);
         assertThat(((LookupErrorMissingArgs) lookupResult).getMissing()).containsExactly(argument);
         assertThat(lookupResult.getPathUsed()).containsExactly(commandName);
@@ -67,7 +63,7 @@ class LookupResolverTest {
     }
 
     /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns the {@link Command}.
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, boolean)}  returns the {@link Command}.
      */
     @Test
     void resolveCommandReturnsCommand() {
@@ -76,7 +72,7 @@ class LookupResolverTest {
         CommandMap commandMap = new CommandMap();
         commandMap.put(commandName, command);
 
-        LookupResult lookupResult = new LookupResolver().resolve(commandMap, Collections.singletonList(commandName));
+        LookupResult lookupResult = new LookupResolver(true).resolve(commandMap, Collections.singletonList(commandName), false);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command);
         assertThat(lookupResult.getPathUsed()).containsExactly(commandName);
@@ -84,7 +80,7 @@ class LookupResolverTest {
     }
 
     /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} returns dangling path elements.
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, boolean)}  returns dangling path elements.
      */
     @Test
     void resolveCommandReturnsDangling() {
@@ -94,14 +90,14 @@ class LookupResolverTest {
         CommandMap commandMap = new CommandMap();
         commandMap.put(commandNames.get(0), command);
 
-        LookupResult lookupResult = new LookupResolver().resolve(commandMap, commandNames);
+        LookupResult lookupResult = new LookupResolver(true).resolve(commandMap, commandNames, false);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(lookupResult.getPathUsed()).containsExactly(pathElement1);
         assertThat(lookupResult.getPathDangling()).isEqualTo(commandNames.subList(1, commandNames.size()));
     }
 
     /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} honors caseSensitive.
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, boolean)}  honors caseSensitive.
      */
     @Test
     void resolveCommandHonorsCaseSensitive() {
@@ -110,16 +106,16 @@ class LookupResolverTest {
         CommandMap commandMap = new CommandMap();
         commandMap.put(commandName, command);
 
-        LookupResult lookupResultCaseSensitive = new LookupResolver(true).resolve(commandMap, Collections.singletonList("fOo"));
+        LookupResult lookupResultCaseSensitive = new LookupResolver(true).resolve(commandMap, Collections.singletonList("fOo"), false);
         assertThat(lookupResultCaseSensitive.getType()).isEqualTo(LookupResult.ResultType.ERROR_NOT_FOUND);
 
-        LookupResult lookupResultCaseInsensitive = new LookupResolver(false).resolve(commandMap, Collections.singletonList("fOo"));
+        LookupResult lookupResultCaseInsensitive = new LookupResolver(false).resolve(commandMap, Collections.singletonList("fOo"), false);
         assertThat(lookupResultCaseInsensitive.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResultCaseInsensitive).getCommand()).isEqualTo(command);
     }
 
     /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} resolves sub-commands.
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, boolean)}  resolves sub-commands.
      */
     @Test
     void resolveCommandResolvesSubCommands() {
@@ -134,13 +130,13 @@ class LookupResolverTest {
         CommandMap commandMap1 = new CommandMap();
         commandMap1.put(commandName1, command1);
 
-        LookupResult lookupResult = new LookupResolver().resolve(commandMap1, Arrays.asList(commandName1, commandName2));
+        LookupResult lookupResult = new LookupResolver(true).resolve(commandMap1, Arrays.asList(commandName1, commandName2), false);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command2);
     }
 
     /**
-     * Asserts that {@link LookupResolver#resolve(CommandMap, List)} resolves sub-command arguments.
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, boolean)}  resolves sub-command arguments.
      */
     @Test
     void resolveCommandResolvesSubCommandArguments() {
@@ -158,7 +154,7 @@ class LookupResolverTest {
         commandMap1.put(commandName1, command1);
 
         String argumentVal = "fizz";
-        LookupResult lookupResult = new LookupResolver().resolve(
+        LookupResult lookupResult = new LookupResolver(true).resolve(
             commandMap1,
             Arrays.asList(commandName1, commandName2, argumentVal),
             true

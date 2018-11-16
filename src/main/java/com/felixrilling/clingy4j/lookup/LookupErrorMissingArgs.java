@@ -1,4 +1,4 @@
-package com.felixrilling.clingy4j.lookup.result;
+package com.felixrilling.clingy4j.lookup;
 
 import com.felixrilling.clingy4j.argument.Argument;
 
@@ -18,7 +18,7 @@ public class LookupErrorMissingArgs extends LookupResult {
      * @param pathUsed     Path used.
      * @param missing      List of missing arguments.
      */
-    public LookupErrorMissingArgs(List<String> pathDangling, List<String> pathUsed, List<Argument> missing) {
+    LookupErrorMissingArgs(List<String> pathDangling, List<String> pathUsed, List<Argument> missing) {
         super(false, ResultType.ERROR_MISSING_ARGUMENT, pathDangling, pathUsed);
         this.missing = missing;
     }

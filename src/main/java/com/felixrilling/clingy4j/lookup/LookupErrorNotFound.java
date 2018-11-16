@@ -1,4 +1,4 @@
-package com.felixrilling.clingy4j.lookup.result;
+package com.felixrilling.clingy4j.lookup;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class LookupErrorNotFound extends LookupResult {
      * @param missing      Key of missing command.
      * @param similar      Similar keys available.
      */
-    public LookupErrorNotFound(List<String> pathDangling, List<String> pathUsed, String missing, List<String> similar) {
+    LookupErrorNotFound(List<String> pathDangling, List<String> pathUsed, String missing, List<String> similar) {
         super(false, ResultType.ERROR_NOT_FOUND, pathDangling, pathUsed);
         this.missing = missing;
         this.similar = similar;

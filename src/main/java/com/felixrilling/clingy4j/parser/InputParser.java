@@ -3,7 +3,6 @@ package com.felixrilling.clingy4j.parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Pattern;
@@ -19,13 +18,6 @@ public class InputParser {
 
     private final List<String> legalQuotes;
     private final Pattern pattern;
-
-    /**
-     * @see InputParser#InputParser(List)
-     */
-    public InputParser() {
-        this(Collections.singletonList("\""));
-    }
 
     /**
      * Creates an {@link InputParser}.
@@ -52,11 +44,7 @@ public class InputParser {
             .collect(Collectors.toList());
     }
 
-    public List<String> getLegalQuotes() {
-        return legalQuotes;
-    }
-
-    public Pattern getPattern() {
+    Pattern getPattern() {
         return pattern;
     }
 

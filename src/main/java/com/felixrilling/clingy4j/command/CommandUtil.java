@@ -1,7 +1,5 @@
-package com.felixrilling.clingy4j.command.util;
+package com.felixrilling.clingy4j.command;
 
-import com.felixrilling.clingy4j.command.Command;
-import com.felixrilling.clingy4j.command.CommandMap;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
 import java.util.LinkedList;

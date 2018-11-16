@@ -1,19 +1,16 @@
 package com.felixrilling.clingy4j.lookup;
 
 import com.felixrilling.clingy4j.argument.ArgumentMatcher;
-import com.felixrilling.clingy4j.argument.ResolvedArgumentMap;
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
-import com.felixrilling.clingy4j.command.util.CommandUtil;
-import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
-import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
-import com.felixrilling.clingy4j.lookup.result.LookupResult;
-import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
+import com.felixrilling.clingy4j.command.CommandUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Lookup tools for resolving paths through {@link CommandMap}s.
@@ -25,26 +22,12 @@ public class LookupResolver {
     private final boolean caseSensitive;
 
     /**
-     * @see LookupResolver#LookupResolver(boolean)
-     */
-    public LookupResolver() {
-        this(true);
-    }
-
-    /**
      * Creates a new {@link LookupResolver}.
      *
      * @param caseSensitive If the lookup should honor case.
      */
     public LookupResolver(boolean caseSensitive) {
         this.caseSensitive = caseSensitive;
-    }
-
-    /**
-     * @see LookupResolver#resolve(CommandMap, List, boolean)
-     */
-    public LookupResult resolve(CommandMap mapAliased, List<String> path) {
-        return resolve(mapAliased, path, false);
     }
 
     /**
@@ -62,10 +45,6 @@ public class LookupResolver {
         return resolveInternal(mapAliased, path, new LinkedList<>(), parseArguments);
     }
 
-    public boolean isCaseSensitive() {
-        return caseSensitive;
-    }
-
     private LookupResult resolveInternal(CommandMap mapAliased, List<String> path, List<String> pathUsed, boolean parseArguments) {
         String currentPathFragment = path.get(0);
         List<String> pathNew = path.subList(1, path.size());
@@ -79,15 +58,15 @@ public class LookupResolver {
         Command command = caseSensitive ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
         logger.debug("Successfully looked up command: {}", currentPathFragment);
 
-        if (pathNew.size() > 0 && command.getSub() != null) {
+        if (!pathNew.isEmpty() && command.getSub() != null) {
             logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
             return resolveInternal(command.getSub().getMapAliased(), pathNew, pathUsed, parseArguments);
         }
 
-        ResolvedArgumentMap argumentsResolved;
+        Map<String, String> argumentsResolved;
         if (!parseArguments || command.getArgs() == null || command.getArgs().isEmpty()) {
             logger.debug("No arguments defined, using empty list.");
-            argumentsResolved = new ResolvedArgumentMap();
+            argumentsResolved = new HashMap<>();
         } else {
             logger.debug("Looking up arguments: {}", pathNew);
             ArgumentMatcher argumentMatcher = new ArgumentMatcher(command.getArgs(), pathNew);

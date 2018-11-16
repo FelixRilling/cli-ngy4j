@@ -1,9 +1,9 @@
-package com.felixrilling.clingy4j.lookup.result;
+package com.felixrilling.clingy4j.lookup;
 
-import com.felixrilling.clingy4j.argument.ResolvedArgumentMap;
 import com.felixrilling.clingy4j.command.Command;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * {@link LookupResult} indicating the lookup completed successfully.
@@ -11,7 +11,7 @@ import java.util.List;
 public class LookupSuccess extends LookupResult {
 
     private final Command command;
-    private final ResolvedArgumentMap args;
+    private final Map<String, String> args;
 
     /**
      * Creates a {@link LookupSuccess}.
@@ -21,7 +21,7 @@ public class LookupSuccess extends LookupResult {
      * @param command      Command that was looked up.
      * @param args         Arguments that were looked up.
      */
-    public LookupSuccess(List<String> pathDangling, List<String> pathUsed, Command command, ResolvedArgumentMap args) {
+    LookupSuccess(List<String> pathDangling, List<String> pathUsed, Command command, Map<String, String> args) {
         super(true, ResultType.SUCCESS, pathDangling, pathUsed);
         this.command = command;
         this.args = args;
@@ -31,7 +31,7 @@ public class LookupSuccess extends LookupResult {
         return command;
     }
 
-    public ResolvedArgumentMap getArgs() {
+    public Map<String, String> getArgs() {
         return args;
     }
 }

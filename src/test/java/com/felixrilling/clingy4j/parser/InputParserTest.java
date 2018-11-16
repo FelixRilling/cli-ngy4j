@@ -3,6 +3,7 @@ package com.felixrilling.clingy4j.parser;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.regex.Pattern;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -17,7 +18,7 @@ class InputParserTest {
      */
     @Test
     void inputParserCreatesPattern() {
-        assertThat(new InputParser().getPattern()).isInstanceOf(Pattern.class);
+        assertThat(new InputParser(Collections.emptyList()).getPattern()).isInstanceOf(Pattern.class);
     }
 
     /**
@@ -33,7 +34,7 @@ class InputParserTest {
      */
     @Test
     void parseSplitsSpaces() {
-        InputParser inputParser = new InputParser();
+        InputParser inputParser = new InputParser(Collections.emptyList());
 
         assertThat(inputParser.parse("foo")).containsExactly("foo");
         assertThat(inputParser.parse("foo bar")).containsExactly("foo", "bar");

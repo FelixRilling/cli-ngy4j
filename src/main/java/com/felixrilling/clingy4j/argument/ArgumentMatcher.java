@@ -4,8 +4,10 @@ import com.felixrilling.clingy4j.command.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Orchestrates mapping of {@link Argument}s to user-provided input.
@@ -15,7 +17,7 @@ public class ArgumentMatcher {
     private static final Logger logger = LoggerFactory.getLogger(ArgumentMatcher.class);
 
     private final List<Argument> missing;
-    private final ResolvedArgumentMap result;
+    private final HashMap<String, String> result;
 
     /**
      * Matches a list of {@link Argument}s to a list of string input arguments.
@@ -25,7 +27,8 @@ public class ArgumentMatcher {
      */
     public ArgumentMatcher(List<Argument> expected, List<String> provided) {
         missing = new LinkedList<>();
-        result = new ResolvedArgumentMap(expected.size());
+        int initialCapacity = expected.size();
+        result = new HashMap<>(initialCapacity);
 
         logger.debug("Matching arguments {} with {}", expected, provided);
 
@@ -47,7 +50,7 @@ public class ArgumentMatcher {
         logger.debug("Finished matching arguments: {} expected, {} found and {} missing.", expected.size(), result.size(), missing.size());
     }
 
-    public ResolvedArgumentMap getResult() {
+    public Map<String, String> getResult() {
         return result;
     }
 

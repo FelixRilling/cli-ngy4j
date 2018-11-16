@@ -2,11 +2,7 @@ package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
-import com.felixrilling.clingy4j.lookup.LookupResolver;
-import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
-import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
-import com.felixrilling.clingy4j.lookup.result.LookupResult;
-import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
+import com.felixrilling.clingy4j.lookup.*;
 import com.felixrilling.clingy4j.parser.InputParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,34 +25,30 @@ public class Clingy {
     private final CommandMap mapAliased;
 
     /**
-     * @see Clingy#Clingy(Map, boolean, List)
+     * @see Clingy#Clingy(Map, List, boolean)
      */
+    @SuppressWarnings({"unused"})
     public Clingy() {
         this(new HashMap<>());
     }
 
     /**
-     * @see Clingy#Clingy(Map, boolean, List)
+     * @see Clingy#Clingy(Map, List, boolean)
      */
+    @SuppressWarnings({"unused"})
     public Clingy(Map<String, Command> commands) {
-        this(commands, true);
-    }
-
-    /**
-     * @see Clingy#Clingy(Map, boolean, List)
-     */
-    public Clingy(Map<String, Command> commands, boolean caseSensitive) {
-        this(commands, caseSensitive, Collections.singletonList("\""));
+        this(commands, Collections.singletonList("\""), true);
     }
 
     /**
      * Creates a new {@link Clingy} instance.
      *
      * @param commands      Map of commands to create the instance with.
-     * @param caseSensitive If commands names should be treated as case sensitive during lookup.
      * @param legalQuotes   List of quotes to use when parsing strings.
+     * @param caseSensitive If commands names should be treated as case sensitive during lookup.
      */
-    public Clingy(Map<String, Command> commands, boolean caseSensitive, List<String> legalQuotes) {
+    @SuppressWarnings({"unused"})
+    public Clingy(Map<String, Command> commands, List<String> legalQuotes, boolean caseSensitive) {
         lookupResolver = new LookupResolver(caseSensitive);
         inputParser = new InputParser(legalQuotes);
         map = new CommandMap(commands);
@@ -70,6 +62,7 @@ public class Clingy {
      * @param path Path to look up.
      * @return If the path resolves to a command.
      */
+    @SuppressWarnings("unused")
     public boolean hasPath(List<String> path) {
         LookupResult lookupResult = getPath(path);
 
@@ -82,9 +75,10 @@ public class Clingy {
      * @param path Path to look up.
      * @return Lookup result, either {@link LookupSuccess} or {@link LookupErrorNotFound}.
      */
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public LookupResult getPath(List<String> path) {
         logger.debug("Resolving path: {}", path);
-        return lookupResolver.resolve(mapAliased, path);
+        return lookupResolver.resolve(mapAliased, path, false);
     }
 
     /**
@@ -93,28 +87,34 @@ public class Clingy {
      * @param input String to parse.
      * @return Lookup result, either {@link LookupSuccess}, {@link LookupErrorNotFound} or {@link LookupErrorMissingArgs}.
      */
+    @SuppressWarnings({"unused"})
     public LookupResult parse(String input) {
         logger.debug("Parsing input: '{}'", input);
         return lookupResolver.resolve(mapAliased, inputParser.parse(input), true);
     }
 
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public void setCommand(String key, Command command) {
         map.put(key, command);
         updateAliases();
     }
 
+    @SuppressWarnings({"unused", "WeakerAccess"})
     public Command getCommand(String key) {
         return mapAliased.get(key);
     }
 
+    @SuppressWarnings({"unused"})
     public boolean hasCommand(String key) {
         return mapAliased.containsKey(key);
     }
 
+    @SuppressWarnings({"unused"})
     public CommandMap getMap() {
         return map;
     }
 
+    @SuppressWarnings({"unused"})
     public CommandMap getMapAliased() {
         return mapAliased;
     }
