@@ -1,6 +1,7 @@
 package com.felixrilling.clingy4j.command;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,7 +22,8 @@ public class CommandUtil {
      * @param name       Key to use.
      * @return List of similar keys.
      */
-    public static List<String> getSimilar(CommandMap mapAliased, String name) {
+    @NotNull
+    public static List<String> getSimilar(@NotNull CommandMap mapAliased, @NotNull String name) {
         LevenshteinDistance levenshteinDistance = LevenshteinDistance.getDefaultInstance();
         List<String> results = new LinkedList<>();
         int editDistanceMax = Integer.MAX_VALUE;

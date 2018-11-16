@@ -4,13 +4,11 @@ import com.felixrilling.clingy4j.argument.ArgumentMatcher;
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.CommandUtil;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Lookup tools for resolving paths through {@link CommandMap}s.
@@ -26,7 +24,7 @@ public class LookupResolver {
      *
      * @param caseSensitivity If the lookup should honor case.
      */
-    public LookupResolver(CaseSensitivity caseSensitivity) {
+    public LookupResolver(@NotNull CaseSensitivity caseSensitivity) {
         this.caseSensitivity = caseSensitivity;
     }
 
@@ -38,14 +36,16 @@ public class LookupResolver {
      * @param argumentResolving If dangling path items should be treated as arguments.
      * @return Lookup result, either {@link LookupSuccess}, {@link LookupErrorNotFound} or {@link LookupErrorMissingArgs}.
      */
-    public LookupResult resolve(CommandMap mapAliased, List<String> path, ArgumentResolving argumentResolving) {
+    @NotNull
+    public LookupResult resolve(@NotNull CommandMap mapAliased, @NotNull List<String> path, @NotNull ArgumentResolving argumentResolving) {
         if (path.isEmpty())
             throw new IllegalArgumentException("Path cannot be empty.");
 
         return resolveInternal(mapAliased, path, new LinkedList<>(), argumentResolving);
     }
 
-    private LookupResult resolveInternal(CommandMap mapAliased, List<String> path, List<String> pathUsed, ArgumentResolving argumentResolving) {
+    @NotNull
+    private LookupResult resolveInternal(@NotNull CommandMap mapAliased, @NotNull List<String> path, @NotNull List<String> pathUsed, @NotNull ArgumentResolving argumentResolving) {
         String currentPathFragment = path.get(0);
         List<String> pathNew = path.subList(1, path.size());
         pathUsed.add(currentPathFragment);
@@ -56,6 +56,7 @@ public class LookupResolver {
         }
 
         Command command = caseSensitivity == CaseSensitivity.SENSITIVE ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
+        Objects.requireNonNull(command); // We already checked if the key exists, but safe is safe.
         logger.debug("Successfully looked up command: {}", currentPathFragment);
 
         if (!pathNew.isEmpty() && command.getSub() != null) {

@@ -5,6 +5,7 @@ import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.lookup.*;
 import com.felixrilling.clingy4j.lookup.LookupResolver.ArgumentResolving;
 import com.felixrilling.clingy4j.parser.InputParser;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +38,7 @@ public class Clingy {
      * @see Clingy#Clingy(Map, List, LookupResolver.CaseSensitivity)
      */
     @SuppressWarnings({"unused"})
-    public Clingy(Map<String, Command> commands) {
+    public Clingy(@NotNull Map<String, Command> commands) {
         this(commands, Collections.singletonList("\""), LookupResolver.CaseSensitivity.SENSITIVE);
     }
 
@@ -49,7 +50,7 @@ public class Clingy {
      * @param caseSensitivity If commands names should be treated as case sensitive during lookup.
      */
     @SuppressWarnings({"unused"})
-    public Clingy(Map<String, Command> commands, List<String> legalQuotes, LookupResolver.CaseSensitivity caseSensitivity) {
+    public Clingy(@NotNull Map<String, Command> commands, @NotNull List<String> legalQuotes, @NotNull LookupResolver.CaseSensitivity caseSensitivity) {
         lookupResolver = new LookupResolver(caseSensitivity);
         inputParser = new InputParser(legalQuotes);
         map = new CommandMap(commands);
@@ -64,10 +65,10 @@ public class Clingy {
      * @return If the path resolves to a command.
      */
     @SuppressWarnings("unused")
-    public boolean hasPath(List<String> path) {
+    public boolean hasPath(@NotNull List<String> path) {
         LookupResult lookupResult = getPath(path);
 
-        return lookupResult != null && lookupResult.isSuccessful();
+        return lookupResult.isSuccessful();
     }
 
     /**
@@ -76,8 +77,9 @@ public class Clingy {
      * @param path Path to look up.
      * @return Lookup result, either {@link LookupSuccess} or {@link LookupErrorNotFound}.
      */
+    @NotNull
     @SuppressWarnings({"unused", "WeakerAccess"})
-    public LookupResult getPath(List<String> path) {
+    public LookupResult getPath(@NotNull List<String> path) {
         logger.debug("Resolving path: {}", path);
         return lookupResolver.resolve(mapAliased, path, ArgumentResolving.IGNORE);
     }
@@ -88,8 +90,9 @@ public class Clingy {
      * @param input String to parse.
      * @return Lookup result, either {@link LookupSuccess}, {@link LookupErrorNotFound} or {@link LookupErrorMissingArgs}.
      */
+    @NotNull
     @SuppressWarnings({"unused"})
-    public LookupResult parse(String input) {
+    public LookupResult parse(@NotNull String input) {
         logger.debug("Parsing input: '{}'", input);
         return lookupResolver.resolve(mapAliased, inputParser.parse(input), ArgumentResolving.RESOLVE);
     }
@@ -110,11 +113,13 @@ public class Clingy {
         return mapAliased.containsKey(key);
     }
 
+    @NotNull
     @SuppressWarnings({"unused"})
     public CommandMap getMap() {
         return map;
     }
 
+    @NotNull
     @SuppressWarnings({"unused"})
     public CommandMap getMapAliased() {
         return mapAliased;

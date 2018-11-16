@@ -1,5 +1,8 @@
 package com.felixrilling.clingy4j.command;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,7 +31,7 @@ public class CommandMap extends HashMap<String, Command> {
      *
      * @param map The {@link Map} to copy.
      */
-    public CommandMap(Map<String, Command> map) {
+    public CommandMap(@NotNull Map<String, Command> map) {
         super(map);
     }
 
@@ -38,7 +41,7 @@ public class CommandMap extends HashMap<String, Command> {
      * @param key Key to check for.
      * @return If the map contains a key, ignoring case.
      */
-    public boolean containsKeyIgnoreCase(String key) {
+    public boolean containsKeyIgnoreCase(@NotNull String key) {
         return keySet().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains(key.toLowerCase());
     }
 
@@ -48,7 +51,8 @@ public class CommandMap extends HashMap<String, Command> {
      * @param key Key to check for.
      * @return The value for the key, ignoring case.
      */
-    public Command getIgnoreCase(String key) {
+    @Nullable
+    public Command getIgnoreCase(@NotNull String key) {
         for (Entry<String, Command> entry : entrySet()) {
             if (key.equalsIgnoreCase(entry.getKey()))
                 return entry.getValue();

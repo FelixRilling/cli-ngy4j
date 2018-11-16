@@ -1,5 +1,6 @@
 package com.felixrilling.clingy4j.parser;
 
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +25,7 @@ public class InputParser {
      *
      * @param legalQuotes List of quotes to use when parsing strings.
      */
-    public InputParser(List<String> legalQuotes) {
+    public InputParser(@NotNull List<String> legalQuotes) {
         this.legalQuotes = legalQuotes;
         this.pattern = generateMatcher();
     }
@@ -35,7 +36,7 @@ public class InputParser {
      * @param input Input string to parse.
      * @return Path list.
      */
-    public List<String> parse(String input) {
+    public List<String> parse(@NotNull String input) {
         logger.debug("Parsing input '{}'", input);
         return pattern
             .matcher(input)

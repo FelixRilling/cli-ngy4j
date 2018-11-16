@@ -1,6 +1,7 @@
 package com.felixrilling.clingy4j.argument;
 
 import com.felixrilling.clingy4j.command.Command;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +26,7 @@ public class ArgumentMatcher {
      * @param expected {@link Argument} list of a {@link Command}
      * @param provided List of user-provided arguments.
      */
-    public ArgumentMatcher(List<Argument> expected, List<String> provided) {
+    public ArgumentMatcher(@NotNull List<Argument> expected, @NotNull List<String> provided) {
         missing = new LinkedList<>();
         int initialCapacity = expected.size();
         result = new HashMap<>(initialCapacity);
@@ -50,10 +51,12 @@ public class ArgumentMatcher {
         logger.debug("Finished matching arguments: {} expected, {} found and {} missing.", expected.size(), result.size(), missing.size());
     }
 
+    @NotNull
     public Map<String, String> getResult() {
         return result;
     }
 
+    @NotNull
     public List<Argument> getMissing() {
         return missing;
     }
