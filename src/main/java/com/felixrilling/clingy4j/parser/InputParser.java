@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 public class InputParser {
 
     private static final Logger logger = LoggerFactory.getLogger(InputParser.class);
+    private static final String MATCH_BASE = "(\\S+)";
 
     private final List<String> legalQuotes;
     private final Pattern pattern;
@@ -50,18 +51,15 @@ public class InputParser {
     }
 
     private Pattern generateMatcher() {
-        String matchBase = "(\\S+)";
 
         logger.debug("Creating matcher.");
         List<String> matchItems = legalQuotes
             .stream()
             .map(r -> String.format("%1$s(.+?)%1$s", Pattern.quote(r)))
             .collect(Collectors.toList());
-
-        matchItems.add(matchBase);
+        matchItems.add(MATCH_BASE);
 
         Pattern result;
-
         try {
             result = Pattern.compile(String.join("|", matchItems));
         } catch (PatternSyntaxException e) {
