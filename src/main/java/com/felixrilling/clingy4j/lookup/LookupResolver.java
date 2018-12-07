@@ -59,9 +59,13 @@ public class LookupResolver {
         Objects.requireNonNull(command); // We already checked if the key exists, but safe is safe.
         logger.debug("Successfully looked up command: {}", currentPathFragment);
 
+        LookupResult subResult;
         if (!pathNew.isEmpty() && command.getSub() != null) {
             logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
-            return resolveInternal(command.getSub().getMapAliased(), pathNew, pathUsed, argumentResolving);
+            subResult = resolveInternal(command.getSub().getMapAliased(), pathNew, pathUsed, argumentResolving);
+
+            if (subResult.isSuccessful())
+                return subResult;
         }
 
         Map<String, String> argumentsResolved;
@@ -80,7 +84,6 @@ public class LookupResolver {
             argumentsResolved = argumentMatcher.getResult();
             logger.debug("Successfully looked up arguments: {}", argumentsResolved);
         }
-
 
         LookupSuccess lookupSuccess = new LookupSuccess(pathNew, pathUsed, command, argumentsResolved);
         logger.debug("Returning successful lookup result: {}", lookupSuccess);
