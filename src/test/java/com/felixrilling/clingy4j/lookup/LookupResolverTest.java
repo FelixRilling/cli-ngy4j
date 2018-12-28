@@ -27,9 +27,10 @@ class LookupResolverTest {
      */
     @Test
     void resolveCommandReturnsNullForEmpty() {
-        Executable closureContainingCodeToTest = () -> new LookupResolver(CaseSensitivity.SENSITIVE).resolve(new CommandMap(), Collections.emptyList(), ArgumentResolving.IGNORE);
-
-        assertThrows(IllegalArgumentException.class, closureContainingCodeToTest);
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new LookupResolver(CaseSensitivity.SENSITIVE).resolve(new CommandMap(), Collections.emptyList(), ArgumentResolving.IGNORE)
+        );
     }
 
     /**
@@ -87,7 +88,7 @@ class LookupResolverTest {
     @Test
     void resolveCommandReturnsDangling() {
         String pathElement1 = "foo";
-        List<String> commandNames = Arrays.asList(pathElement1, "bar", "buzz");
+        List<String> commandNames = List.of(pathElement1, "bar", "buzz");
         Command command = new Command(null, Collections.emptyList(), null);
         CommandMap commandMap = new CommandMap();
         commandMap.put(commandNames.get(0), command);
@@ -132,9 +133,11 @@ class LookupResolverTest {
         CommandMap commandMap1 = new CommandMap();
         commandMap1.put(commandName1, command1);
 
-        LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(commandMap1, Arrays.asList(commandName1, commandName2), ArgumentResolving.IGNORE);
+        LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(commandMap1, List.of(commandName1, commandName2), ArgumentResolving.IGNORE);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command2);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName1, commandName2);
+        assertThat(lookupResult.getPathDangling()).isEmpty();
     }
 
     /**
@@ -158,12 +161,98 @@ class LookupResolverTest {
         String argumentVal = "fizz";
         LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(
             commandMap1,
-            Arrays.asList(commandName1, commandName2, argumentVal),
+            List.of(commandName1, commandName2, argumentVal),
             ArgumentResolving.RESOLVE
         );
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command2);
         assertThat(((LookupSuccess) lookupResult).getArgs()).containsEntry(argumentName, argumentVal);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName1, commandName2);
+        assertThat(lookupResult.getPathDangling()).containsExactly(argumentVal);
+    }
+
+    /**
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, ArgumentResolving)} resolves sub-command optional arguments.
+     */
+    @Test
+    void resolveCommandResolvesSubCommandOptionalArguments() {
+        String commandName2 = "bar";
+        String argumentName = "baa";
+        Argument argument = new Argument(argumentName, false);
+        Command command2 = new Command(null, Collections.emptyList(), Collections.singletonList(argument));
+        CommandMap commandMap2 = new CommandMap();
+        commandMap2.put(commandName2, command2);
+        Clingy clingy = new Clingy(commandMap2);
+
+        String commandName1 = "foo";
+        Command command1 = new Command(null, Collections.emptyList(), null, null, clingy);
+        CommandMap commandMap1 = new CommandMap();
+        commandMap1.put(commandName1, command1);
+
+        String argumentVal = "fizz";
+        LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(
+            commandMap1,
+            List.of(commandName1, commandName2, argumentVal),
+            ArgumentResolving.RESOLVE
+        );
+        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
+        assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command2);
+        assertThat(((LookupSuccess) lookupResult).getArgs()).containsEntry(argumentName, argumentVal);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName1, commandName2);
+        assertThat(lookupResult.getPathDangling()).containsExactly(argumentVal);
+    }
+
+    /**
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, ArgumentResolving)} correctly returns an non-successful result if sub-commands do.
+     */
+    @Test
+    void resolveCommandReturnsErrorForMissingArgsOnSubCommand() {
+        String commandName2 = "bar";
+        String argumentName = "baa";
+        Argument argument = new Argument(argumentName, true);
+        Command command2 = new Command(null, Collections.emptyList(), Collections.singletonList(argument));
+        CommandMap commandMap2 = new CommandMap();
+        commandMap2.put(commandName2, command2);
+        Clingy clingy = new Clingy(commandMap2);
+
+        String commandName1 = "foo";
+        Command command1 = new Command(null, Collections.emptyList(), null, null, clingy);
+        CommandMap commandMap1 = new CommandMap();
+        commandMap1.put(commandName1, command1);
+
+        LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(
+            commandMap1,
+            List.of(commandName1, commandName2),
+            ArgumentResolving.RESOLVE
+        );
+        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.ERROR_MISSING_ARGUMENT);
+        assertThat(((LookupErrorMissingArgs) lookupResult).getMissing()).containsExactly(argument);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName1, commandName2);
+        assertThat(lookupResult.getPathDangling()).isEmpty();
+    }
+
+    /**
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, ArgumentResolving)} resolves sub-commands over args when matching optionals.
+     */
+    @Test
+    void resolveCommandResolvesSubCommandsOverAgsWhenMatchingOptionals() {
+        String commandName2 = "bar";
+        Command command2 = new Command(null, Collections.emptyList(), null);
+        CommandMap commandMap2 = new CommandMap();
+        commandMap2.put(commandName2, command2);
+        Clingy clingy = new Clingy(commandMap2);
+
+        String commandName1 = "foo";
+        Argument argument1 = new Argument("arg1", false);
+        Command command1 = new Command(null, Collections.emptyList(), Collections.singletonList(argument1), null, clingy);
+        CommandMap commandMap1 = new CommandMap();
+        commandMap1.put(commandName1, command1);
+
+        LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(commandMap1, List.of(commandName1, commandName2), ArgumentResolving.RESOLVE);
+        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
+        assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command2);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName1, commandName2);
+        assertThat(lookupResult.getPathDangling()).isEmpty();
     }
 
     /**
@@ -178,14 +267,42 @@ class LookupResolverTest {
         Clingy clingy = new Clingy(commandMap2);
 
         String commandName1 = "foo";
-        Argument argument1 = new Argument("arg1",true);
+        Argument argument1 = new Argument("arg1", true);
         Command command1 = new Command(null, Collections.emptyList(), Collections.singletonList(argument1), null, clingy);
         CommandMap commandMap1 = new CommandMap();
         commandMap1.put(commandName1, command1);
 
-        LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(commandMap1, Arrays.asList(commandName1, commandName2), ArgumentResolving.RESOLVE);
+        LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(commandMap1, List.of(commandName1, commandName2), ArgumentResolving.RESOLVE);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command2);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName1, commandName2);
+        assertThat(lookupResult.getPathDangling()).isEmpty();
+    }
+
+    /**
+     * Asserts that {@link LookupResolver#resolve(CommandMap, List, ArgumentResolving)} resolves optional args over sub-commands when not matching.
+     */
+    @Test
+    void resolveCommandResolvesAgsOverSubCommandsWhenNotMatchingOptionals() {
+        String commandName2 = "bar";
+        Command command2 = new Command(null, Collections.emptyList(), null);
+        CommandMap commandMap2 = new CommandMap();
+        commandMap2.put(commandName2, command2);
+        Clingy clingy = new Clingy(commandMap2);
+
+        String commandName1 = "foo";
+        String argumentName1 = "arg1";
+        Argument argument1 = new Argument(argumentName1, false);
+        Command command1 = new Command(null, Collections.emptyList(), Collections.singletonList(argument1), null, clingy);
+        CommandMap commandMap1 = new CommandMap();
+        commandMap1.put(commandName1, command1);
+
+        LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(commandMap1, List.of(commandName1, argumentName1), ArgumentResolving.RESOLVE);
+        assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
+        assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command1);
+        assertThat(((LookupSuccess) lookupResult).getArgs()).containsEntry(argumentName1, argumentName1);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName1);
+        assertThat(lookupResult.getPathDangling()).containsExactly(argumentName1);
     }
 
     /**
@@ -201,14 +318,16 @@ class LookupResolverTest {
 
         String commandName1 = "foo";
         String argumentName1 = "arg1";
-        Argument argument1 = new Argument(argumentName1,true);
+        Argument argument1 = new Argument(argumentName1, true);
         Command command1 = new Command(null, Collections.emptyList(), Collections.singletonList(argument1), null, clingy);
         CommandMap commandMap1 = new CommandMap();
         commandMap1.put(commandName1, command1);
 
-        LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(commandMap1, Arrays.asList(commandName1, argumentName1), ArgumentResolving.RESOLVE);
+        LookupResult lookupResult = new LookupResolver(CaseSensitivity.SENSITIVE).resolve(commandMap1, List.of(commandName1, argumentName1), ArgumentResolving.RESOLVE);
         assertThat(lookupResult.getType()).isEqualTo(LookupResult.ResultType.SUCCESS);
         assertThat(((LookupSuccess) lookupResult).getCommand()).isEqualTo(command1);
         assertThat(((LookupSuccess) lookupResult).getArgs()).containsEntry(argumentName1, argumentName1);
+        assertThat(lookupResult.getPathUsed()).containsExactly(commandName1);
+        assertThat(lookupResult.getPathDangling()).containsExactly(argumentName1);
     }
 }

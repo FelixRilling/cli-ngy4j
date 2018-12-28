@@ -50,24 +50,31 @@ public class LookupResolver {
         List<String> pathNew = path.subList(1, path.size());
         pathUsed.add(currentPathFragment);
 
-        if (caseSensitivity == CaseSensitivity.SENSITIVE ? !mapAliased.containsKey(currentPathFragment) : !mapAliased.containsKeyIgnoreCase(currentPathFragment)) {
+        if (!hasCommand(mapAliased, currentPathFragment)) {
             logger.warn("Command '{}' could not be found.", currentPathFragment);
             return new LookupErrorNotFound(pathNew, pathUsed, currentPathFragment, CommandUtil.getSimilar(mapAliased, currentPathFragment));
         }
 
         Command command = caseSensitivity == CaseSensitivity.SENSITIVE ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
         Objects.requireNonNull(command); // We already checked if the key exists, but safe is safe.
-        logger.debug("Successfully looked up command: {}", currentPathFragment);
+        logger.debug("Found command: '{}'", currentPathFragment);
 
-        LookupResult subResult;
-        if (!pathNew.isEmpty() && command.getSub() != null) {
-            logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
-            subResult = resolveInternal(command.getSub().getMapAliased(), pathNew, pathUsed, argumentResolving);
-
-            if (subResult.isSuccessful())
-                return subResult;
+        /*
+         * Recurse into sub-commands if:
+         * Additional items are in the path AND
+         * the current command has sub-commands AND
+         * the sub-commands contain the next path item.
+         */
+        if (!pathNew.isEmpty() && command.getSub() != null && hasCommand(command.getSub().getMapAliased(), pathNew.get(0))) {
+            return resolveInternalSub(pathNew, pathUsed, command, argumentResolving);
         }
 
+        /*
+         * Skip checking for arguments if:
+         * The parameter argumentResolving is set to ignore arguments OR
+         * the command has no arguments defined OR
+         * the command has an empty array defined as arguments.
+         */
         Map<String, String> argumentsResolved;
         if (argumentResolving == ArgumentResolving.IGNORE || command.getArgs() == null || command.getArgs().isEmpty()) {
             logger.debug("No arguments defined, using empty list.");
@@ -89,6 +96,16 @@ public class LookupResolver {
         logger.debug("Returning successful lookup result: {}", lookupSuccess);
 
         return lookupSuccess;
+    }
+
+    @NotNull
+    private LookupResult resolveInternalSub(List<String> pathNew, @NotNull List<String> pathUsed, Command command, @NotNull LookupResolver.@NotNull ArgumentResolving argumentResolving) {
+        logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
+        return resolveInternal(command.getSub().getMapAliased(), pathNew, pathUsed, argumentResolving);
+    }
+
+    private boolean hasCommand(@NotNull CommandMap mapAliased, @NotNull String currentPathFragment) {
+        return caseSensitivity == CaseSensitivity.SENSITIVE ? mapAliased.containsKey(currentPathFragment) : mapAliased.containsKeyIgnoreCase(currentPathFragment);
     }
 
     public enum CaseSensitivity {
