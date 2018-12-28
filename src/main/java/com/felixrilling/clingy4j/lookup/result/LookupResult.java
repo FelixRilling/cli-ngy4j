@@ -1,4 +1,6 @@
-package com.felixrilling.clingy4j.lookup;
+package com.felixrilling.clingy4j.lookup.result;
+
+import com.felixrilling.clingy4j.lookup.LookupResolver;
 
 import java.util.List;
 

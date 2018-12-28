@@ -4,6 +4,10 @@ import com.felixrilling.clingy4j.argument.ArgumentMatcher;
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
 import com.felixrilling.clingy4j.command.CommandUtil;
+import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
+import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
+import com.felixrilling.clingy4j.lookup.result.LookupResult;
+import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +59,7 @@ public class LookupResolver {
             return new LookupErrorNotFound(pathNew, pathUsed, currentPathFragment, CommandUtil.getSimilar(mapAliased, currentPathFragment));
         }
 
-        Command command = caseSensitivity == CaseSensitivity.SENSITIVE ? mapAliased.get(currentPathFragment) : mapAliased.getIgnoreCase(currentPathFragment);
+        Command command = mapAliased.getCommand(currentPathFragment, caseSensitivity);
         Objects.requireNonNull(command); // We already checked if the key exists, but safe is safe.
         logger.debug("Found command: '{}'", currentPathFragment);
 
@@ -99,21 +103,14 @@ public class LookupResolver {
     }
 
     @NotNull
-    private LookupResult resolveInternalSub(List<String> pathNew, @NotNull List<String> pathUsed, Command command, @NotNull LookupResolver.@NotNull ArgumentResolving argumentResolving) {
+    private LookupResult resolveInternalSub(List<String> pathNew, @NotNull List<String> pathUsed, Command command, @NotNull ArgumentResolving argumentResolving) {
         logger.trace("Resolving sub-commands: {} {}", command.getSub(), pathNew);
         return resolveInternal(command.getSub().getMapAliased(), pathNew, pathUsed, argumentResolving);
     }
 
     private boolean hasCommand(@NotNull CommandMap mapAliased, @NotNull String currentPathFragment) {
-        return caseSensitivity == CaseSensitivity.SENSITIVE ? mapAliased.containsKey(currentPathFragment) : mapAliased.containsKeyIgnoreCase(currentPathFragment);
+        return mapAliased.containsCommandKey(currentPathFragment, caseSensitivity);
     }
 
-    public enum CaseSensitivity {
-        SENSITIVE, INSENSITIVE
-    }
-
-    public enum ArgumentResolving {
-        RESOLVE, IGNORE
-    }
 }
 

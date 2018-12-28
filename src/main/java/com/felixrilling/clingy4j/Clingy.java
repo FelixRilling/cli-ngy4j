@@ -2,8 +2,13 @@ package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
-import com.felixrilling.clingy4j.lookup.*;
-import com.felixrilling.clingy4j.lookup.LookupResolver.ArgumentResolving;
+import com.felixrilling.clingy4j.lookup.ArgumentResolving;
+import com.felixrilling.clingy4j.lookup.CaseSensitivity;
+import com.felixrilling.clingy4j.lookup.LookupResolver;
+import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
+import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
+import com.felixrilling.clingy4j.lookup.result.LookupResult;
+import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
 import com.felixrilling.clingy4j.parser.InputParser;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
@@ -27,7 +32,7 @@ public class Clingy {
     private final CommandMap mapAliased;
 
     /**
-     * @see Clingy#Clingy(Map, List, LookupResolver.CaseSensitivity)
+     * @see Clingy#Clingy(Map, List, CaseSensitivity)
      */
     @SuppressWarnings({"unused"})
     public Clingy() {
@@ -35,11 +40,11 @@ public class Clingy {
     }
 
     /**
-     * @see Clingy#Clingy(Map, List, LookupResolver.CaseSensitivity)
+     * @see Clingy#Clingy(Map, List, CaseSensitivity)
      */
     @SuppressWarnings({"unused"})
     public Clingy(@NotNull Map<String, Command> commands) {
-        this(commands, Collections.singletonList("\""), LookupResolver.CaseSensitivity.SENSITIVE);
+        this(commands, Collections.singletonList("\""), CaseSensitivity.SENSITIVE);
     }
 
     /**
@@ -50,7 +55,7 @@ public class Clingy {
      * @param caseSensitivity If commands names should be treated as case sensitive during lookup.
      */
     @SuppressWarnings({"unused"})
-    public Clingy(@NotNull Map<String, Command> commands, @NotNull List<String> legalQuotes, @NotNull LookupResolver.CaseSensitivity caseSensitivity) {
+    public Clingy(@NotNull Map<String, Command> commands, @NotNull List<String> legalQuotes, @NotNull CaseSensitivity caseSensitivity) {
         lookupResolver = new LookupResolver(caseSensitivity);
         inputParser = new InputParser(legalQuotes);
         map = new CommandMap(commands);

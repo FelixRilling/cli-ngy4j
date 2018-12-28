@@ -2,10 +2,10 @@ package com.felixrilling.clingy4j;
 
 import com.felixrilling.clingy4j.argument.Argument;
 import com.felixrilling.clingy4j.command.Command;
-import com.felixrilling.clingy4j.lookup.LookupErrorMissingArgs;
-import com.felixrilling.clingy4j.lookup.LookupErrorNotFound;
-import com.felixrilling.clingy4j.lookup.LookupResult;
-import com.felixrilling.clingy4j.lookup.LookupSuccess;
+import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
+import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
+import com.felixrilling.clingy4j.lookup.result.LookupResult;
+import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

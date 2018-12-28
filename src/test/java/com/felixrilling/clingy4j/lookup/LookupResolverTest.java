@@ -4,12 +4,12 @@ import com.felixrilling.clingy4j.Clingy;
 import com.felixrilling.clingy4j.argument.Argument;
 import com.felixrilling.clingy4j.command.Command;
 import com.felixrilling.clingy4j.command.CommandMap;
-import com.felixrilling.clingy4j.lookup.LookupResolver.ArgumentResolving;
-import com.felixrilling.clingy4j.lookup.LookupResolver.CaseSensitivity;
+import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
+import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
+import com.felixrilling.clingy4j.lookup.result.LookupResult;
+import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

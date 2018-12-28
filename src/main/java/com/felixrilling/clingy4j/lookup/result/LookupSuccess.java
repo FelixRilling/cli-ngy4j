@@ -1,4 +1,4 @@
-package com.felixrilling.clingy4j.lookup;
+package com.felixrilling.clingy4j.lookup.result;
 
 import com.felixrilling.clingy4j.command.Command;
 
@@ -21,7 +21,7 @@ public class LookupSuccess extends LookupResult {
      * @param command      Command that was looked up.
      * @param args         Arguments that were looked up.
      */
-    LookupSuccess(List<String> pathDangling, List<String> pathUsed, Command command, Map<String, String> args) {
+    public LookupSuccess(List<String> pathDangling, List<String> pathUsed, Command command, Map<String, String> args) {
         super(true, ResultType.SUCCESS, pathDangling, pathUsed);
         this.command = command;
         this.args = args;

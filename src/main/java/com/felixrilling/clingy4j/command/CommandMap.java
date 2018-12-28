@@ -1,5 +1,6 @@
 package com.felixrilling.clingy4j.command;
 
+import com.felixrilling.clingy4j.lookup.CaseSensitivity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,26 +39,36 @@ public class CommandMap extends HashMap<String, Command> {
     /**
      * Checks if the map contains a key, ignoring case.
      *
-     * @param key Key to check for.
+     * @param key             Key to check for.
+     * @param caseSensitivity Case sensitivity to use.
      * @return If the map contains a key, ignoring case.
      */
-    public boolean containsKeyIgnoreCase(@NotNull String key) {
-        return keySet().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains(key.toLowerCase());
+    public boolean containsCommandKey(@NotNull String key, CaseSensitivity caseSensitivity) {
+        if (caseSensitivity == CaseSensitivity.INSENSITIVE) {
+            return keySet().stream().map(String::toLowerCase).collect(Collectors.toSet()).contains(key.toLowerCase());
+        }
+
+        return this.containsKey(key);
     }
 
     /**
      * Returns the value for the key, ignoring case.
      *
-     * @param key Key to check for.
+     * @param key             Key to check for.
+     * @param caseSensitivity Case sensitivity to use.
      * @return The value for the key, ignoring case.
      */
     @Nullable
-    public Command getIgnoreCase(@NotNull String key) {
-        for (Entry<String, Command> entry : entrySet()) {
-            if (key.equalsIgnoreCase(entry.getKey()))
-                return entry.getValue();
+    public Command getCommand(@NotNull String key, CaseSensitivity caseSensitivity) {
+        if (caseSensitivity == CaseSensitivity.INSENSITIVE) {
+            for (Entry<String, Command> entry : entrySet()) {
+                if (key.equalsIgnoreCase(entry.getKey()))
+                    return entry.getValue();
+            }
+
+            return null;
         }
 
-        return null;
+        return this.get(key);
     }
 }
