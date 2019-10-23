@@ -27,11 +27,14 @@ desktop.ini
 
 # Vendor Files
 node_modules/
-bower_components/
 
 # Debug Files
-.cache/
-.tmp/
 npm-debug.*
-logback.xml
-target/*/
+
+# Temp/Dist Files
+spec/dist/
+target/
+tsconfig.tsbuildinfo
+
+# Safe files
+_key*
