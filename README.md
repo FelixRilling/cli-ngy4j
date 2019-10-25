@@ -9,15 +9,14 @@ Java counterpart of [cli-ngy](https://github.com/FelixRilling/cli-ngy).
 ## Usage
 
 ```java
-package com.felixrilling.clingy4j;
+package com.rilling.clingy4j;
 
-import com.felixrilling.clingy4j.argument.Argument;
-import com.felixrilling.clingy4j.command.Command;
-import com.felixrilling.clingy4j.command.CommandMap;
-import com.felixrilling.clingy4j.lookup.result.LookupErrorMissingArgs;
-import com.felixrilling.clingy4j.lookup.result.LookupErrorNotFound;
-import com.felixrilling.clingy4j.lookup.result.LookupResult;
-import com.felixrilling.clingy4j.lookup.result.LookupSuccess;
+import Argument;
+import Command;
+import LookupErrorMissingArgs;
+import LookupErrorNotFound;
+import LookupResult;
+import LookupSuccess;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
