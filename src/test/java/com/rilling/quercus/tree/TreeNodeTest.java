@@ -7,17 +7,9 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.*;
 
 class TreeNodeTest {
-
-    @Test
-    void constructorConstructs() {
-        TreeNode<String, Integer> tree = new TreeNode<>();
-
-        assertThat(tree).isNotNull();
-    }
 
     @Test
     void setPathThrowsForEmptyPath() {
@@ -32,7 +24,8 @@ class TreeNodeTest {
     void setPathDoesNotThrowWhenEverythingWorks() {
         TreeNode<String, Integer> tree = new TreeNode<>();
 
-        tree.setPath(List.of("foo"), 1);
+        Throwable throwable = catchThrowable(() -> tree.setPath(List.of("foo"), 1));
+        assertThat(throwable).isNull();
     }
 
     @Test
@@ -40,7 +33,8 @@ class TreeNodeTest {
         TreeNode<String, Integer> tree = new TreeNode<>();
         TreeNode<String, Integer> newNode = new TreeNode<>();
 
-        tree.setPath(List.of("foo"), newNode);
+        Throwable throwable = catchThrowable(() -> tree.setPath(List.of("foo"), newNode));
+        assertThat(throwable).isNull();
     }
 
     @Test
