@@ -29,6 +29,21 @@ class TreeNodeTest {
     }
 
     @Test
+    void setPathDoesNotThrowWhenEverythingWorks() {
+        TreeNode<String, Integer> tree = new TreeNode<>();
+
+        tree.setPath(List.of("foo"), 1);
+    }
+
+    @Test
+    void setPathWithNodeDoesNotThrowWhenEverythingWorks() {
+        TreeNode<String, Integer> tree = new TreeNode<>();
+        TreeNode<String, Integer> newNode = new TreeNode<>();
+
+        tree.setPath(List.of("foo"), newNode);
+    }
+
+    @Test
     void hasPathThrowsForEmptyPath() {
         TreeNode<String, Integer> tree = new TreeNode<>();
 

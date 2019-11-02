@@ -1,8 +1,8 @@
 package com.rilling.quercus.tree;
 
 import com.rilling.quercus.lookup.LookupResult;
-import com.rilling.quercus.lookup.LookupResultParent;
 import com.rilling.quercus.lookup.LookupStrategy;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -43,7 +43,7 @@ public class TreeNode<TKey, UValue> {
      * @param path Path to check for. May not be empty.
      * @return if the path exists, based on the strategy used.
      */
-    public boolean hasPath(List<TKey> path) {
+    public boolean hasPath(@NotNull List<TKey> path) {
         return hasPath(path, LookupStrategy.EXISTENCE_BY_NODE);
     }
 
@@ -54,7 +54,7 @@ public class TreeNode<TKey, UValue> {
      * @param lookupStrategy Strategy to use. See {@link LookupStrategy} for details.
      * @return if the path exists, based on the strategy used.
      */
-    public boolean hasPath(List<TKey> path, LookupStrategy lookupStrategy) {
+    public boolean hasPath(@NotNull List<TKey> path, @NotNull LookupStrategy lookupStrategy) {
         validatePath(path);
 
         LookupResult<TKey, UValue> lookupResult = resolvePath(Collections.unmodifiableList(path), ResolverStrategy.RETURN_ON_MISSING);
@@ -73,7 +73,8 @@ public class TreeNode<TKey, UValue> {
      * @param path Path to get. May not be empty.
      * @return lookup result, containing details about which node was retrieved and what path was used.
      */
-    public LookupResult<TKey, UValue> getPath(List<TKey> path) {
+    @NotNull
+    public LookupResult<TKey, UValue> getPath(@NotNull List<TKey> path) {
         validatePath(path);
 
         return resolvePath(Collections.unmodifiableList(path), ResolverStrategy.RETURN_ON_MISSING);
@@ -86,7 +87,7 @@ public class TreeNode<TKey, UValue> {
      * @param path  Path to set the value for. May not be empty.
      * @param value Value to set.
      */
-    public void setPath(List<TKey> path, UValue value) {
+    public void setPath(@NotNull List<TKey> path, UValue value) {
         validatePath(path);
 
         LookupResult<TKey, UValue> lookupResult = resolvePath(Collections.unmodifiableList(path), ResolverStrategy.CREATE_MISSING);
@@ -95,14 +96,23 @@ public class TreeNode<TKey, UValue> {
     }
 
     /**
-     * Resolves the path against this tree.
+     * Sets a tree node for a given path.
+     * Middle nodes will be created automatically.
      *
-     * @param path             Path to resolve
-     * @param resolverStrategy Strategy to use for non-existent nodes.
-     * @return Lookup result.
+     * @param path  Path to set the value for. May not be empty.
+     * @param value Tree node to set.
      */
-    private LookupResult<TKey, UValue> resolvePath(List<TKey> path, ResolverStrategy resolverStrategy) {
-        return resolvePath(path, resolverStrategy, null, Collections.emptyList());
+    public void setPath(@NotNull List<TKey> path, @NotNull TreeNode<TKey, UValue> value) {
+        validatePath(path);
+
+        LookupResult<TKey, UValue> lookupResult = resolvePath(Collections.unmodifiableList(path), ResolverStrategy.CREATE_MISSING);
+
+        lookupResult.getParent().getNode().paths.put(lookupResult.getParent().getKey(), value);
+    }
+
+    @NotNull
+    protected TreeNode<TKey, UValue> createNode() {
+        return new TreeNode<>();
     }
 
     /**
@@ -110,19 +120,31 @@ public class TreeNode<TKey, UValue> {
      *
      * @param path             Path to resolve
      * @param resolverStrategy Strategy to use for non-existent nodes.
-     * @param previousNode     Only used for recursive calls. Node the resolving was delegated from.
+     * @return Lookup result.
+     */
+    @NotNull
+    private LookupResult<TKey, UValue> resolvePath(@NotNull List<TKey> path, @NotNull ResolverStrategy resolverStrategy) {
+        return resolvePath(path, resolverStrategy, Collections.emptyList());
+    }
+
+    /**
+     * Resolves the path against this tree.
+     *
+     * @param path             Path to resolve
+     * @param resolverStrategy Strategy to use for non-existent nodes.
      * @param previousPath     Only used for recursive calls. Path the resolving was delegated from.
      * @return Lookup result.
      */
-    private LookupResult<TKey, UValue> resolvePath(List<TKey> path, ResolverStrategy resolverStrategy, TreeNode<TKey, UValue> previousNode, List<TKey> previousPath) {
+    @NotNull
+    private LookupResult<TKey, UValue> resolvePath(@NotNull List<TKey> path, @NotNull ResolverStrategy resolverStrategy, @NotNull List<TKey> previousPath) {
         TKey key = path.get(0);
         TreeNode<TKey, UValue> node;
         if (!paths.containsKey(key)) {
             if (resolverStrategy != ResolverStrategy.CREATE_MISSING) {
-                return new LookupResult<>(null, previousPath, path, new LookupResultParent<>(previousNode, key));
+                return new LookupResult<>(null, previousPath, path, this, key);
             }
 
-            node = new TreeNode<>();
+            node = createNode();
             paths.put(key, node);
         } else {
             node = paths.get(key);
@@ -132,11 +154,11 @@ public class TreeNode<TKey, UValue> {
         previousPathNew.add(key);
 
         if (path.size() == 1) {
-            return new LookupResult<>(node, previousPathNew, Collections.emptyList(), new LookupResultParent<>(previousNode, key));
+            return new LookupResult<>(node, previousPathNew, Collections.emptyList(), this, key);
         }
 
         List<TKey> nextPath = path.subList(1, path.size());
-        return node.resolvePath(nextPath, resolverStrategy, this, previousPathNew);
+        return node.resolvePath(nextPath, resolverStrategy, previousPathNew);
     }
 
     /**
@@ -151,6 +173,7 @@ public class TreeNode<TKey, UValue> {
             throw new IllegalArgumentException("Path may not be empty.");
         }
     }
+
     /**
      * Strategy to use when resolving tree nodes internally.
      */
